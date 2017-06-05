@@ -58,12 +58,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 			.authorizeRequests()
-				.antMatchers( "/api/user/login").
+				.antMatchers( "/api/user/login","http://localhost:8080/api/log/store").
 					permitAll();
 					/*.and()
 					.authorizeRequests()
-					.antMatchers("/api/user/profile")
-					.hasAuthority("PRESIDENT|ALDERMAN")
+					.antMatchers("/api/user/changePass")
+					.hasAnyAuthority()
 					.anyRequest().authenticated();*/
 					
 					

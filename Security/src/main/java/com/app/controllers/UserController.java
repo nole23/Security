@@ -1,5 +1,7 @@
 package com.app.controllers;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,13 +11,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.LoginDTO;
+import com.app.dto.ResponseMessageDTO;
+import com.app.dto.UserDTO;
+import com.app.model.User;
 import com.app.repository.RoleRepository;
+import com.app.repository.UserRepository;
 import com.app.repository.UserRoleRepository;
 import com.app.security.TokenUtils;
 import com.app.services.UserService;
@@ -41,6 +48,9 @@ public class UserController {
 
 	@Autowired
 	UserRoleRepository userRoleRepository;
+
+	@Autowired
+	UserRepository userRepository;
 
 	/***
 	 * 
@@ -68,4 +78,21 @@ public class UserController {
 		}
 	}
 
+	@RequestMapping(value = "/changePass", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<ResponseMessageDTO> changePass(@RequestBody UserDTO userDTO, Principal principal) {
+
+		// check if password is longer then 5 chars
+		if (userDTO.getPass().length() < 5)
+			return new ResponseEntity<ResponseMessageDTO>(
+					new ResponseMessageDTO("Password must be at least 5 chars long"), HttpStatus.CONFLICT);
+
+		UserDetails currentUser = (UserDetails) ((Authentication) principal).getPrincipal();
+		User user = userRepository.findByUsername(currentUser.getUsername());
+		// set new password
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		user.setPass(encoder.encode(userDTO.getPass()));
+		userRepository.save(user);
+
+		return new ResponseEntity<ResponseMessageDTO>(HttpStatus.OK);
+	}
 }
