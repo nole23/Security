@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.AgentDTO;
@@ -25,6 +26,14 @@ public class AgentController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	
+	
+	@RequestMapping(value = "/")
+	public ResponseEntity<String> nesto() {
+		
+		return new ResponseEntity<>("hello world", HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/registration")
 	public ResponseEntity<String> newAgents(@RequestBody AgentDTO agentDTO, Principal principal) {
@@ -53,8 +62,6 @@ public class AgentController {
 		
 		agents.setNameBot(agentDTO.getNameBot());
 		agents.setIpAddress(agentDTO.getIpAddress());
-
-		agents.setPassword(agentDTO.getPassword());
 
 		agents.setPassword(encoder.encode(agentDTO.getPassword()));
 

@@ -1,5 +1,8 @@
 package com.app.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.AlarmingDTO;
 import com.app.dto.FileLogDTO;
 import com.app.dto.ResponseMessageDTO;
+import com.app.model.Alarming;
 import com.app.model.FileLog;
+import com.app.repository.AlarmingRespository;
 import com.app.services.FileLogService;
 
 @RestController
@@ -19,6 +25,9 @@ public class FileLogController {
 
 	@Autowired
 	private FileLogService fileLogService;
+	
+	@Autowired
+	private AlarmingRespository alarmingRepository;
 
 	/**
 	 * Save log from client example: {
@@ -41,4 +50,41 @@ public class FileLogController {
 
 		return new ResponseEntity<ResponseMessageDTO>(HttpStatus.CREATED);
 	}
+	
+	
+	/**
+	 * View all logs
+	 * @return
+	 
+	@RequestMapping(value = "/alarm", method = RequestMethod.GET)
+	public ResponseEntity<List<FileLogDTO>> listLog() {
+
+		List<FileLog> fileLog = fileLogService.findAll();
+		
+		List<FileLogDTO> fileLogDTO = new ArrayList<>();
+		for(FileLog f: fileLog) {
+			fileLogDTO.add(new FileLogDTO(f));
+		}
+		
+		return new ResponseEntity<List<FileLogDTO>>(fileLogDTO, HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * View all alarm
+	 * @return
+	 
+	@RequestMapping(value = "/alarm", method = RequestMethod.GET)
+	public ResponseEntity<List<AlarmingDTO>> listAlarm() {
+
+		List<Alarming> alarming = alarmingRepository.findAll();
+		
+		List<AlarmingDTO> alarmingDTO = new ArrayList<>();
+		for(Alarming a: alarming) {
+			alarmingDTO.add(new AlarmingDTO(a));
+		}
+		
+		return new ResponseEntity<List<AlarmingDTO>>(alarmingDTO, HttpStatus.OK);
+	}
+	*/
 }

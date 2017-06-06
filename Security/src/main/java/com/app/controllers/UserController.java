@@ -74,7 +74,7 @@ public class UserController {
 			UserDetails details = userDetailsService.loadUserByUsername(loginDTO.getUsername());
 			return new ResponseEntity<String>(tokenUtils.generateToken(details), HttpStatus.OK);
 		} catch (Exception ex) {
-			return new ResponseEntity<String>("Invalid login", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 	}
 
