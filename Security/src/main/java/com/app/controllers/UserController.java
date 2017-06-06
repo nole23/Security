@@ -27,6 +27,9 @@ import com.app.repository.UserRoleRepository;
 import com.app.security.TokenUtils;
 import com.app.services.UserService;
 
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController {
@@ -61,8 +64,9 @@ public class UserController {
 	 * @see LoginDTO
 	 * @author stefan
 	 */
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<JSONObject> login(@RequestBody LoginDTO loginDTO) {
 		try {
 			// Perform the authentication
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
@@ -72,9 +76,14 @@ public class UserController {
 
 			// Reload user details so we can generate token
 			UserDetails details = userDetailsService.loadUserByUsername(loginDTO.getUsername());
-			return new ResponseEntity<String>(tokenUtils.generateToken(details), HttpStatus.OK);
+			
+			String tok = tokenUtils.generateToken(details);
+			JSONParser parser = new JSONParser();
+			JSONObject json = (JSONObject) parser.parse(tok);
+			
+			return new ResponseEntity<JSONObject>(json, HttpStatus.OK);
 		} catch (Exception ex) {
-			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<JSONObject>(HttpStatus.NOT_FOUND);
 		}
 	}
 

@@ -1,8 +1,14 @@
 package com.app.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Agents {
@@ -13,6 +19,9 @@ public class Agents {
 	private String nameBot;
 	private String ipAddress;
 	private String password;
+
+	@OneToMany(mappedBy = "agents", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	private Set<Alarming> alarming = new HashSet<Alarming>();
 
 	public Long getId() {
 		return id;
@@ -44,6 +53,14 @@ public class Agents {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Set<Alarming> getAlarming() {
+		return alarming;
+	}
+
+	public void setAlarming(Set<Alarming> alarming) {
+		this.alarming = alarming;
 	}
 
 }

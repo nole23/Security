@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,9 @@ import com.app.dto.FileLogDTO;
 import com.app.dto.ResponseMessageDTO;
 import com.app.model.Alarming;
 import com.app.model.FileLog;
+import com.app.model.User;
 import com.app.repository.AlarmingRespository;
+import com.app.repository.UserRepository;
 import com.app.services.FileLogService;
 
 @RestController
@@ -28,6 +31,11 @@ public class FileLogController {
 	
 	@Autowired
 	private AlarmingRespository alarmingRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	
 
 	/**
 	 * Save log from client example: {
@@ -55,10 +63,14 @@ public class FileLogController {
 	/**
 	 * View all logs
 	 * @return
-	 
-	@RequestMapping(value = "/alarm", method = RequestMethod.GET)
-	public ResponseEntity<List<FileLogDTO>> listLog() {
+	 */
+	@RequestMapping(value = "/log", method = RequestMethod.GET)
+	public ResponseEntity<List<FileLogDTO>> listLog(Principal principal) {
 
+		User user = userRepository.findByUsername(principal.getName());
+		if(user == null)
+			return new ResponseEntity<List<FileLogDTO>>(HttpStatus.BAD_REQUEST);
+		
 		List<FileLog> fileLog = fileLogService.findAll();
 		
 		List<FileLogDTO> fileLogDTO = new ArrayList<>();
@@ -73,10 +85,15 @@ public class FileLogController {
 	/**
 	 * View all alarm
 	 * @return
-	 
+	 */
 	@RequestMapping(value = "/alarm", method = RequestMethod.GET)
-	public ResponseEntity<List<AlarmingDTO>> listAlarm() {
+	public ResponseEntity<List<AlarmingDTO>> listAlarm(Principal principal) {
 
+		User user = userRepository.findByUsername(principal.getName());
+		if(user == null)
+			return new ResponseEntity<List<AlarmingDTO>>(HttpStatus.BAD_REQUEST);
+		
+		
 		List<Alarming> alarming = alarmingRepository.findAll();
 		
 		List<AlarmingDTO> alarmingDTO = new ArrayList<>();
@@ -86,5 +103,5 @@ public class FileLogController {
 		
 		return new ResponseEntity<List<AlarmingDTO>>(alarmingDTO, HttpStatus.OK);
 	}
-	*/
+	
 }

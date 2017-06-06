@@ -1,6 +1,10 @@
 package com.app.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.app.model.Agents;
+import com.app.model.Alarming;
 
 public class AgentDTO {
 
@@ -8,13 +12,15 @@ public class AgentDTO {
 	private String nameBot;
 	private String ipAddress;
 	private String password;
+	private Set<AlarmingDTO> alarmingDTO;
 
-	public AgentDTO(Long id, String nameBot, String ipAddress, String password) {
+	public AgentDTO(Long id, String nameBot, String ipAddress, String password, Set<AlarmingDTO> alarmingDTO) {
 		super();
 		this.id = id;
 		this.nameBot = nameBot;
 		this.ipAddress = ipAddress;
 		this.password = password;
+		this.alarmingDTO = alarmingDTO;
 	}
 
 	public AgentDTO(Agents agents) {
@@ -23,6 +29,12 @@ public class AgentDTO {
 		this.nameBot = agents.getNameBot();
 		this.ipAddress = agents.getIpAddress();
 		this.password = agents.getPassword();
+		if (agents.getAlarming() != null) {
+			this.alarmingDTO = new HashSet<AlarmingDTO>();
+			for (Alarming al : agents.getAlarming()) {
+				this.alarmingDTO.add(new AlarmingDTO(al));
+			}
+		}
 	}
 
 	public Long getId() {
@@ -55,6 +67,14 @@ public class AgentDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Set<AlarmingDTO> getAlarmingDTO() {
+		return alarmingDTO;
+	}
+
+	public void setAlarmingDTO(Set<AlarmingDTO> alarmingDTO) {
+		this.alarmingDTO = alarmingDTO;
 	}
 
 }
