@@ -5,6 +5,7 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,8 @@ public class AgentController {
 	@RequestMapping(value = "/registration")
 	public ResponseEntity<String> newAgents(@RequestBody AgentDTO agentDTO, Principal principal) {
 		
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		//Chance user login and role
 		User user = userRepository.findByUsername(principal.getName());
 		if(user.getRole().getRole().getName().equals("admin"))
@@ -48,7 +51,7 @@ public class AgentController {
 		
 		agents.setNameBot(agentDTO.getNameBot());
 		agents.setIpAddress(agentDTO.getIpAddress());
-		agents.setPassword(agentDTO.getPassword());
+		agents.setPassword(encoder.encode(agentDTO.getPassword()));
 		
 		agentsRepository.save(agents);
 		
