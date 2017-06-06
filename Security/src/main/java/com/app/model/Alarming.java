@@ -16,6 +16,7 @@ public class Alarming {
 	private Long id;
 	private String message;
 	private Date date;
+	
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Agents agents;

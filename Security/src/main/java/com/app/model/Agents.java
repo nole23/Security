@@ -19,6 +19,7 @@ public class Agents {
 	private String nameBot;
 	private String ipAddress;
 	private String password;
+	private String agentId;
 
 	@OneToMany(mappedBy = "agents", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Set<Alarming> alarming = new HashSet<Alarming>();
@@ -61,6 +62,14 @@ public class Agents {
 
 	public void setAlarming(Set<Alarming> alarming) {
 		this.alarming = alarming;
+	}
+
+	public String getAgentId() {
+		return agentId;
+	}
+
+	public void setAgentId(String agentId) {
+		this.agentId = agentId;
 	}
 
 }

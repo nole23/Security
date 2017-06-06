@@ -12,14 +12,17 @@ public class AgentDTO {
 	private String nameBot;
 	private String ipAddress;
 	private String password;
+	private String agentId;
 	private Set<AlarmingDTO> alarmingDTO;
 
-	public AgentDTO(Long id, String nameBot, String ipAddress, String password, Set<AlarmingDTO> alarmingDTO) {
+	public AgentDTO(Long id, String nameBot, String ipAddress, String password, String agentId,
+			Set<AlarmingDTO> alarmingDTO) {
 		super();
 		this.id = id;
 		this.nameBot = nameBot;
 		this.ipAddress = ipAddress;
 		this.password = password;
+		this.agentId = agentId;
 		this.alarmingDTO = alarmingDTO;
 	}
 
@@ -35,6 +38,7 @@ public class AgentDTO {
 				this.alarmingDTO.add(new AlarmingDTO(al));
 			}
 		}
+		this.agentId = agents.getAgentId();
 	}
 
 	public Long getId() {
@@ -75,6 +79,14 @@ public class AgentDTO {
 
 	public void setAlarmingDTO(Set<AlarmingDTO> alarmingDTO) {
 		this.alarmingDTO = alarmingDTO;
+	}
+
+	public String getAgentId() {
+		return agentId;
+	}
+
+	public void setAgentId(String agentId) {
+		this.agentId = agentId;
 	}
 
 }

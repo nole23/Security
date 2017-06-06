@@ -10,5 +10,8 @@ public interface AgetnsRepository extends JpaRepository<Agents, Long> {
 
 	Agents findByIpAddress(String ipAddress);
 
+	Agents findByAgentId(String agentId);
+	
+	
 
 }
