@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dto.AlarmingDTO;
 import com.app.dto.FileLogDTO;
 import com.app.dto.ResponseMessageDTO;
+import com.app.model.Agents;
 import com.app.model.Alarming;
 import com.app.model.FileLog;
 import com.app.model.User;
+import com.app.repository.AgetnsRepository;
 import com.app.repository.AlarmingRespository;
 import com.app.repository.UserRepository;
 import com.app.services.FileLogService;
@@ -35,6 +37,8 @@ public class FileLogController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private AgetnsRepository agentsRepository;
 	
 
 	/**
@@ -53,6 +57,19 @@ public class FileLogController {
 	@RequestMapping(value = "/store", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<ResponseMessageDTO> storeLog(@RequestBody FileLogDTO fileLogDTO) {
 
+		/*
+		 * Uslucaju da nepo pokusa uhakovati svoj log provera da li je log validan
+		 * i ukoli je validan proverava da li je taj logo vec prijavljen
+		 */
+		Agents agent = agentsRepository.findOne(Long.parseLong(fileLogDTO.getAgentId()));
+		if(agent == null) {
+			
+			Alarming alarming = new Alarming();
+			
+			//treba implementirati
+			
+			return new ResponseEntity<ResponseMessageDTO>(HttpStatus.CREATED);
+		} 
 		FileLog fileLog = fileLogDTO.getFileLog();
 		fileLogService.save(fileLog);
 
