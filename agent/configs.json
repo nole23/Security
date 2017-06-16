@@ -1,0 +1,9 @@
+{
+	"sleep":"36000",
+	"password":"agent_1",
+	"Ip_address":"127.0.0.1",
+	"server_port":"8080",
+	"ID":"1",
+	"type":"windows",
+	"username":"agent_1"
+}
