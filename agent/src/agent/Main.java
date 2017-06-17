@@ -31,7 +31,7 @@ public class Main {
 		JSONObject config = (JSONObject) pareser.parse(new FileReader(filePath));
 		
 		
-		
+		RequestHandler.authenticate();
 		
 		if(config.get("type").equals("windows")) {
 			

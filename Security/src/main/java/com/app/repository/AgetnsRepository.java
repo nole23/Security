@@ -6,12 +6,4 @@ import com.app.model.Agents;
 
 public interface AgetnsRepository extends JpaRepository<Agents, Long> {
 
-	Agents findByNameBot(String nameBot);
-
-	Agents findByIpAddress(String ipAddress);
-
-	Agents findByAgentId(String agentId);
-	
-	
-
 }

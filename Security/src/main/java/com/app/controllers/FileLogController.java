@@ -77,9 +77,9 @@ public class FileLogController {
 				alarming.setMessage("Agent with unknow IP adress, tried to log file");
 				
 				Agents ag = new Agents();
-				ag.setIpAddress(remoteAddr);
-				ag.setAgentId(fileLogDTO.getAgentId());
-				ag.setNameBot("Unknow agent");
+				//ag.setIpAddress(remoteAddr);
+				//ag.setAgentId(fileLogDTO.getAgentId());
+				//ag.setNameBot("Unknow agent");
 				
 				alarming.setAgents(ag);
 				Date date = new Date();

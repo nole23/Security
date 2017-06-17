@@ -15,45 +15,80 @@ public class Agents {
 
 	@Id
 	@GeneratedValue
-	private Long id;
-	private String nameBot;
-	private String ipAddress;
-	private String password;
-	private String agentId;
+	private String iD;
+	private String recordNumber;
+	private String logType;
+	private String timeLog;
+	private String sourceLog;
+	private String computerName;
+	private String messages;
+	private String type;
 
 	@OneToMany(mappedBy = "agents", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Set<Alarming> alarming = new HashSet<Alarming>();
 
-	public Long getId() {
-		return id;
+	public String getiD() {
+		return iD;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setiD(String iD) {
+		this.iD = iD;
 	}
 
-	public String getNameBot() {
-		return nameBot;
+	public String getRecordNumber() {
+		return recordNumber;
 	}
 
-	public void setNameBot(String nameBot) {
-		this.nameBot = nameBot;
+	public void setRecordNumber(String recordNumber) {
+		this.recordNumber = recordNumber;
 	}
 
-	public String getIpAddress() {
-		return ipAddress;
+	public String getLogType() {
+		return logType;
 	}
 
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
+	public void setLogType(String logType) {
+		this.logType = logType;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getTimeLog() {
+		return timeLog;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setTimeLog(String timeLog) {
+		this.timeLog = timeLog;
+	}
+
+	public String getSourceLog() {
+		return sourceLog;
+	}
+
+	public void setSourceLog(String sourceLog) {
+		this.sourceLog = sourceLog;
+	}
+
+	public String getComputerName() {
+		return computerName;
+	}
+
+	public void setComputerName(String computerName) {
+		this.computerName = computerName;
+	}
+
+	public String getMessages() {
+		return messages;
+	}
+
+	public void setMessages(String messages) {
+		this.messages = messages;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Set<Alarming> getAlarming() {
@@ -64,12 +99,5 @@ public class Agents {
 		this.alarming = alarming;
 	}
 
-	public String getAgentId() {
-		return agentId;
-	}
-
-	public void setAgentId(String agentId) {
-		this.agentId = agentId;
-	}
-
+	
 }

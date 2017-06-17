@@ -8,69 +8,109 @@ import com.app.model.Alarming;
 
 public class AgentDTO {
 
-	private Long id;
-	private String nameBot;
-	private String ipAddress;
-	private String password;
-	private String agentId;
+	private String iD;
+	private String recordNumber;
+	private String logType;
+	private String timeLog;
+	private String sourceLog;
+	private String computerName;
+	private String messages;
+	private String type;
 	private Set<AlarmingDTO> alarmingDTO;
 
-	public AgentDTO(Long id, String nameBot, String ipAddress, String password, String agentId,
-			Set<AlarmingDTO> alarmingDTO) {
+	public AgentDTO() {
 		super();
-		this.id = id;
-		this.nameBot = nameBot;
-		this.ipAddress = ipAddress;
-		this.password = password;
-		this.agentId = agentId;
+		// TODO Auto-generated constructor stub
+	}
+
+	public AgentDTO(String iD, String recordNumber, String logType, String timeLog, String sourceLog,
+			String computerName, String messages, String type, Set<AlarmingDTO> alarmingDTO) {
+		super();
+		this.iD = iD;
+		this.recordNumber = recordNumber;
+		this.logType = logType;
+		this.timeLog = timeLog;
+		this.sourceLog = sourceLog;
+		this.computerName = computerName;
+		this.messages = messages;
+		this.type = type;
 		this.alarmingDTO = alarmingDTO;
 	}
 
-	public AgentDTO(Agents agents) {
+	public AgentDTO(Agents a) {
+		this.iD = a.getiD();
+		this.recordNumber = a.getRecordNumber();
+		this.logType = a.getLogType();
+		this.timeLog = a.getTimeLog();
+		this.sourceLog = a.getSourceLog();
+		this.computerName = a.getComputerName();
+		this.messages = a.getMessages();
+		this.type = a.getType();
 
-		this.id = agents.getId();
-		this.nameBot = agents.getNameBot();
-		this.ipAddress = agents.getIpAddress();
-		this.password = agents.getPassword();
-		if (agents.getAlarming() != null) {
-			this.alarmingDTO = new HashSet<AlarmingDTO>();
-			for (Alarming al : agents.getAlarming()) {
-				this.alarmingDTO.add(new AlarmingDTO(al));
-			}
-		}
-		this.agentId = agents.getAgentId();
 	}
 
-	public Long getId() {
-		return id;
+	public String getiD() {
+		return iD;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setiD(String iD) {
+		this.iD = iD;
 	}
 
-	public String getNameBot() {
-		return nameBot;
+	public String getRecordNumber() {
+		return recordNumber;
 	}
 
-	public void setNameBot(String nameBot) {
-		this.nameBot = nameBot;
+	public void setRecordNumber(String recordNumber) {
+		this.recordNumber = recordNumber;
 	}
 
-	public String getIpAddress() {
-		return ipAddress;
+	public String getLogType() {
+		return logType;
 	}
 
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
+	public void setLogType(String logType) {
+		this.logType = logType;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getTimeLog() {
+		return timeLog;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setTimeLog(String timeLog) {
+		this.timeLog = timeLog;
+	}
+
+	public String getSourceLog() {
+		return sourceLog;
+	}
+
+	public void setSourceLog(String sourceLog) {
+		this.sourceLog = sourceLog;
+	}
+
+	public String getComputerName() {
+		return computerName;
+	}
+
+	public void setComputerName(String computerName) {
+		this.computerName = computerName;
+	}
+
+	public String getMessages() {
+		return messages;
+	}
+
+	public void setMessages(String messages) {
+		this.messages = messages;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Set<AlarmingDTO> getAlarmingDTO() {
@@ -79,14 +119,6 @@ public class AgentDTO {
 
 	public void setAlarmingDTO(Set<AlarmingDTO> alarmingDTO) {
 		this.alarmingDTO = alarmingDTO;
-	}
-
-	public String getAgentId() {
-		return agentId;
-	}
-
-	public void setAgentId(String agentId) {
-		this.agentId = agentId;
 	}
 
 }

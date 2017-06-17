@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,44 +30,17 @@ public class AgentController {
 	
 	
 	
-	@RequestMapping(value = "/")
-	public ResponseEntity<String> nesto() {
+	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<String> nesto(@RequestBody AgentDTO agentsDTO, Principal principal) {
 		
-		return new ResponseEntity<>("hello world", HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/registration")
-	public ResponseEntity<String> newAgents(@RequestBody AgentDTO agentDTO, Principal principal) {
-		
-
-		
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-		//Chance user login and role
 		User user = userRepository.findByUsername(principal.getName());
-		if(user.getRole().getRole().getName().equals("admin"))
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		
-		
-		//Chance agents name exists
-		Agents nameB = agentsRepository.findByNameBot(agentDTO.getNameBot());
-		if(nameB != null)
+		if(!user.getRole().getRole().getName().equals("AGENT")) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+			
 		
-		//Chance agents ip address exists
-		Agents ip = agentsRepository.findByIpAddress(agentDTO.getIpAddress());
-		if(ip != null)
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
-		Agents agents = new Agents();
-		
-		agents.setNameBot(agentDTO.getNameBot());
-		agents.setIpAddress(agentDTO.getIpAddress());
-
-		agents.setPassword(encoder.encode(agentDTO.getPassword()));
-
-		
-		agentsRepository.save(agents);
+		System.out.println(agentsDTO.getComputerName());
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
