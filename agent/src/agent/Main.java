@@ -41,8 +41,9 @@ public class Main {
 			th.start();
 		} else if (config.get("type").equals("linux")){
 			
-			//TREBA POVEZATI SA Linux
-			System.out.println("Ovde ide Linux sistem");
+			System.out.println("Starting linux agent monitoring");
+			Thread th = new Thread(new AgentLinux(config));
+			th.start();
 			
 		} else if(config.get("type").equals("firewal")) {
 			

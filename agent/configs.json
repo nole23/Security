@@ -4,6 +4,7 @@
 	"Ip_address":"localhost",
 	"server_port":"8080",
 	"ID":"1",
-	"type":"windows",
-	"username":"agent_1"
+	"type":"linux",
+	"username":"agent_1",
+	"file_url":"data/syslog.txt"
 }
