@@ -31,11 +31,14 @@ public class Main {
 		JSONObject config = (JSONObject) pareser.parse(new FileReader(filePath));
 		
 		
+		
+		
 		if(config.get("type").equals("windows")) {
 			
 			//TREBA POVEZATI SA AgentWindows
 			System.out.println("Ovde ide AgentWindows");
-			
+			Thread th = new Thread(new AgentWindows(config));
+			th.start();
 		} else if (config.get("type").equals("linux")){
 			
 			//TREBA POVEZATI SA Linux

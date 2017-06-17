@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import com.sun.jna.platform.win32.Advapi32Util.EventLogIterator;
 import com.sun.jna.platform.win32.Advapi32Util.EventLogRecord;
 
-public class AgentWindows {
+public class AgentWindows extends Monitor  {
 	
 	//Konfiguracije
 	private long time;
@@ -29,10 +29,10 @@ public class AgentWindows {
 	private String computerName;
 	private String messages;
 	
-	public AgentWindows(JSONObject config) {
-		super();
+	AgentWindows(JSONObject config) {
+		super(config);
 		
-		time = (long) config.get("");
+		time = (long) config.get("sleep");
 		password = (String) config.get("password");
 		ip_address = (String) config.get("ip_address");
 		server_port = (String) config.get("server_port");
@@ -46,6 +46,7 @@ public class AgentWindows {
 		});
 	}
 	
+	@Override
 	public void run() {
 		boolean start = true;
 		
@@ -73,14 +74,17 @@ public class AgentWindows {
 					timeLog = logDate.toString();
 					sourceLog = rec.getSource();
 					
-					if(dayToDay == logToDay) {
-						if((hoursToDay-1) <= logHoursDay) {
+
+					if(dayToDay >= logToDay) {
+						if(21 <= logHoursDay) {
 							
 							
 							String result = jWMI.getWMIValue("Select * from Win32_NTLogEvent where LogFile='"+sourceName+"' and RecordNumber="+rec.getRecordNumber(), "ComputerName, Message");
 							
 							int computerId = result.indexOf("\r\n");
 							
+							
+							//System.out.println(result);
 							if(computerId != -1) {
 								
 								computerName = result.substring(0, computerId);
@@ -92,10 +96,33 @@ public class AgentWindows {
 							}
 							
 							//Ovo je struktura koja je iscitana iz logFajla
-							String sendLog = recordNumber + " " + logType + " " + timeLog 
-									+ " " + sourceLog + " " + computerName + " " + messages + " " + type;
+							String sendLog = "RecordNumber: " + recordNumber + " | logType: " + logType + " | timeLog: " + timeLog 
+									+ " | sourceLog: " + sourceLog + " | coumputerName: " + computerName + " | messages: " + messages 
+									+ " | type: " + type;
 							
-							System.out.println(sendLog);
+							//System.out.println(sendLog);
+							
+							AgentDTO agent = new AgentDTO();
+							
+							agent.setiD(ID);
+							agent.setRecordNumber(recordNumber);
+							agent.setLogType(logType);
+							agent.setTimeLog(timeLog);
+							agent.setSourceLog(sourceName);
+							agent.setComputerName(computerName);
+							agent.setMessages(messages);
+							agent.setType(type);
+							
+							int b = RequestHandler.Send(agent);
+							
+							if(b == -1) {
+								//ukoliko ne moze da posalje na server mora 
+								//sacuvati negde u lokalu dok ne bude mogao da salje
+								System.out.println("Ne radi");
+							} else {
+								System.out.println("Sacuvano");
+							}
+							
 						}
 					}
 				}

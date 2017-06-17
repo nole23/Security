@@ -9,31 +9,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @Entity
-public class User_Role {
+public class CommandOfUser {
 
 	@Id
 	@GeneratedValue
 	private Long id;
+	private String command;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	private User user;
-
-	@OneToOne(fetch = FetchType.LAZY)
-	private Role role;
-
-	@OneToMany(mappedBy = "userRole", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	@OneToMany(mappedBy = "commandOfUser", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Set<ListCommand> listCommand = new HashSet<ListCommand>();
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
 
 	public Long getId() {
 		return id;
@@ -43,12 +29,12 @@ public class User_Role {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public String getCommand() {
+		return command;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCommand(String command) {
+		this.command = command;
 	}
 
 	public Set<ListCommand> getListCommand() {

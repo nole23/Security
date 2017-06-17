@@ -1,7 +1,6 @@
 package com.app.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,23 +13,15 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-
-	private String lName;
-
-	private String fName;
-
-	@Column(unique = true)
 	private String username;
-
-	@Column(unique = true)
-	private String email;
-
 	private String pass;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	private UserInformacion userInformacion;
 
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private User_Role role;
 
-	
 
 	public Long getId() {
 		return id;
@@ -38,22 +29,6 @@ public class User {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getlName() {
-		return lName;
-	}
-
-	public void setlName(String lName) {
-		this.lName = lName;
-	}
-
-	public String getfName() {
-		return fName;
-	}
-
-	public void setfName(String fName) {
-		this.fName = fName;
 	}
 
 	public String getUsername() {
@@ -64,20 +39,20 @@ public class User {
 		this.username = username;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getPass() {
 		return pass;
 	}
 
 	public void setPass(String pass) {
 		this.pass = pass;
+	}
+
+	public UserInformacion getUserInformacion() {
+		return userInformacion;
+	}
+
+	public void setUserInformacion(UserInformacion userInformacion) {
+		this.userInformacion = userInformacion;
 	}
 
 	public User_Role getRole() {
@@ -88,6 +63,5 @@ public class User {
 		this.role = role;
 	}
 
-	
 
 }

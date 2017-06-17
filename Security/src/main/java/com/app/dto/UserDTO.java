@@ -5,36 +5,32 @@ import com.app.model.User;
 public class UserDTO {
 
 	private Long id;
-	private String lName;
-	private String fName;
 	private String username;
-	private String email;
 	private String pass;
-	private RoleDTO role;
+	private UserInformacionDTO userInformacionDTO;
+	private User_RoleDTO role;
 
 	public UserDTO() {
 	}
 
-	public UserDTO(Long id, String lName, String fName, String username, String email, String pass, RoleDTO role) {
+	public UserDTO(Long id, String username, String pass, UserInformacionDTO userInformacionDTO, User_RoleDTO role) {
 		super();
 		this.id = id;
-		this.lName = lName;
-		this.fName = fName;
 		this.username = username;
-		this.email = email;
 		this.pass = pass;
+		this.userInformacionDTO = userInformacionDTO;
 		this.role = role;
 	}
 
-	public UserDTO(User user) {
-		this.id = user.getId();
-		this.lName = user.getlName();
-		this.fName = user.getfName();
-		this.username = user.getUsername();
-		this.email = user.getEmail();
-		this.pass = user.getPass();
-		this.role = new RoleDTO();
-		this.role.setName(user.getRole().getRole().getName());
+	public UserDTO(User u) {
+		this.id = u.getId();
+		this.username = u.getUsername();
+		this.pass = u.getPass();
+		if (u.getUserInformacion() != null)
+			this.userInformacionDTO = new UserInformacionDTO(u.getUserInformacion());
+		;
+		if (u.getRole() != null)
+			this.role = new User_RoleDTO(u.getRole());
 	}
 
 	public Long getId() {
@@ -45,36 +41,12 @@ public class UserDTO {
 		this.id = id;
 	}
 
-	public String getlName() {
-		return lName;
-	}
-
-	public void setlName(String lName) {
-		this.lName = lName;
-	}
-
-	public String getfName() {
-		return fName;
-	}
-
-	public void setfName(String fName) {
-		this.fName = fName;
-	}
-
 	public String getUsername() {
 		return username;
 	}
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getPass() {
@@ -85,17 +57,20 @@ public class UserDTO {
 		this.pass = pass;
 	}
 
-	public RoleDTO getRole() {
+	public User_RoleDTO getRole() {
 		return role;
 	}
 
-	public void setRole(RoleDTO role) {
+	public void setRole(User_RoleDTO role) {
 		this.role = role;
 	}
 
-	@Override
-	public String toString() {
-		return "UserDTO [id=" + id + ", lName=" + lName + ", fName=" + fName + ", username=" + username + ", email="
-				+ email + ", pass=" + pass + ", role=" + role + "]";
+	public UserInformacionDTO getUserInformacionDTO() {
+		return userInformacionDTO;
 	}
+
+	public void setUserInformacionDTO(UserInformacionDTO userInformacionDTO) {
+		this.userInformacionDTO = userInformacionDTO;
+	}
+
 }

@@ -1,7 +1,6 @@
 package com.app.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,8 +13,6 @@ public class Role {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
-	@Column(unique=true)
 	private String name;
 	
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "role", cascade = CascadeType.ALL)
