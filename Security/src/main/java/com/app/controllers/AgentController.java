@@ -1,6 +1,9 @@
 package com.app.controllers;
 
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,9 +42,54 @@ public class AgentController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 			
-		System.out.println("|"+agentsDTO.getMessages());
+		Agents ag = agentsRepository.findByRecordNumber(agentsDTO.getRecordNumber());
 		
-		//System.out.println(agentsDTO.getComputerName());
+		if(ag == null) {
+			
+			
+			Agents agents = new Agents();
+			agents.setUser(user);
+			agents.setRecordNumber(agentsDTO.getRecordNumber());
+			agents.setLogType(agentsDTO.getLogType());
+			agents.setTimeLog(agentsDTO.getTimeLog());
+			agents.setSourceLog(agentsDTO.getSourceLog());
+			agents.setComputerName(agentsDTO.getComputerName());
+			agents.setMessages(agentsDTO.getMessages());
+			agents.setType(agentsDTO.getType());
+			
+			agentsRepository.save(agents);
+			
+			
+			
+		} else {
+			System.out.println("Sacuvano vec u bazi!: " + ag.getRecordNumber());
+			int count = 0;
+			if(!ag.getTimeLog().equals(agentsDTO.getTimeLog())){
+				System.out.println("okinuti prvi alarm");
+			}
+			
+			
+		}
+
+		//Proverava da li je ponoc ako je ponoc
+		//poziva se metoda za ciscenja baze i upisivanje svih elemenata u 
+		//MongoDB
+		//Ovaj deo treba na drugo mesto prebaciti 
+		
+		DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+		Date date = new Date();
+		String datestring = dateFormat.format(date);
+		
+		String min[] = datestring.split(":");
+		int sati = Integer.parseInt(min[0]);
+		int minut = Integer.parseInt(min[1]);
+		
+		if(sati == 0) {
+			if(minut <= 10) {
+				//ovde ide opet nesto
+			}
+		}
+			
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

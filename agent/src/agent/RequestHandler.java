@@ -70,7 +70,7 @@ public class RequestHandler {
 		agent1.put("computerName", agent.getComputerName()); 
 		agent1.put("messages", agent.getMessages());
 		agent1.put("recordNumber", agent.getRecordNumber()); 
-		agent1.put("type", "agent_1");
+		agent1.put("type", agent.getType());
 		
 		wr.writeBytes(agent1.toString());
 		wr.flush(); 

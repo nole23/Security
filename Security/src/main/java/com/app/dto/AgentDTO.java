@@ -38,7 +38,6 @@ public class AgentDTO {
 	}
 
 	public AgentDTO(Agents a) {
-		this.iD = a.getiD();
 		this.recordNumber = a.getRecordNumber();
 		this.logType = a.getLogType();
 		this.timeLog = a.getTimeLog();

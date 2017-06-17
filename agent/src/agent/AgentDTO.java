@@ -3,6 +3,7 @@ package agent;
 public class AgentDTO {
 
 	private String iD;
+	private String agent_id;
 	private String recordNumber;
 	private String logType;
 	private String timeLog;
@@ -16,10 +17,11 @@ public class AgentDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AgentDTO(String iD, String recordNumber, String logType, String timeLog, String sourceLog,
+	public AgentDTO(String iD, String recordNumber, String agent_id, String logType, String timeLog, String sourceLog,
 			String computerName, String messages, String type) {
 		super();
 		this.iD = iD;
+		this.agent_id = agent_id;
 		this.recordNumber = recordNumber;
 		this.logType = logType;
 		this.timeLog = timeLog;
@@ -91,6 +93,14 @@ public class AgentDTO {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getAgent_id() {
+		return agent_id;
+	}
+
+	public void setAgent_id(String agent_id) {
+		this.agent_id = agent_id;
 	}
 
 }

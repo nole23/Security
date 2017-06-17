@@ -4,10 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -15,24 +17,30 @@ public class Agents {
 
 	@Id
 	@GeneratedValue
-	private String iD;
+	private Long id;
+
 	private String recordNumber;
 	private String logType;
 	private String timeLog;
 	private String sourceLog;
 	private String computerName;
+
+	@Column(length = 800)
 	private String messages;
 	private String type;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User user;
 
 	@OneToMany(mappedBy = "agents", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Set<Alarming> alarming = new HashSet<Alarming>();
 
-	public String getiD() {
-		return iD;
+	public Long getId() {
+		return id;
 	}
 
-	public void setiD(String iD) {
-		this.iD = iD;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getRecordNumber() {
@@ -99,5 +107,12 @@ public class Agents {
 		this.alarming = alarming;
 	}
 
-	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 }
