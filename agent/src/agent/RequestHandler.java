@@ -77,9 +77,6 @@ public class RequestHandler {
 		wr.close();
 		
 		int status = con.getResponseCode();
-		
-		System.out.println(status);
-
 		if(status!=200)
 			return -1;
 		
@@ -92,7 +89,7 @@ public class RequestHandler {
 	 * @throws ParseException
 	 */
 	@SuppressWarnings("unchecked")
-	public synchronized static void authenticate() throws IOException, ParseException {
+	public synchronized static boolean authenticate() throws IOException, ParseException {
 
 		JSONObject config = (JSONObject) pareser.parse(new FileReader(filePath));
 		String url = "https://" + config.get("Ip_address") + ":" + config.get("server_port") + "/api/user/login";
@@ -103,10 +100,11 @@ public class RequestHandler {
 		System.setProperty("javax.net.ssl.trustStorePassword", "stefan");
 
 		URL connect = new URL(url);
-
+		
 		HttpsURLConnection con = null;
 		HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
 		con = (HttpsURLConnection) connect.openConnection();
+		
 		con.setDoOutput(true);
 		con.setRequestMethod("POST");
 		con.setRequestProperty("Content-Type", "application/json; charset=utf8");
@@ -126,8 +124,9 @@ public class RequestHandler {
 		wr.flush(); 
 		wr.close();
 		
-		// int responseCode = con.getResponseCode();
-		// System.out.println("Response Code : " + responseCode);
+
+		int status = con.getResponseCode();
+
 		InputStream is = null;
 
 		StringBuffer sb = new StringBuffer();
@@ -140,8 +139,10 @@ public class RequestHandler {
 		}
 		result = sb.toString();
 		
+		if(status != 200)
+			return false;
 		
-		System.out.println(result);
+		return true;
 
 	}
 }

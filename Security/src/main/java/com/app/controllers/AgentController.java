@@ -31,7 +31,7 @@ public class AgentController {
 	
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<String> nesto(@RequestBody AgentDTO agentsDTO, Principal principal) {
+	public ResponseEntity<String> saveLogFileWindow(@RequestBody AgentDTO agentsDTO, Principal principal) {
 		
 		User user = userRepository.findByUsername(principal.getName());
 		
@@ -39,8 +39,9 @@ public class AgentController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 			
+		System.out.println("|"+agentsDTO.getMessages());
 		
-		System.out.println(agentsDTO.getComputerName());
+		//System.out.println(agentsDTO.getComputerName());
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

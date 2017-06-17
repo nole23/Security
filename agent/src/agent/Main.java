@@ -31,7 +31,12 @@ public class Main {
 		JSONObject config = (JSONObject) pareser.parse(new FileReader(filePath));
 		
 		
-		RequestHandler.authenticate();
+		boolean status = RequestHandler.authenticate();
+		if(status == false){
+			System.out.println("Pokusavam da se konektujem na mrezu");
+			main(args);
+		}
+		
 		
 		if(config.get("type").equals("windows")) {
 			

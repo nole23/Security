@@ -1,9 +1,10 @@
 {
-	"sleep":36000,
+	"sleep":60000,
 	"password":"agent_1",
 	"Ip_address":"localhost",
 	"server_port":"8080",
 	"ID":"1",
 	"type":"windows",
-	"username":"agent_1"
+	"username":"agent_1",
+	"file_url":"data/syslog.tex"
 }

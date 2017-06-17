@@ -42,8 +42,9 @@ public class AgentLinux extends Monitor {
 		ID = (String) config.get("ID");
 		type = (String) config.get("type");
 		username = (String) config.get("username");
-
+		
 		myfile = new File((String) config.get("file_url"));
+		
 		filep = 0;
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -61,8 +62,9 @@ public class AgentLinux extends Monitor {
 			RandomAccessFile accessFile;
 
 			try {
-
+				System.out.println("Usao");
 				accessFile = new RandomAccessFile(myfile, "r");
+				
 				// get the length of the file
 				long myFileLength = accessFile.length();
 				if (myFileLength > filep) {

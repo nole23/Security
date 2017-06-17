@@ -76,18 +76,20 @@ public class AgentWindows extends Monitor  {
 					
 
 					if(dayToDay >= logToDay) {
-						if(21 <= logHoursDay) {
+						if((logToDay-1) <= logHoursDay) {
 							
 							
 							String result = jWMI.getWMIValue("Select * from Win32_NTLogEvent where LogFile='"+sourceName+"' and RecordNumber="+rec.getRecordNumber(), "ComputerName, Message");
 							
 							int computerId = result.indexOf("\r\n");
 							
+							//System.out.println(result);
 							
 							//System.out.println(result);
 							if(computerId != -1) {
 								
 								computerName = result.substring(0, computerId);
+								System.out.println("nesto " + result.substring(3));
 								messages = result.substring(computerId+2, result.length());
 							} else {
 								
