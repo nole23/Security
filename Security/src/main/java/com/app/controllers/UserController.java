@@ -75,7 +75,7 @@ public class UserController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<JSONObject> login(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
 		try {
 			// Perform the authentication
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
@@ -86,13 +86,13 @@ public class UserController {
 			// Reload user details so we can generate token
 			UserDetails details = userDetailsService.loadUserByUsername(loginDTO.getUsername());
 			
-			String tok = tokenUtils.generateToken(details);
-			JSONParser parser = new JSONParser();
-			JSONObject json = (JSONObject) parser.parse(tok);
+			//String tok = tokenUtils.generateToken(details);
+			//JSONParser parser = new JSONParser();
+			//JSONObject json = (JSONObject) parser.parse(tok);
 			
-			return new ResponseEntity<JSONObject>(json, HttpStatus.OK);
+			return new ResponseEntity<String>(tokenUtils.generateToken(details), HttpStatus.OK);
 		} catch (Exception ex) {
-			return new ResponseEntity<JSONObject>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -132,6 +132,7 @@ public class UserController {
 		User admin = userRepository.findByUsername(principal.getName());
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
+		System.out.println("dosao ovde1");
 		if(type.equals("admin") || type.equals("operator")) {
 			
 			String ro; 
@@ -161,10 +162,15 @@ public class UserController {
 			//ovde ide registracija za admine i operatere
 			return new ResponseEntity<ResponseMessageDTO>(HttpStatus.OK);
 		} else if(type.equals("agent")) {
-			
+
+
 			Role rola = roleRepository.findByName("AGENT");
-			if(admin.getRole().getRole().getName().equals("ADMIN"))
+			
+			if(!admin.getRole().getRole().getName().equals("ADMIN")){
 				return new ResponseEntity<ResponseMessageDTO>(HttpStatus.BAD_REQUEST);
+			}
+				
+
 
 			user.setUsername(userDTO.getUsername());
 			user.setPass(encoder.encode(userDTO.getPass()));
@@ -181,6 +187,56 @@ public class UserController {
 			//Neko pokusava da naudi
 			return new ResponseEntity<ResponseMessageDTO>(HttpStatus.OK);
 		}
+		
+	}
+	
+	
+	
+	@RequestMapping(value = "/ddd", method = RequestMethod.GET)
+	public ResponseEntity<ResponseMessageDTO> createFirst() {
+		
+		User user = new User();
+		UserInformacion ui = new UserInformacion();
+		User_Role userRole = new User_Role();
+		Role role;
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		
+		String[] roles = { "ADMIN", "OPERATOR", "AGENT" };
+		
+		//Cuvanje rola na sistem
+		for(int i=0; i<roles.length; i++) {
+			Role r = roleRepository.findByName(roles[i]);
+			if(r == null) {
+				role = new Role();
+				role.setName(roles[i]);
+				roleRepository.save(role);
+			}
+		}
+		
+		//Cuvanje admina na sistem
+		String ro = "ADMIN";
+		Role rolaUser = roleRepository.findByName(ro);
+		
+		ui.setfName("Novica");
+		ui.setlName("Nikolic");
+		ui.setEmail("nole0223@gmail.com");
+		userInformacionRepository.save(ui);
+		
+		user.setUsername("nole");
+		user.setPass(encoder.encode("123"));
+		user.setUserInformacion(ui);
+		userRepository.save(user);
+		
+
+		//cuvanje user role liste
+		userRole.setRole(rolaUser);
+		userRole.setUser(user);
+		userRoleRepository.save(userRole);
+		
+		//ovde ide registracija za admine i operatere
+		return new ResponseEntity<ResponseMessageDTO>(HttpStatus.OK);
+		
 		
 	}
 }
