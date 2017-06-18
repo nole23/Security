@@ -1,5 +1,5 @@
 {
-	"sleep":10000,
+	"sleep":"10000",
 	"password":"agent_1",
 	"Ip_address":"localhost",
 	"server_port":"8080",

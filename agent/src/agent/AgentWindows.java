@@ -12,12 +12,8 @@ public class AgentWindows extends Monitor  {
 	
 	//Konfiguracije
 	private long time;
-	private String password;
-	private String ip_address;
-	private String server_port;
 	private String ID;
 	private String type;
-	private String username;
 	
 	//OVO SE SALJE NA SERVER SVE + type iz konfiguracije
 	//KOJI NAM GOVORI DA LI JE LINUX WINDOWS ... RADI LAKSEG CUVANJA
@@ -33,13 +29,10 @@ public class AgentWindows extends Monitor  {
 	AgentWindows(JSONObject config) {
 		super(config);
 		
-		time = (long) config.get("sleep");
-		password = (String) config.get("password");
-		ip_address = (String) config.get("ip_address");
-		server_port = (String) config.get("server_port");
+		String t = (String) config.get("sleep");
+		time = Long.parseLong(t);
 		ID = (String) config.get("ID");
 		type = (String) config.get("type");
-		username = (String) config.get("username");
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
