@@ -11,14 +11,12 @@
 		service.login = login;
 		service.getCurrentUser = getCurrentUser;
 		service.logout = logout;
+		service.register = register;
 		
 		return service;
 		
 		function login(user, callBack) {
 			$http.post('https://localhost:8080/api/user/login', user)
-			/*$http({url: 'https://localhost:8080/api/user/login',
-				method: 'POST',
-				responseType: 'text'}, user)*/
 			.success(function (response) {
 				 
 					
@@ -29,7 +27,7 @@
 					};
 					
 					$localStorage.currentUser = currentUser;
-					$http.defaults.headers.common.Authorization = response.jwt;
+					$http.defaults.headers.common['Authorization'] = response.jwt;
 					
 					$window.location = "#/"
 				
@@ -52,5 +50,26 @@
             $http.defaults.headers.common.Authorization = '';
             $window.location = '#/login';
         }
+		
+		/*registration */
+		function register(user){
+			$http.post('https://localhost:8080/api/user/registration/operator', user)
+			.success(function (response) {
+				 
+					
+					window.alert("User added");
+					
+					$localStorage.currentUser = currentUser;
+					$http.defaults.headers.common.Authorization = response.jwt;
+					
+					$window.location = "#/"
+				
+			})
+			.error(function (response){
+		        
+		        window.alert("Error occured");
+
+		    });
+		}
 	}
 })();
