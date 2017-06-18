@@ -15,6 +15,15 @@ angular
 			.when('/', {
 				templateUrl: 'view/main.html'
 			})
+			.when('/all/agents', {
+				templateUrl: 'view/listAgents.html',
+				controller: 'AgentsCtrl',
+				controllerAS: 'agentsControler'
+			})
+			.when('/all/users', {
+				templateUrl: 'view/listUsers.html',
+				
+			})
 			.otherwise({
                 redirectTo: '/'
             });
