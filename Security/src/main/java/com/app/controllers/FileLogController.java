@@ -43,63 +43,7 @@ public class FileLogController {
 	@Autowired
 	private AgetnsRepository agentsRepository;
 
-	/**
-	 * Save log from client example: {
-	 * 
-	 * "message":"poriuka", "source":"162.12.111", "time":"11200",
-	 * "serverTime":"12550", "agentId":"agentFIrst", "tagName":"someTag",
-	 * "logLevel":"2", "platform":"windwos"
-	 * 
-	 * }
-	 * 
-	 * @see FileLogDTO
-	 * @param fileLogDTO
-	 * @return
-	 */
-	@RequestMapping(value = "/store", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<ResponseMessageDTO> storeLog(@RequestBody FileLogDTO fileLogDTO, HttpServletRequest request) {
 
-		/*
-		 * Uslucaju da nepo pokusa uhakovati svoj log provera da li je log
-		 * validan i ukoli je validan proverava da li je taj logo vec prijavljen
-		 */
-		Agents agent = agentsRepository.findByAgentId(fileLogDTO.getAgentId());
-		if (agent == null) {
-			// dohvati IP adressu sa koje je dosao poziv
-			String remoteAddr = "";
-
-			if (request != null) {
-				remoteAddr = request.getHeader("X-FORWARDED-FOR");
-				if (remoteAddr == null || "".equals(remoteAddr)) {
-					remoteAddr = request.getRemoteAddr();
-				}
-				Alarming alarming = new Alarming();
-				alarming.setMessage("Agent with unknow IP adress, tried to log file");
-				
-				Agents ag = new Agents();
-				//ag.setIpAddress(remoteAddr);
-				//ag.setAgentId(fileLogDTO.getAgentId());
-				//ag.setNameBot("Unknow agent");
-				
-				alarming.setAgents(ag);
-				Date date = new Date();
-				alarming.setDate(date);
-
-				// snimi agenta prvo
-				agentsRepository.save(ag);
-
-				// save to repository
-				alarmingRepository.save(alarming);
-
-				return new ResponseEntity<ResponseMessageDTO>(new ResponseMessageDTO("Log archived"),
-						HttpStatus.CREATED);
-			}
-		}
-		FileLog fileLog = fileLogDTO.getFileLog();
-		fileLogService.save(fileLog);
-
-		return new ResponseEntity<ResponseMessageDTO>(new ResponseMessageDTO("Log archived"), HttpStatus.CREATED);
-	}
 
 	/**
 	 * View all logs

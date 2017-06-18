@@ -1,28 +1,26 @@
 package com.app.dto;
 
 import com.app.model.Role;
-import com.app.model.User_Role;
 
 public class RoleDTO {
 
 	private Long id;
 	private String name;
-	private User_Role role;
+	private User_RoleDTO user_roleDTO;
 
 	public RoleDTO() {
 	}
 
-	public RoleDTO(Long id, String name, User_Role role) {
+	public RoleDTO(Long id, String name, User_RoleDTO user_roleDTO) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.role = role;
+		this.user_roleDTO = user_roleDTO;
 	}
 
 	public RoleDTO(Role role) {
 		this.id = role.getId();
 		this.name = role.getName();
-		this.role = role.getRole();
 	}
 
 	public Long getId() {
@@ -41,17 +39,12 @@ public class RoleDTO {
 		this.name = name;
 	}
 
-	public User_Role getRole() {
-		return role;
+	public User_RoleDTO getUser_roleDTO() {
+		return user_roleDTO;
 	}
 
-	public void setRole(User_Role role) {
-		this.role = role;
-	}
-
-	@Override
-	public String toString() {
-		return "RoleDTO [id=" + id + ", name=" + name + ", role=" + role + "]";
+	public void setUser_roleDTO(User_RoleDTO user_roleDTO) {
+		this.user_roleDTO = user_roleDTO;
 	}
 
 }

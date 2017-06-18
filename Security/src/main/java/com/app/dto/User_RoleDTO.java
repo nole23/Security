@@ -1,28 +1,39 @@
 package com.app.dto;
 
-import com.app.model.Role;
-import com.app.model.User;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.app.model.ListCommand;
 import com.app.model.User_Role;
 
 public class User_RoleDTO {
 
 	private Long id;
-	private User user;
-	private Role role;
-	
-	public User_RoleDTO() {}
-	
-	public User_RoleDTO(Long id, User user, Role role) {
+	private UserDTO userDTO;
+	private RoleDTO roleDTO;
+	private Set<ListCommandDTO> listCommandDTO = new HashSet<ListCommandDTO>();
+
+	public User_RoleDTO() {
+	}
+
+	public User_RoleDTO(Long id, UserDTO userDTO, RoleDTO roleDTO) {
 		super();
 		this.id = id;
-		this.user = user;
-		this.role = role;
+		this.userDTO = userDTO;
+		this.roleDTO = roleDTO;
 	}
-	
+
 	public User_RoleDTO(User_Role userRole) {
 		this.id = userRole.getId();
-		this.user = userRole.getUser();
-		this.role = userRole.getRole();
+		if (userRole.getRole() != null)
+			this.roleDTO = new RoleDTO(userRole.getRole());
+
+		if (userRole.getListCommand() != null) {
+			this.listCommandDTO = new HashSet<ListCommandDTO>();
+			for (ListCommand lc : userRole.getListCommand()) {
+				this.listCommandDTO.add(new ListCommandDTO(lc));
+			}
+		}
 	}
 
 	public Long getId() {
@@ -33,27 +44,28 @@ public class User_RoleDTO {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public UserDTO getUserDTO() {
+		return userDTO;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
 	}
 
-	public Role getRole() {
-		return role;
+	public RoleDTO getRoleDTO() {
+		return roleDTO;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoleDTO(RoleDTO roleDTO) {
+		this.roleDTO = roleDTO;
 	}
 
-	@Override
-	public String toString() {
-		return "User_RoleDTO [id=" + id + ", user=" + user + ", role=" + role
-				+ "]";
+	public Set<ListCommandDTO> getListCommandDTO() {
+		return listCommandDTO;
 	}
-	
-	
+
+	public void setListCommandDTO(Set<ListCommandDTO> listCommandDTO) {
+		this.listCommandDTO = listCommandDTO;
+	}
+
 }

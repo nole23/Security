@@ -1,11 +1,14 @@
 package com.app.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class UserInformacion {
@@ -17,8 +20,8 @@ public class UserInformacion {
 	private String lName;
 	private String fName;
 
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "userInformacion", cascade = CascadeType.ALL)
-	private User user;
+	@OneToMany(mappedBy = "userInformacion", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	private Set<User> user = new HashSet<User>();
 
 	public Long getId() {
 		return id;
@@ -52,11 +55,11 @@ public class UserInformacion {
 		this.fName = fName;
 	}
 
-	public User getUser() {
+	public Set<User> getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Set<User> user) {
 		this.user = user;
 	}
 

@@ -14,9 +14,9 @@ public class Role {
 	@GeneratedValue
 	private Long id;
 	private String name;
-	
+
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "role", cascade = CascadeType.ALL)
-	private User_Role role;
+	private User_Role user_role;
 
 	public Long getId() {
 		return id;
@@ -34,12 +34,12 @@ public class Role {
 		this.name = name;
 	}
 
-	public User_Role getRole() {
-		return role;
+	public User_Role getUser_role() {
+		return user_role;
 	}
 
-	public void setRole(User_Role role) {
-		this.role = role;
+	public void setUser_role(User_Role user_role) {
+		this.user_role = user_role;
 	}
-	
+
 }

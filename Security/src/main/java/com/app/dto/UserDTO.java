@@ -1,5 +1,9 @@
 package com.app.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.app.model.Agents;
 import com.app.model.User;
 
 public class UserDTO {
@@ -9,17 +13,20 @@ public class UserDTO {
 	private String pass;
 	private UserInformacionDTO userInformacionDTO;
 	private User_RoleDTO role;
+	private Set<AgentDTO> agentDTO = new HashSet<AgentDTO>();
 
 	public UserDTO() {
 	}
 
-	public UserDTO(Long id, String username, String pass, UserInformacionDTO userInformacionDTO, User_RoleDTO role) {
+	public UserDTO(Long id, String username, String pass, UserInformacionDTO userInformacionDTO, User_RoleDTO role,
+			Set<AgentDTO> agentDTO) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.pass = pass;
 		this.userInformacionDTO = userInformacionDTO;
 		this.role = role;
+		this.agentDTO = agentDTO;
 	}
 
 	public UserDTO(User u) {
@@ -28,9 +35,14 @@ public class UserDTO {
 		this.pass = u.getPass();
 		if (u.getUserInformacion() != null)
 			this.userInformacionDTO = new UserInformacionDTO(u.getUserInformacion());
-		;
 		if (u.getRole() != null)
 			this.role = new User_RoleDTO(u.getRole());
+		if (u.getAgents() != null) {
+			this.agentDTO = new HashSet<AgentDTO>();
+			for (Agents a : u.getAgents()) {
+				this.agentDTO.add(new AgentDTO(a));
+			}
+		}
 	}
 
 	public Long getId() {
@@ -71,6 +83,14 @@ public class UserDTO {
 
 	public void setUserInformacionDTO(UserInformacionDTO userInformacionDTO) {
 		this.userInformacionDTO = userInformacionDTO;
+	}
+
+	public Set<AgentDTO> getAgentDTO() {
+		return agentDTO;
+	}
+
+	public void setAgentDTO(Set<AgentDTO> agentDTO) {
+		this.agentDTO = agentDTO;
 	}
 
 }
