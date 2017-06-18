@@ -13,8 +13,6 @@ public interface AgetnsRepository extends JpaRepository<Agents, Long> {
 
 	List<Agents> findByUser(User user);
 
-	List<Agents> findByUsername(String username);
-
 	List<Agents> findByLogType(String type);
 
 }

@@ -42,7 +42,7 @@ public class RequestHandler {
 		
 		String url = "https://" + config.get("Ip_address") + ":" + config.get("server_port") + "/api/agent/";
 		
-		System.setProperty("javax.net.ssl.trustStore", "C:\\Users\\X\\Desktop\\gitBEP\\Security\\agent\\keystore.p12");
+		System.setProperty("javax.net.ssl.trustStore", "./keystore.p12");
 		System.setProperty("javax.net.ssl.trustStorePassword", "stefan");
 
 		URL connect = new URL(url);
@@ -96,7 +96,7 @@ public class RequestHandler {
 
 		// System.out.println(url);
 
-		System.setProperty("javax.net.ssl.trustStore", "C:\\Users\\X\\Desktop\\gitBEP\\Security\\agent\\keystore.p12");
+		System.setProperty("javax.net.ssl.trustStore", "./keystore.p12");
 		System.setProperty("javax.net.ssl.trustStorePassword", "stefan");
 
 		URL connect = new URL(url);
