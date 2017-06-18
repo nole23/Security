@@ -14,6 +14,10 @@ angular
 		$routeProvider
 			.when('/', {
 				templateUrl: 'view/main.html'
+			}).when('/login', {
+				templateUrl: 'view/login.html',
+				controller: 'LoginCtrl',
+		        controllerAs: 'LoginCtrl'
 			})
 			.when('/all/agents', {
 				templateUrl: 'view/listAgents.html',
@@ -29,7 +33,7 @@ angular
             });
 	}])
 	
-	.run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage', function(Restangular, $log, $rootScope, $http, $location, $localStorage) {
+	.run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage','LoginResources', function(Restangular, $log, $rootScope, $http, $location, $localStorage, LoginResources) {
         Restangular.setBaseUrl("api");
         Restangular.setErrorInterceptor(function(response) {
             if (response.status === 500) {
@@ -39,5 +43,34 @@ angular
             return true; // greska nije obradjena
         });
         
+        $rootScope.logout = function () {
+        	LoginResources.logout();
+        }
+        
+        $rootScope.getCurrentUserRole = function () {
+            if (!LoginResources.getCurrentUser()){
+              return undefined;
+            }
+            else{
+            
+              return LoginResources.getCurrentUser().rola;
+            }
+        }
+        $rootScope.getCurrentUserUser = function () {
+            if (!LoginResources.getCurrentUser()){
+              return undefined;
+            }
+            else{
+              return LoginResources.getCurrentUser().username;
+            }
+        }
+        $rootScope.isLoggedIn = function () {
+            if (LoginResources.getCurrentUser()){
+              return true;
+            }
+            else{
+              return false;
+            }
+        }
         
     }]);
