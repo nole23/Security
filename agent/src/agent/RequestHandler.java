@@ -92,7 +92,7 @@ public class RequestHandler {
 	public synchronized static boolean authenticate() throws IOException, ParseException {
 
 		JSONObject config = (JSONObject) pareser.parse(new FileReader(filePath));
-		String url = "https://" + config.get("Ip_address") + ":" + config.get("server_port") + "/api/user/login";
+		String url = "https://" + config.get("Ip_address") + ":" + config.get("server_port") + "/api/agent/login";
 
 		// System.out.println(url);
 

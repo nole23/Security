@@ -10,6 +10,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +25,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.AgentDTO;
+import com.app.dto.LoginDTO;
+import com.app.dto.MesagesDTO;
 import com.app.dto.UserDTO;
 import com.app.model.Agents;
 import com.app.model.User;
 import com.app.repository.AgetnsRepository;
 import com.app.repository.UserRepository;
+import com.app.security.TokenUtils;
 
 @RestController
 @RequestMapping(value = "/api/agent")
@@ -34,6 +43,33 @@ public class AgentController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	TokenUtils tokenUtils;
+	
+	@Autowired
+	AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<String> loginAgent(@RequestBody LoginDTO loginDTO) {
+		try {
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
+					loginDTO.getPassword());
+			Authentication authentication = authenticationManager.authenticate(token);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			UserDetails details = userDetailsService.loadUserByUsername(loginDTO.getUsername());
+			
+			return new ResponseEntity<>(tokenUtils.generateToken(details), HttpStatus.OK);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 
 	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> saveLogFileWindow(@RequestBody AgentDTO agentsDTO, Principal principal) {
