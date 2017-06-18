@@ -1,5 +1,7 @@
 package com.app.controllers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.LoginDTO;
+import com.app.dto.MesagesDTO;
 import com.app.dto.ResponseMessageDTO;
 import com.app.dto.UserDTO;
 import com.app.model.Role;
@@ -75,8 +78,9 @@ public class UserController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<MesagesDTO> login(@RequestBody LoginDTO loginDTO) {
 		try {
+			//System.out.println(loginDTO.getPassword()+", "+loginDTO.getUsername());
 			// Perform the authentication
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
 					loginDTO.getPassword());
@@ -89,10 +93,18 @@ public class UserController {
 			//String tok = tokenUtils.generateToken(details);
 			//JSONParser parser = new JSONParser();
 			//JSONObject json = (JSONObject) parser.parse(tok);
+			User user = userRepository.findByUsername(details.getUsername());
 			
-			return new ResponseEntity<String>(tokenUtils.generateToken(details), HttpStatus.OK);
+			MesagesDTO m = new MesagesDTO();
+			m.setId(user.getId());
+			m.setJwt(tokenUtils.generateToken(details));
+			m.setRola(user.getRole().getRole().getName());
+			
+			return new ResponseEntity<MesagesDTO>(m, HttpStatus.OK);
 		} catch (Exception ex) {
-			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			MesagesDTO m = new MesagesDTO();
+			m.setError("Wrong login");
+			return new ResponseEntity<MesagesDTO>(m,HttpStatus.NOT_FOUND);
 		}
 	}
 
