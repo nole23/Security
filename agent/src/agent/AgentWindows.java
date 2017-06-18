@@ -1,5 +1,6 @@
 package agent;
 
+import java.io.File;
 import java.util.Date;
 
 import org.json.simple.JSONObject;
@@ -51,6 +52,8 @@ public class AgentWindows extends Monitor  {
 		boolean start = true;
 		
 		String sourceName = "System";
+		int id = 0;
+		int idFirst = 0;
 		while(start) {
 			try{
 				
@@ -76,7 +79,7 @@ public class AgentWindows extends Monitor  {
 					
 
 					if(dayToDay >= logToDay) {
-						if(21 <= logHoursDay) {
+						if((hoursToDay-1) <= logHoursDay) {
 							
 							
 							String result = jWMI.getWMIValue("Select * from Win32_NTLogEvent where LogFile='"+sourceName+"' and RecordNumber="+rec.getRecordNumber(), "ComputerName, Message");
@@ -102,26 +105,43 @@ public class AgentWindows extends Monitor  {
 							
 							//System.out.println(sendLog);
 							
-							AgentDTO agent = new AgentDTO();
+							/*
+							 * 1
+							 * 2
+							 * 3
+							 * 4
+							 * 5
+							 * 6 < n
+							 */
 							
-							agent.setiD(ID);
-							agent.setRecordNumber(recordNumber);
-							agent.setLogType(logType);
-							agent.setTimeLog(timeLog);
-							agent.setSourceLog(sourceName);
-							agent.setComputerName(computerName);
-							agent.setMessages(messages);
-							agent.setType(type);
-							
-							int b = RequestHandler.Send(agent);
-							
-							if(b == -1) {
-								//ukoliko ne moze da posalje na server mora 
-								//sacuvati negde u lokalu dok ne bude mogao da salje
-								System.out.println("Ne radi");
-							} else {
-								System.out.println("Sacuvano");
+							idFirst = Integer.parseInt(recordNumber);
+							if(id < idFirst){
+								
+								AgentDTO agent = new AgentDTO();
+								
+								agent.setiD(ID);
+								agent.setRecordNumber(recordNumber);
+								agent.setLogType(logType);
+								agent.setTimeLog(timeLog);
+								agent.setSourceLog(sourceName);
+								agent.setComputerName(computerName);
+								agent.setMessages(messages);
+								agent.setType(type);
+								
+								int b = RequestHandler.Send(agent);
+								
+								if(b == -1) {
+									//ukoliko ne moze da posalje na server mora 
+									//sacuvati negde u lokalu dok ne bude mogao da salje
+									System.out.println("Ne radi");
+									id = idFirst;
+								} else {
+									System.out.println("Sacuvano");
+									id = idFirst;
+								}
 							}
+							
+							
 							
 						}
 					}
