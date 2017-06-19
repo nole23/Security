@@ -1,5 +1,6 @@
 package com.app.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.app.dto.FileLogDTO;
+import com.app.dto.SearchLogsDTO;
 import com.app.model.FileLog;
 import com.app.repository.FileLogRepository;
 
@@ -34,6 +37,19 @@ public class FileLogService {
 
 	public void remove(Long id) {
 		repository.delete(id);
+	}
+
+	public List<FileLog> searchFor(SearchLogsDTO dto) {
+		List<FileLog> logs = new ArrayList<FileLog>();
+
+		// its not search by regular expression
+		FileLogDTO fDto = dto.getFileDto();
+		logs = repository.searchFor(fDto.getMessage(), fDto.getSource(), fDto.getTime(), fDto.getServerTime(),
+				fDto.getDate(), fDto.getAgentId(), fDto.getCount(), fDto.getTagName(), fDto.getLogLevel(),
+				fDto.getPlatform());
+		// logs = repository.searchFor(fDto.getPlatform());
+
+		return logs;
 	}
 
 }
