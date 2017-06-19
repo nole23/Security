@@ -25,7 +25,7 @@ public class User {
 	private UserInformacion userInformacion;
 
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-	private User_Role role;
+	private User_Role user_role;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Set<Agents> agents = new HashSet<Agents>();
@@ -62,12 +62,12 @@ public class User {
 		this.userInformacion = userInformacion;
 	}
 
-	public User_Role getRole() {
-		return role;
+	public User_Role getUser_role() {
+		return user_role;
 	}
 
-	public void setRole(User_Role role) {
-		this.role = role;
+	public void setUser_role(User_Role user_role) {
+		this.user_role = user_role;
 	}
 
 	public Set<Agents> getAgents() {

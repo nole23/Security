@@ -73,7 +73,6 @@ public class UserController {
 	 * @see LoginDTO
 	 * @author stefan
 	 */
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<MesagesDTO> login(@RequestBody LoginDTO loginDTO) {
 		try {
@@ -95,7 +94,7 @@ public class UserController {
 			MesagesDTO m = new MesagesDTO();
 			m.setId(user.getId());
 			m.setJwt(tokenUtils.generateToken(details));
-			m.setRola(user.getRole().getRole().getName());
+			m.setRola(user.getUser_role().getRole().getName());
 			
 			return new ResponseEntity<MesagesDTO>(m, HttpStatus.OK);
 		} catch (Exception ex) {
@@ -135,10 +134,16 @@ public class UserController {
 	@RequestMapping(value = "/registration/{type}", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<ResponseMessageDTO> registration(@RequestBody UserDTO userDTO, @PathVariable String type, Principal principal) {
 		
+		ResponseMessageDTO message = new ResponseMessageDTO();
 		User user = new User();
 		UserInformacion ui = new UserInformacion();
 		User_Role userRole = new User_Role();
 		User admin = userRepository.findByUsername(principal.getName());
+		if(admin.getUser_role().getRole().getName().equals("ADMIN")) {
+			message.setMessage("error");
+			return new ResponseEntity<ResponseMessageDTO>(message, HttpStatus.OK);
+		}
+			
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		System.out.println("dosao ovde1");
@@ -169,15 +174,16 @@ public class UserController {
 			userRoleRepository.save(userRole);
 			
 			//ovde ide registracija za admine i operatere
-			return new ResponseEntity<ResponseMessageDTO>(HttpStatus.OK);
+			message.setMessage("save");
+			return new ResponseEntity<ResponseMessageDTO>(message, HttpStatus.OK);
 		} else if(type.equals("agent")) {
 
 
 			Role rola = roleRepository.findByName("AGENT");
 			
-			if(!admin.getRole().getRole().getName().equals("ADMIN")){
-				return new ResponseEntity<ResponseMessageDTO>(HttpStatus.BAD_REQUEST);
-			}
+			//if(!admin.getUser_role().getRole().getName().equals("ADMIN")){
+			//	return new ResponseEntity<ResponseMessageDTO>(HttpStatus.BAD_REQUEST);
+			//}
 				
 
 			ui.setSystem(userDTO.getUserInformacionDTO().getSystem());
@@ -192,12 +198,14 @@ public class UserController {
 			userRole.setUser(user);
 			userRoleRepository.save(userRole);
 			//ovde ide registracija za agente
-			return new ResponseEntity<ResponseMessageDTO>(HttpStatus.OK);
+			message.setMessage("save");
+			return new ResponseEntity<ResponseMessageDTO>(message, HttpStatus.OK);
 		} else {
 			
 			System.out.println("treba odraditi metodu koja prijavljuje neki gresku");
 			//Neko pokusava da naudi
-			return new ResponseEntity<ResponseMessageDTO>(HttpStatus.OK);
+			message.setMessage("error");
+			return new ResponseEntity<ResponseMessageDTO>(message, HttpStatus.OK);
 		}
 		
 	}
@@ -259,7 +267,7 @@ public class UserController {
 		
 		List<UserDTO> userDTO = new ArrayList<>();
 		for(User u: user) {
-			if(!u.getRole().getRole().getName().equals("AGENT"))
+			if(!u.getUser_role().getRole().getName().equals("AGENT"))
 				userDTO.add(new UserDTO(u));
 		}
 

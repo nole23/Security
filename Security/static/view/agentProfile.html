@@ -7,18 +7,25 @@
 		<div class="row">
 			<div class="col-lg-12">
 				
-				<div class="bs-example">
+				<div class="bs-example" ng-show="agentCtrl.oglasiAlarm">
 					<div class="alert alert-dismissable alert-warning">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
 						<h4>Warning!</h4>
-						<p>Upozorenje za Agent_1, uoceno je povecan broj logova nego uobicajeno.</p>
+						<p>Upozorenje za Agent_1, uoceno je povecan broj logova u jednom satu.</p>
 					</div>
 				</div>
 				
-				<div class="bs-example" ng-show="oglasiAlarm">
+				<div class="bs-example" ng-show="agentCtrl.oglasiAlarmW">
 					<div class="alert alert-dismissable alert-danger">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
 						<strong>Alarm!</strong> Neocekivani logovi!.
+					</div>
+				</div>
+				
+				<div class="bs-example" ng-show="agentCtrl.log">
+					<div class="alert alert-dismissable alert-danger">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<strong>Alarm!</strong> Desila se {{agentCtrl.log}} {{agentCtrl.type}} na datom agentu u periodu od jednog dana!.
 					</div>
 				</div>
 				

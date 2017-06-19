@@ -9,11 +9,18 @@ angular.module('simeCenterApp')
 		var logovi = [];
 		var alarm = [];
 		
-		retVal.getAllAgent = function() {
-			
+		retVal.getAgent = function() {
 			return Restangular.all("agent/all").getList().then(function(entries) {
 				agenti = entries;
 				return agenti;
+			})
+		}
+		
+		retVal.getAllAgent = function(type) {
+			
+			return Restangular.all("agent/all/type/"+type).getList().then(function(entries) {
+				logovi = entries;
+				return logovi;
 			})
 		}
 		
@@ -26,8 +33,8 @@ angular.module('simeCenterApp')
 			})
 		}
 		
-		retVal.getAlarmType = function() {
-			var link = 'alarm/all/ALL';
+		retVal.getAlarmType = function(id) {
+			var link = 'alarm/all/'+id;
 			return Restangular.one(link).get().then(function(entries) {
 				alarm = entries;
 				return alarm;
@@ -42,6 +49,13 @@ angular.module('simeCenterApp')
 			})
 		}
 		
+		retVal.getAgentMIN = function(id) {
+			var link = 'agent/all/sec/'+id;
+			return Restangular.all(link).getList().then(function(entries) {
+				logovi = entries;
+				return logovi;
+			})
+		}
 		
 		return retVal;
 	}])

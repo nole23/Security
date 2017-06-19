@@ -1,0 +1,105 @@
+<style>
+
+    div {
+        padding-bottom:20px;
+    }
+
+</style>
+<div ng-controller="AlarmsCtrl" style="color: #c8c8c8">
+	<form data-ng-submit="saveAlarm()">
+	
+		<div class="row text-center">
+			<h2>Definite New Alarms</h2>
+		</div>
+		
+		<div>
+			<label for="country" class="col-md-2">
+				Alarm Type:
+			</label>
+			<div class="col-md-9">
+				<select name="country" id="country" data-ng-model="alarm.typeLog" class="form-control">
+					<option value="">--Please Select--</option>
+					<option value="ERROR">ERROR</option>
+					<option value="WARNING">WARNING</option>
+					<option value="INFORMATION">INFORMATION</option>
+				</select>
+			</div>            
+		</div>
+		
+		<div style="margin-bottom: 2%">
+			<label for="firstname" class="col-md-2">
+				Number of count:
+			</label>
+			<div class="col-md-9">
+				<input type="text" class="form-control" id="firstname" data-ng-model="alarm.countLog" placeholder="Enter nuber of count[10, 100, 1000]">
+			</div>
+			<div class="col-md-1">
+				<i class="fa fa-lock fa-2x"></i>
+			</div>
+		</div>
+		
+		
+		<!-- Ovo ne radi trenutno
+		<div>
+            <label for="sex" class="col-md-2">
+                Gender:
+            </label>
+            <div class="col-md-10">
+                <label class="radio">
+                    <input type="radio" name="sex" id="sex" value="sec" checked>
+                    Second
+                </label>
+                <label class="radio">
+                    <input type="radio" name="sex" id="Radio1" value="female">
+                    Minut
+                </label>
+                <label class="radio">
+                    <input type="radio" name="sex" id="Radio1" value="female">
+                    Hous
+                </label>
+                <label class="radio">
+                    <input type="radio" name="sex" id="Radio1" value="female">
+                    Wik
+                </label>
+                
+            </div>       
+        </div>
+		 -->
+		<div>
+			<label for="password" class="col-md-2">
+				Count of time:
+			</label>
+			<div class="col-md-9">
+				<input type="text" class="form-control" id="firstname" data-ng-model="alarm.countTime" placeholder="Enter time[10sec, 100sec 1000sec]">
+			</div>
+			 <div class="col-md-1">
+				<i class="fa fa-lock fa-2x"></i>
+			</div>
+		</div>
+		
+		
+		<div>
+			<label for="country" class="col-md-2">
+				Prioriy:
+			</label>
+			<div class="col-md-9">
+				<select name="country" id="country" data-ng-model="alarm.prioritet" class="form-control">
+					<option value="">--Please Select--</option>
+					<option value="HIGH">HIGH</option>
+					<option value="LOW">LOW</option>
+					<option value="MEDIUM">MEDIUM</option>
+				</select>
+			</div>            
+		</div>
+		
+		
+		
+		<div class="row">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-10">
+				<input type="submit" class="btn btn-info" value="Register" />
+			</div>
+		</div>
+	</form>
+</div>

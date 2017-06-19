@@ -1,9 +1,5 @@
 package com.app.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.app.model.ListCommand;
 import com.app.model.User_Role;
 
 public class User_RoleDTO {
@@ -11,7 +7,6 @@ public class User_RoleDTO {
 	private Long id;
 	private UserDTO userDTO;
 	private RoleDTO roleDTO;
-	private Set<ListCommandDTO> listCommandDTO = new HashSet<ListCommandDTO>();
 
 	public User_RoleDTO() {
 	}
@@ -28,12 +23,6 @@ public class User_RoleDTO {
 		if (userRole.getRole() != null)
 			this.roleDTO = new RoleDTO(userRole.getRole());
 
-		if (userRole.getListCommand() != null) {
-			this.listCommandDTO = new HashSet<ListCommandDTO>();
-			for (ListCommand lc : userRole.getListCommand()) {
-				this.listCommandDTO.add(new ListCommandDTO(lc));
-			}
-		}
 	}
 
 	public Long getId() {
@@ -60,12 +49,5 @@ public class User_RoleDTO {
 		this.roleDTO = roleDTO;
 	}
 
-	public Set<ListCommandDTO> getListCommandDTO() {
-		return listCommandDTO;
-	}
-
-	public void setListCommandDTO(Set<ListCommandDTO> listCommandDTO) {
-		this.listCommandDTO = listCommandDTO;
-	}
 
 }

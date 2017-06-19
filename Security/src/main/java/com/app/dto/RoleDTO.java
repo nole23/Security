@@ -1,17 +1,20 @@
 package com.app.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.app.model.Role;
 
 public class RoleDTO {
 
 	private Long id;
 	private String name;
-	private User_RoleDTO user_roleDTO;
+	private Set<User_RoleDTO> user_roleDTO = new HashSet<User_RoleDTO>();
 
 	public RoleDTO() {
 	}
 
-	public RoleDTO(Long id, String name, User_RoleDTO user_roleDTO) {
+	public RoleDTO(Long id, String name, Set<User_RoleDTO> user_roleDTO) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -39,11 +42,11 @@ public class RoleDTO {
 		this.name = name;
 	}
 
-	public User_RoleDTO getUser_roleDTO() {
+	public Set<User_RoleDTO> getUser_roleDTO() {
 		return user_roleDTO;
 	}
 
-	public void setUser_roleDTO(User_RoleDTO user_roleDTO) {
+	public void setUser_roleDTO(Set<User_RoleDTO> user_roleDTO) {
 		this.user_roleDTO = user_roleDTO;
 	}
 

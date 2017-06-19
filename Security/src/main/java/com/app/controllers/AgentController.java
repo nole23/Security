@@ -50,6 +50,23 @@ public class AgentController {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	
+	@RequestMapping(value="/all",method = RequestMethod.GET)
+	public ResponseEntity<List<UserDTO>> getAgent(Principal principal) {
+
+		List<User> user = userRepository.findAll();
+		
+		List<UserDTO> userDTO = new ArrayList<>();
+		for(User u: user) {
+			if(u.getUser_role().getRole().getName().equals("AGENT"))
+				userDTO.add(new UserDTO(u));
+		}
+
+		
+		
+		return new ResponseEntity<>(userDTO, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> loginAgent(@RequestBody LoginDTO loginDTO) {
 		try {
@@ -73,7 +90,7 @@ public class AgentController {
 
 		User user = userRepository.findByUsername(principal.getName());
 
-		if (!user.getRole().getRole().getName().equals("AGENT")) {
+		if (user.getUser_role().getRole().getName().equals("ADMIN")) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -127,26 +144,6 @@ public class AgentController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	
-	/**
-	 * Prikaz svih agenata
-	 * @param agentId
-	 * @param principal
-	 * @return
-	 */
-	@RequestMapping(value="/all",method = RequestMethod.GET)
-	public ResponseEntity<List<UserDTO>> getAllAgent() {
-
-		List<User> user = userRepository.findAll();
-		
-		List<UserDTO> userDTO = new ArrayList<>();
-		for(User u: user) {
-			if(u.getRole().getRole().getName().equals("AGENT"))
-				userDTO.add(new UserDTO(u));
-		}
-
-		return new ResponseEntity<>(userDTO, HttpStatus.OK);
-	}
 
 	
 	/**
@@ -197,16 +194,111 @@ public class AgentController {
 	}
 	
 	/**
+	 * Svaki minut
+	 * @param agentId
+	 * @param min
+	 * @param principal
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value="/all/sat/{min}/{agentId}",method = RequestMethod.GET)
+	public ResponseEntity<List<AgentDTO>> getLogByAgentMin(@PathVariable Long agentId, @PathVariable int min, Principal principal) {
+
+		User user = userRepository.findOne(agentId);
+		
+		Date date = new Date();
+		int sad = date.getHours();
+		int minutSad = date.getMinutes();
+		
+		//Ne radi jos uvek 
+		List<Agents> agent = agentsRepository.findByUser(user);
+		
+		List<AgentDTO> agentDTO = new ArrayList<>();
+		for(Agents a: agent) {
+			if(sad == a.getHh())
+				if(minutSad <= a.getMin())
+					agentDTO.add(new AgentDTO(a));
+		}
+
+		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
+	}
+	
+	
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value="/all/sec/{agentId}",method = RequestMethod.GET)
+	public ResponseEntity<List<AgentDTO>> getLogByAgentSekund(@PathVariable Long agentId, Principal principal) {
+
+		User user = userRepository.findOne(agentId);
+		
+		Date date = new Date();
+		int god = date.getYear()+1900;
+		int mes = date.getMonth();
+		int dan = date.getDate();
+		int sad = date.getHours();
+		int minutSad = date.getMinutes();
+		
+		//Ne radi jos uvek 
+		List<Agents> agent = agentsRepository.findByUser(user);
+		
+		List<AgentDTO> agentDTO = new ArrayList<>();
+		for(Agents a: agent) {
+			if(god == a.getYyyy())
+				if(mes == a.getMm())
+					if(dan == a.getDd())
+						if(sad == a.getHh())
+							if(minutSad == a.getMin())
+								agentDTO.add(new AgentDTO(a));
+		}
+
+		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * Dnveni logovi
+	 * @param agentId
+	 * @param principal
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value="/all/day/{agentId}",method = RequestMethod.GET)
+	public ResponseEntity<List<AgentDTO>> getLogByAgentDay(@PathVariable Long agentId, Principal principal) {
+
+		User user = userRepository.findOne(agentId);
+		
+		Date date = new Date();
+		int god = date.getYear()+1900;
+		int mes = date.getMonth();
+		int dan = date.getDate();
+		
+		//Ne radi jos uvek 
+		List<Agents> agent = agentsRepository.findByUser(user);
+		
+		List<AgentDTO> agentDTO = new ArrayList<>();
+		for(Agents a: agent) {
+			if(god == a.getYyyy())
+				if(mes == a.getMm())
+					if(dan == a.getDd())
+						agentDTO.add(new AgentDTO(a));
+		}
+
+		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
+	}
+	
+	/**
 	 * Ispis svih logova po tipu
 	 */
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/all//type/{type}",method = RequestMethod.GET)
 	public ResponseEntity<List<AgentDTO>> getLogByAgent(@PathVariable String type, Principal principal) {
 
 		List<Agents> agent = agentsRepository.findByLogType(type);
+		Date date = new Date();
 		
 		List<AgentDTO> agentDTO = new ArrayList<>();
 		for(Agents a: agent) {
-			agentDTO.add(new AgentDTO(a));
+			if(a.getDd() == date.getDate())
+				agentDTO.add(new AgentDTO(a));
 		}
 
 		return new ResponseEntity<>(agentDTO, HttpStatus.OK);

@@ -8,8 +8,7 @@ angular
         'ngStorage',
         'restangular',
         'ui.bootstrap',
-        'lodash',
-        'ngWebsocket'
+        'lodash'
 	])
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
@@ -47,12 +46,18 @@ angular
 			})
 			.when('/add/agents', {
 				templateUrl: 'view/addAgents.html',
-				controller: 'AgentsAddCtrl'
+				controller: 'AgentsAddCtrl',
+				controllerAs: 'agentAdd'
 			})
 			.when('/agent/:id', {
 				templateUrl: 'view/agentProfile.html',
 				controller: 'AgentProfileCtrl',
+				controllerAs: 'agentCtrl'
 				
+			})
+			.when('/add/alarms',{
+				templateUrl: 'view/addAlarms.html',
+				controller: 'AlarmsCtrl'
 			})
 			.when('/register/user', {
 				templateUrl: 'view/registerUser.html',
@@ -71,7 +76,8 @@ angular
             });
 	}])
 	
-	.run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage','LoginResources', function(Restangular, $log, $rootScope, $http, $location, $localStorage, LoginResources) {
+	.run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage','LoginResources', 
+			function(Restangular, $log, $rootScope, $http, $location, $localStorage, LoginResources) {
         Restangular.setBaseUrl("api");
         Restangular.setErrorInterceptor(function(response) {
             if (response.status === 500) {
@@ -102,6 +108,7 @@ angular
               return LoginResources.getCurrentUser().username;
             }
         }
+        
         $rootScope.isLoggedIn = function () {
             if (LoginResources.getCurrentUser()){
               return true;

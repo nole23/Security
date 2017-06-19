@@ -6,7 +6,7 @@ angular.module('simeCenterApp')
 		
 		var agents = [];
 		
-		AgentResource.getAllAgent().then(function (items) {
+		AgentResource.getAgent().then(function (items) {
 			$scope.agents = items;
 			
 			console.log(items);
@@ -16,38 +16,69 @@ angular.module('simeCenterApp')
 	.controller('AgentsAddCtrl', ['$scope', '$uibModal', '$window', '$routeParams', '$log', '_', 'AgentResource',
 		function($scope, $uibModal, $window, $routeParams, $log, _, AgentResource) {
 		
-		$scope.agent = {};
+		var vm = this;
 		
 		
 		$scope.addAgent = function() {
-			AgentResource.addNewAgent($scope.agent).tehn(function(item) {
+			AgentResource.addNewAgent($scope.agent).then(function(item) {
 				console.log(item);
+				vm.messages = "save";
+				window.location = '#/all/agents';
 			})
 		}
 		
 		
 	}])
-	.controller('AgentProfileCtrl', ['$scope', '$uibModal', '$window', '$routeParams', '$log', '_', 'AgentResource',
-		function($scope, $uibModal, $window, $routeParams, $log, _, AgentResource) {
+	.controller('AgentProfileCtrl', ['$scope', '$uibModal', '$window', '$routeParams', '$rootScope', '$log', '_', 'AgentResource',
+		function($scope, $uibModal, $window, $routeParams, $rootScope, $log, _, AgentResource) {
+		
+		
 		
 		console.log("dosao");
 		$scope.agent = [];
 		
 		var id = $routeParams.id;
 		$scope.oglasiAlarm = false;
+		$scope.oglasiAlarmW = false;
 		
-		AgentResource.getAlarmType().then(function(alarm) {
-			AgentResource.getAgentHH(id).then(function(item) {
+		var vm = this;
+		var date = new Date();
+		//Eror na dnevnom nivou
+		//
+			//var counter = 0;
+			//if(alarma != null){
+		
+		AgentResource.getAllAgent("ERROR").then(function(item) {
+			AgentResource.getAlarmType("ERROR").then(function(alarma) {
 				
-				var count = item.length;
-				console.log(count);
-				if(count > alarm.countLog) {
-					$scope.oglasiAlarm = true;
+				for(var i=0; i<alarma.length; i++) {
+					if(item.length > alarma[i].countLog){
+						vm.log = alarma.length;
+						vm.alarm = alarma[i].countTime;
+						vm.type = "ERROR";
+					}
 				}
-				
 			})
+			
 		})
+			//}
+		//})
 		
-		
+		AgentResource.getAlarmType("ALL").then(function(alarm) {
+			if(alarm != null){
+				AgentResource.getAgentHH(id).then(function(item) {
+					if(item != null){
+						var count = item.length;
+
+						if(count < alarm.countLog) {
+							//$scope.oglasiAlarm = true;
+							
+							vm.oglasiAlarm = true;
+						}
+					}
+				})
+			}
+			
+		})
 		
 	}])
