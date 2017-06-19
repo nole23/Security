@@ -28,9 +28,9 @@
 					};
 					
 					$localStorage.currentUser = currentUser;
-					$http.defaults.headers.common['Authorization'] = response.jwt;
+					$http.defaults.headers.common.Authorization = response.jwt;
 					
-					$window.location = "#/"
+					callBack("login")
 				
 			})
 			.error(function (response){

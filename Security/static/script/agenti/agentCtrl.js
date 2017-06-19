@@ -16,13 +16,18 @@ angular.module('simeCenterApp')
 	.controller('AgentsAddCtrl', ['$scope', '$uibModal', '$window', '$routeParams', '$log', '_', 'AgentResource',
 		function($scope, $uibModal, $window, $routeParams, $log, _, AgentResource) {
 		
-		var vm = this;
-		
+		$scope.messages = false;
+		$scope.agent = {};
 		
 		$scope.addAgent = function() {
+			console.log($scope.agent);
 			AgentResource.addNewAgent($scope.agent).then(function(item) {
-				console.log(item);
-				vm.messages = "save";
+				if(item.message == "save"){
+				    
+					console.log("radi");
+					$scope.messages = true;
+				}
+				
 				window.location = '#/all/agents';
 			})
 		}

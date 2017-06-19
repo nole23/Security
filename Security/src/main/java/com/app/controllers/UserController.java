@@ -139,7 +139,9 @@ public class UserController {
 		UserInformacion ui = new UserInformacion();
 		User_Role userRole = new User_Role();
 		User admin = userRepository.findByUsername(principal.getName());
-		if(admin.getUser_role().getRole().getName().equals("ADMIN")) {
+		
+		
+		if(!admin.getUser_role().getRole().getName().equals("ADMIN")) {
 			message.setMessage("error");
 			return new ResponseEntity<ResponseMessageDTO>(message, HttpStatus.OK);
 		}
@@ -180,11 +182,6 @@ public class UserController {
 
 
 			Role rola = roleRepository.findByName("AGENT");
-			
-			//if(!admin.getUser_role().getRole().getName().equals("ADMIN")){
-			//	return new ResponseEntity<ResponseMessageDTO>(HttpStatus.BAD_REQUEST);
-			//}
-				
 
 			ui.setSystem(userDTO.getUserInformacionDTO().getSystem());
 			userInformacionRepository.save(ui);

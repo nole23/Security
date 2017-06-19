@@ -1,6 +1,16 @@
 
 <div style="float: left; margin: 1%; border-top: 1px solid #fff; width: 100%; ">
-				
+	
+	<div ng-controller="AgentsAddCtrl">
+
+		<div class="bs-example"  ng-if="messages">
+            <div class="alert alert-dismissable alert-success">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <strong>Well done!</strong> You successfully saven new agents.
+            </div>
+          </div>
+	</div>
+	
 	<div ng-repeat="agent in agents">
 		<!-- Ovde pocinje prikaz agenta -->
 		<div style="float: left; margin: 2%; border: 1px solid #fff; width: 300px; height: 200px; border-radius: 25px;background-color: #BDBDBD">
@@ -15,6 +25,7 @@
 			<div style="float: right; color: #333; width: 120px; margin: 8% 0 0 -1%">
 				<div style="text-align: center">
 					<em>{{agent.username}} {{agentAdd.messages}}</em>
+					
 				</div>
 			</div>
 			

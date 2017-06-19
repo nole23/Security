@@ -25,7 +25,7 @@ angular.module('simeCenterApp')
 		}
 		
 		retVal.addNewAgent = function(agent) {
-			console.log(agent);
+			
 			var link = 'user/registration/agent';
 			return Restangular.all(link).post(agent).then(function(success) {
 				poruke = success;

@@ -6,15 +6,8 @@ angular.module('simeCenterApp')
 	    function($scope, $localStorage, $http, $window, $log, _, $rootScope, LoginResources) {
 			
 		$scope.user = {};
-		//$scope.log = {};
-		//$scope.log.fileDto = {};
-		/*$scope.log.fileDto.platform={};
-		$scope.log.fileDto.agentId={};
-		$scope.log.fileDto.logLevel={};
-		$scope.log.fileDto.date={};*/
 		
 		$scope.login = function() {
-			console.log("Loging");
 			LoginResources.login($scope.user, callback);
 		};
 		
