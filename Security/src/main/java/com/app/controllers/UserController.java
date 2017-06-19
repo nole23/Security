@@ -3,6 +3,8 @@ package com.app.controllers;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -249,6 +251,20 @@ public class UserController {
 		//ovde ide registracija za admine i operatere
 		return new ResponseEntity<ResponseMessageDTO>(HttpStatus.OK);
 		
+	}
+	
+	
+	@RequestMapping(value="/all",method = RequestMethod.GET)
+	public ResponseEntity<List<UserDTO>> getAllAgent() {
+
+		List<User> user = userRepository.findAll();
 		
+		List<UserDTO> userDTO = new ArrayList<>();
+		for(User u: user) {
+			if(!u.getRole().getRole().getName().equals("AGENT"))
+				userDTO.add(new UserDTO(u));
+		}
+
+		return new ResponseEntity<>(userDTO, HttpStatus.OK);
 	}
 }

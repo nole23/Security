@@ -6,7 +6,12 @@ public class AgentDTO {
 	private String agent_id;
 	private String recordNumber;
 	private String logType;
-	private String timeLog;
+	private int YYYY;
+	private int MM;
+	private int DD;
+	private int HH;
+	private int min;
+	private int ss;
 	private String sourceLog;
 	private String computerName;
 	private String messages;
@@ -17,14 +22,19 @@ public class AgentDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AgentDTO(String iD, String recordNumber, String agent_id, String logType, String timeLog, String sourceLog,
-			String computerName, String messages, String type) {
+	public AgentDTO(String iD, String recordNumber, String agent_id, String logType, String sourceLog,
+			String computerName, String messages, String type, int YYYY, int MM, int DD, int HH, int min, int ss) {
 		super();
 		this.iD = iD;
 		this.agent_id = agent_id;
 		this.recordNumber = recordNumber;
 		this.logType = logType;
-		this.timeLog = timeLog;
+		this.YYYY = YYYY;
+		this.MM = MM;
+		this.DD = DD;
+		this.HH = HH;
+		this.min = min;
+		this.ss = ss;
 		this.sourceLog = sourceLog;
 		this.computerName = computerName;
 		this.messages = messages;
@@ -55,12 +65,52 @@ public class AgentDTO {
 		this.logType = logType;
 	}
 
-	public String getTimeLog() {
-		return timeLog;
+	public int getYYYY() {
+		return YYYY;
 	}
 
-	public void setTimeLog(String timeLog) {
-		this.timeLog = timeLog;
+	public void setYYYY(int yYYY) {
+		YYYY = yYYY;
+	}
+
+	public int getMM() {
+		return MM;
+	}
+
+	public void setMM(int mM) {
+		MM = mM;
+	}
+
+	public int getDD() {
+		return DD;
+	}
+
+	public void setDD(int dD) {
+		DD = dD;
+	}
+
+	public int getHH() {
+		return HH;
+	}
+
+	public void setHH(int hH) {
+		HH = hH;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
+
+	public int getSs() {
+		return ss;
+	}
+
+	public void setSs(int ss) {
+		this.ss = ss;
 	}
 
 	public String getSourceLog() {

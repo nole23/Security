@@ -78,7 +78,7 @@ public class AgentLinux extends Monitor {
 						 */
 
 						AgentDTO agentDTO = new AgentDTO();
-						agentDTO.setTimeLog(m.group(1));
+						//agentDTO.setTimeLog(m.group(1));
 						agentDTO.setType("Linux");
 						agentDTO.setLogType(type);
 						agentDTO.setMessages(m.group(4));

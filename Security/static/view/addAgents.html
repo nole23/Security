@@ -1,0 +1,67 @@
+<style>
+
+    div {
+        padding-bottom:20px;
+    }
+
+</style>
+<div ng-controller="AgentsAddCtrl" style="color: #c8c8c8">
+	<form data-ng-submit="addAgent()">
+	
+		<div class="row text-center">
+			<h2>New Agents</h2>
+		</div>
+		<div style="margin-bottom: 2%">
+			<label for="firstname" class="col-md-2">
+				Username:
+			</label>
+			<div class="col-md-9">
+				<input type="text" class="form-control" id="firstname" data-ng-model="agent.name" placeholder="Enter Username">
+			</div>
+			<div class="col-md-1">
+				<i class="fa fa-lock fa-2x"></i>
+			</div>
+		</div>        
+		
+		
+		
+		<div>
+			<label for="password" class="col-md-2">
+				Password:
+			</label>
+			<div class="col-md-9">
+				<input type="password" class="form-control" id="password" data-ng-model="agent.pass" placeholder="Enter Password">
+				<p class="help-block">
+					Min: 6 characters (Alphanumeric only)
+				</p>
+			</div>
+			 <div class="col-md-1">
+				<i class="fa fa-lock fa-2x"></i>
+			</div>
+		</div>
+		
+		
+		<div>
+			<label for="country" class="col-md-2">
+				System:
+			</label>
+			<div class="col-md-9">
+				<select name="country" id="country" data-ng-model="agent.system" class="form-control">
+					<option value="">--Please Select--</option>
+					<option value="windows">Windows</option>
+					<option value="linux">Linux</option>
+					<option value="firewall">Firewall</option>
+				</select>
+			</div>            
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-10">
+				<input type="submit" class="btn btn-info" value="Register" />
+			</div>
+		</div>
+	</form>
+</div>

@@ -25,6 +25,12 @@ public class AgentWindows extends Monitor {
 	private String recordNumber;
 	private String logType;
 	private String timeLog;
+	private int YYYY;
+	private int MM;
+	private int DD;
+	private int HH;
+	private int min;
+	private int ss;
 	private String sourceLog;
 	private String computerName;
 	private String messages;
@@ -73,9 +79,13 @@ public class AgentWindows extends Monitor {
 
 					recordNumber = String.valueOf(rec.getRecordNumber());
 					logType = rec.getType().toString();
-					timeLog = logDate.toString();
 					sourceLog = rec.getSource();
-
+					YYYY = logDate.getYear();
+					MM = logDate.getMonth();
+					DD = logDate.getDate();
+					HH = logDate.getHours();
+					min = logDate.getMinutes();
+					ss = logDate.getSeconds();
 					
 
 					if(dayToDay >= logToDay) {
@@ -103,17 +113,7 @@ public class AgentWindows extends Monitor {
 									+ " | sourceLog: " + sourceLog + " | coumputerName: " + computerName + " | messages: " + messages 
 									+ " | type: " + type;
 							
-							//System.out.println(sendLog);
-							
-							/*
-							 * 1
-							 * 2
-							 * 3
-							 * 4
-							 * 5
-							 * 6 < n
-							 */
-							
+
 							idFirst = Integer.parseInt(recordNumber);
 							if(id < idFirst){
 								
@@ -122,7 +122,12 @@ public class AgentWindows extends Monitor {
 								agent.setiD(ID);
 								agent.setRecordNumber(recordNumber);
 								agent.setLogType(logType);
-								agent.setTimeLog(timeLog);
+								agent.setYYYY(YYYY);
+								agent.setMM(MM);
+								agent.setDD(DD);
+								agent.setHH(HH);
+								agent.setMin(min);
+								agent.setSs(ss);
 								agent.setSourceLog(sourceName);
 								agent.setComputerName(computerName);
 								agent.setMessages(messages);

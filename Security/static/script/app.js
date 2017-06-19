@@ -26,7 +26,15 @@ angular
 			})
 			.when('/all/users', {
 				templateUrl: 'view/listUsers.html',
-				controller: 'UserCtrl'
+				//controller: 'UserCtrl'
+			})
+			.when('/add/agents', {
+				templateUrl: 'view/addAgents.html',
+				controller: 'AgentsAddCtrl'
+			})
+			.when('/agent/:id', {
+				templateUrl: 'view/agentProfile.html',
+				controller: 'AgentProfileCtrl'
 			})
 			.otherwise({
                 redirectTo: '/'

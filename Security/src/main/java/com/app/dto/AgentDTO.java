@@ -1,17 +1,20 @@
 package com.app.dto;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import com.app.model.Agents;
-import com.app.model.Alarming;
 
 public class AgentDTO {
 
 	private String iD;
 	private String recordNumber;
 	private String logType;
-	private String timeLog;
+	private int yyyy;
+	private int mm;
+	private int dd;
+	private int hh;
+	private int min;
+	private int ss;
 	private String sourceLog;
 	private String computerName;
 	private String messages;
@@ -23,13 +26,19 @@ public class AgentDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AgentDTO(String iD, String recordNumber, String logType, String timeLog, String sourceLog,
-			String computerName, String messages, String type, Set<AlarmingDTO> alarmingDTO) {
+	public AgentDTO(String iD, String recordNumber, String logType, String sourceLog, String computerName,
+			String messages, String type, Set<AlarmingDTO> alarmingDTO, int yyyy, int mm, int dd, int hh, int min,
+			int ss) {
 		super();
 		this.iD = iD;
 		this.recordNumber = recordNumber;
 		this.logType = logType;
-		this.timeLog = timeLog;
+		this.yyyy = yyyy;
+		this.mm = mm;
+		this.dd = dd;
+		this.hh = hh;
+		this.min = min;
+		this.ss = ss;
 		this.sourceLog = sourceLog;
 		this.computerName = computerName;
 		this.messages = messages;
@@ -40,7 +49,12 @@ public class AgentDTO {
 	public AgentDTO(Agents a) {
 		this.recordNumber = a.getRecordNumber();
 		this.logType = a.getLogType();
-		this.timeLog = a.getTimeLog();
+		this.yyyy = a.getYyyy();
+		this.mm = a.getMm();
+		this.dd = a.getDd();
+		this.hh = a.getHh();
+		this.min = a.getMin();
+		this.ss = a.getSs();
 		this.sourceLog = a.getSourceLog();
 		this.computerName = a.getComputerName();
 		this.messages = a.getMessages();
@@ -72,12 +86,52 @@ public class AgentDTO {
 		this.logType = logType;
 	}
 
-	public String getTimeLog() {
-		return timeLog;
+	public int getYyyy() {
+		return yyyy;
 	}
 
-	public void setTimeLog(String timeLog) {
-		this.timeLog = timeLog;
+	public void setYyyy(int yyyy) {
+		this.yyyy = yyyy;
+	}
+
+	public int getMm() {
+		return mm;
+	}
+
+	public void setMm(int mm) {
+		this.mm = mm;
+	}
+
+	public int getDd() {
+		return dd;
+	}
+
+	public void setDd(int dd) {
+		this.dd = dd;
+	}
+
+	public int getHh() {
+		return hh;
+	}
+
+	public void setHh(int hh) {
+		this.hh = hh;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
+
+	public int getSs() {
+		return ss;
+	}
+
+	public void setSs(int ss) {
+		this.ss = ss;
 	}
 
 	public String getSourceLog() {

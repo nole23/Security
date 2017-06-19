@@ -16,17 +16,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.AgentDTO;
 import com.app.dto.LoginDTO;
-import com.app.dto.MesagesDTO;
 import com.app.dto.UserDTO;
 import com.app.model.Agents;
 import com.app.model.User;
@@ -88,7 +85,12 @@ public class AgentController {
 			agents.setUser(user);
 			agents.setRecordNumber(agentsDTO.getRecordNumber());
 			agents.setLogType(agentsDTO.getLogType());
-			agents.setTimeLog(agentsDTO.getTimeLog());
+			agents.setYyyy(agentsDTO.getYyyy());
+			agents.setMm(agentsDTO.getMm());
+			agents.setDd(agentsDTO.getDd());
+			agents.setHh(agentsDTO.getHh());
+			agents.setMin(agentsDTO.getMin());
+			agents.setSs(agentsDTO.getSs());
 			agents.setSourceLog(agentsDTO.getSourceLog());
 			agents.setComputerName(agentsDTO.getComputerName());
 			agents.setMessages(agentsDTO.getMessages());
@@ -98,10 +100,8 @@ public class AgentController {
 
 		} else {
 			System.out.println("Sacuvano vec u bazi!: " + ag.getRecordNumber());
-			int count = 0;
-			if (!ag.getTimeLog().equals(agentsDTO.getTimeLog())) {
-				System.out.println("okinuti prvi alarm");
-			}
+			
+			
 
 		}
 

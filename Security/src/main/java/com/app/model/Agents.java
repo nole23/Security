@@ -21,7 +21,12 @@ public class Agents {
 
 	private String recordNumber;
 	private String logType;
-	private String timeLog;
+	private int yyyy;
+	private int mm;
+	private int dd;
+	private int hh;
+	private int min;
+	private int ss;
 	private String sourceLog;
 	private String computerName;
 
@@ -59,12 +64,52 @@ public class Agents {
 		this.logType = logType;
 	}
 
-	public String getTimeLog() {
-		return timeLog;
+	public int getYyyy() {
+		return yyyy;
 	}
 
-	public void setTimeLog(String timeLog) {
-		this.timeLog = timeLog;
+	public void setYyyy(int yyyy) {
+		this.yyyy = yyyy;
+	}
+
+	public int getMm() {
+		return mm;
+	}
+
+	public void setMm(int mm) {
+		this.mm = mm;
+	}
+
+	public int getDd() {
+		return dd;
+	}
+
+	public void setDd(int dd) {
+		this.dd = dd;
+	}
+
+	public int getHh() {
+		return hh;
+	}
+
+	public void setHh(int hh) {
+		this.hh = hh;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
+
+	public int getSs() {
+		return ss;
+	}
+
+	public void setSs(int ss) {
+		this.ss = ss;
 	}
 
 	public String getSourceLog() {

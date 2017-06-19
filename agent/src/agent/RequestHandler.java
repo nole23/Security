@@ -8,15 +8,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -29,9 +23,6 @@ public class RequestHandler {
 	static JSONParser pareser = new JSONParser();
 
 	static String result = null;
-	private static boolean running = false;
-	private static long startTime = 0;
-	private static long stopTime = 0;
 	
 	@SuppressWarnings("unchecked")
 	public static int Send(AgentDTO agent) throws FileNotFoundException, IOException, ParseException {
@@ -65,7 +56,12 @@ public class RequestHandler {
 		agent1.put("iD", agent.getiD());
 		agent1.put("recordNumber", agent.getRecordNumber());
 		agent1.put("logType", agent.getLogType());
-		agent1.put("timeLog", agent.getTimeLog()); 
+		agent1.put("yyyy", agent.getYYYY());
+		agent1.put("mm", agent.getMM());
+		agent1.put("dd", agent.getDD());
+		agent1.put("hh", agent.getHH());
+		agent1.put("min", agent.getMin());
+		agent1.put("ss", agent.getSs());
 		agent1.put("sourceLog", agent.getSourceLog());
 		agent1.put("computerName", agent.getComputerName()); 
 		agent1.put("messages", agent.getMessages());
