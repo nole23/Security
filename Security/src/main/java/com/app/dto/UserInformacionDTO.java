@@ -8,18 +8,20 @@ public class UserInformacionDTO {
 	private String email;
 	private String lName;
 	private String fName;
+	private String system;
 
 	public UserInformacionDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserInformacionDTO(Long id, String email, String lName, String fName) {
+	public UserInformacionDTO(Long id, String email, String lName, String fName, String system) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.lName = lName;
 		this.fName = fName;
+		this.system = system;
 	}
 
 	public UserInformacionDTO(UserInformacion ui) {
@@ -27,6 +29,7 @@ public class UserInformacionDTO {
 		this.email = ui.getEmail();
 		this.lName = ui.getlName();
 		this.fName = ui.getfName();
+		this.system = ui.getSystem();
 	}
 
 	public Long getId() {
@@ -59,6 +62,14 @@ public class UserInformacionDTO {
 
 	public void setfName(String fName) {
 		this.fName = fName;
+	}
+
+	public String getSystem() {
+		return system;
+	}
+
+	public void setSystem(String system) {
+		this.system = system;
 	}
 
 }

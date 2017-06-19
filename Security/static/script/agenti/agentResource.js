@@ -1,12 +1,13 @@
 angular.module('simeCenterApp')
 	.factory('AgentResource', ['Restangular', '_', function(Restangular, _) {
-		
+
 		
 		var retVal = {};
 		
 		var agenti = [];
 		var poruke = [];
 		var logovi = [];
+		var alarm = [];
 		
 		retVal.getAllAgent = function() {
 			
@@ -25,8 +26,16 @@ angular.module('simeCenterApp')
 			})
 		}
 		
-		retVal.getAgent = function(id) {
-			var link = 'agent/all/'+id;
+		retVal.getAlarmType = function() {
+			var link = 'alarm/all/ALL';
+			return Restangular.one(link).get().then(function(entries) {
+				alarm = entries;
+				return alarm;
+			})
+		}
+		
+		retVal.getAgentHH = function(id) {
+			var link = 'agent/all/sat/'+id;
 			return Restangular.all(link).getList().then(function(entries) {
 				logovi = entries;
 				return logovi;

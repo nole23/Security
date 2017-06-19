@@ -8,7 +8,8 @@ angular
         'ngStorage',
         'restangular',
         'ui.bootstrap',
-        'lodash'
+        'lodash',
+        'ngWebsocket'
 	])
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
@@ -50,7 +51,7 @@ angular
 			})
 			.when('/agent/:id', {
 				templateUrl: 'view/agentProfile.html',
-				controller: 'UserCtrl',
+				controller: 'AgentProfileCtrl',
 				
 			})
 			.when('/register/user', {

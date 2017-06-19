@@ -160,10 +160,13 @@ public class AgentController {
 
 		User user = userRepository.findOne(agentId);
 		
+		
+		
 		List<Agents> agent = agentsRepository.findByUser(user);
 		
 		List<AgentDTO> agentDTO = new ArrayList<>();
 		for(Agents a: agent) {
+			
 			agentDTO.add(new AgentDTO(a));
 		}
 
@@ -172,18 +175,22 @@ public class AgentController {
 	
 
 
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/all/sat/{agentId}",method = RequestMethod.GET)
 	public ResponseEntity<List<AgentDTO>> getLogByAgentSat(@PathVariable Long agentId, Principal principal) {
 
 		User user = userRepository.findOne(agentId);
 		
+		Date date = new Date();
+		int sad = date.getHours();
 		
 		//Ne radi jos uvek 
 		List<Agents> agent = agentsRepository.findByUser(user);
 		
 		List<AgentDTO> agentDTO = new ArrayList<>();
 		for(Agents a: agent) {
-			agentDTO.add(new AgentDTO(a));
+			if((sad-1) <= a.getHh())
+				agentDTO.add(new AgentDTO(a));
 		}
 
 		return new ResponseEntity<>(agentDTO, HttpStatus.OK);

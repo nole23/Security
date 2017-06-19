@@ -1,17 +1,11 @@
 package com.app.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 @Entity
 public class Agents {
 
@@ -36,9 +30,6 @@ public class Agents {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
-
-	@OneToMany(mappedBy = "agents", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	private Set<Alarming> alarming = new HashSet<Alarming>();
 
 	public Long getId() {
 		return id;
@@ -142,14 +133,6 @@ public class Agents {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public Set<Alarming> getAlarming() {
-		return alarming;
-	}
-
-	public void setAlarming(Set<Alarming> alarming) {
-		this.alarming = alarming;
 	}
 
 	public User getUser() {

@@ -34,10 +34,20 @@ angular.module('simeCenterApp')
 		$scope.agent = [];
 		
 		var id = $routeParams.id;
+		$scope.oglasiAlarm = false;
 		
-		AgentResource.getAgent(id).then(function(item) {
-			$scope.agent = item;
-			console.log(item);
+		AgentResource.getAlarmType().then(function(alarm) {
+			AgentResource.getAgentHH(id).then(function(item) {
+				
+				var count = item.length;
+				console.log(count);
+				if(count > alarm.countLog) {
+					$scope.oglasiAlarm = true;
+				}
+				
+			})
 		})
+		
+		
 		
 	}])

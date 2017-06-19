@@ -1,7 +1,5 @@
 package com.app.controllers;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +34,6 @@ import com.app.repository.UserRepository;
 import com.app.repository.UserRoleRepository;
 import com.app.security.TokenUtils;
 import com.app.services.UserService;
-
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -185,9 +180,12 @@ public class UserController {
 			}
 				
 
+			ui.setSystem(userDTO.getUserInformacionDTO().getSystem());
+			userInformacionRepository.save(ui);
 
 			user.setUsername(userDTO.getUsername());
 			user.setPass(encoder.encode(userDTO.getPass()));
+			user.setUserInformacion(ui);
 			userRepository.save(user);
 			
 			userRole.setRole(rola);

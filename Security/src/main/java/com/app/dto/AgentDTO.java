@@ -1,7 +1,5 @@
 package com.app.dto;
 
-import java.util.Set;
-
 import com.app.model.Agents;
 
 public class AgentDTO {
@@ -19,7 +17,6 @@ public class AgentDTO {
 	private String computerName;
 	private String messages;
 	private String type;
-	private Set<AlarmingDTO> alarmingDTO;
 
 	public AgentDTO() {
 		super();
@@ -27,7 +24,7 @@ public class AgentDTO {
 	}
 
 	public AgentDTO(String iD, String recordNumber, String logType, String sourceLog, String computerName,
-			String messages, String type, Set<AlarmingDTO> alarmingDTO, int yyyy, int mm, int dd, int hh, int min,
+			String messages, String type, int yyyy, int mm, int dd, int hh, int min,
 			int ss) {
 		super();
 		this.iD = iD;
@@ -43,7 +40,6 @@ public class AgentDTO {
 		this.computerName = computerName;
 		this.messages = messages;
 		this.type = type;
-		this.alarmingDTO = alarmingDTO;
 	}
 
 	public AgentDTO(Agents a) {
@@ -166,12 +162,5 @@ public class AgentDTO {
 		this.type = type;
 	}
 
-	public Set<AlarmingDTO> getAlarmingDTO() {
-		return alarmingDTO;
-	}
-
-	public void setAlarmingDTO(Set<AlarmingDTO> alarmingDTO) {
-		this.alarmingDTO = alarmingDTO;
-	}
 
 }

@@ -1,35 +1,35 @@
 package com.app.dto;
 
-import java.util.Date;
-
 import com.app.model.Alarming;
 
 public class AlarmingDTO {
 
 	private Long id;
-	private String message;
-	private Date date;
-	private AgentDTO agentDTO;
+	private String typeLog;
+	private int countLog;
+	private int countTime;
+	private String prioritet;
 
 	public AlarmingDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public AlarmingDTO(Long id, String message, Date date, AgentDTO agentDTO) {
+	public AlarmingDTO(Long id, String typeLog, int countLog, int countTime, String prioritet) {
 		super();
 		this.id = id;
-		this.message = message;
-		this.date = date;
-		this.agentDTO = agentDTO;
+		this.typeLog = typeLog;
+		this.countLog = countLog;
+		this.countTime = countTime;
+		this.prioritet = prioritet;
 	}
 
-	public AlarmingDTO(Alarming al) {
-		this.id = al.getId();
-		this.message = al.getMessage();
-		this.date = al.getDate();
-		if (al.getAgents() != null)
-			this.agentDTO = new AgentDTO(al.getAgents());
+	public AlarmingDTO(Alarming a) {
+		this.id = a.getId();
+		this.typeLog = a.getTypeLog();
+		this.countLog = a.getCountLog();
+		this.countTime = a.getCountTime();
+		this.prioritet = a.getPrioritet();
 	}
 
 	public Long getId() {
@@ -40,28 +40,36 @@ public class AlarmingDTO {
 		this.id = id;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getTypeLog() {
+		return typeLog;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setTypeLog(String typeLog) {
+		this.typeLog = typeLog;
 	}
 
-	public Date getDate() {
-		return date;
+	public int getCountLog() {
+		return countLog;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCountLog(int countLog) {
+		this.countLog = countLog;
 	}
 
-	public AgentDTO getAgentDTO() {
-		return agentDTO;
+	public int getCountTime() {
+		return countTime;
 	}
 
-	public void setAgentDTO(AgentDTO agentDTO) {
-		this.agentDTO = agentDTO;
+	public void setCountTime(int countTime) {
+		this.countTime = countTime;
+	}
+
+	public String getPrioritet() {
+		return prioritet;
+	}
+
+	public void setPrioritet(String prioritet) {
+		this.prioritet = prioritet;
 	}
 
 }

@@ -6,4 +6,6 @@ import com.app.model.Alarming;
 
 public interface AlarmingRespository extends JpaRepository<Alarming, Long> {
 
+	Alarming findByTypeLog(String typeLog);
+
 }

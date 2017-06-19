@@ -19,6 +19,7 @@ public class UserInformacion {
 	private String email;
 	private String lName;
 	private String fName;
+	private String system;
 
 	@OneToMany(mappedBy = "userInformacion", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Set<User> user = new HashSet<User>();
@@ -53,6 +54,14 @@ public class UserInformacion {
 
 	public void setfName(String fName) {
 		this.fName = fName;
+	}
+
+	public String getSystem() {
+		return system;
+	}
+
+	public void setSystem(String system) {
+		this.system = system;
 	}
 
 	public Set<User> getUser() {

@@ -1,12 +1,8 @@
 package com.app.model;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
 
 @Entity
 public class Alarming {
@@ -14,12 +10,11 @@ public class Alarming {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private String message;
-	private Date date;
-	
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Agents agents;
+	private String typeLog; // Tip loga "ERROR" "WARNINF" "INFO"
+	private int countLog; // Broj ponavljanja "10"
+	private int countTime; // Broj vreme koje se gleda za ponavljanje u
+							// sekundama "60"
+	private String prioritet;// Stepen upozorenje "LOW" "MEDIUM" "HEIGHT"
 
 	public Long getId() {
 		return id;
@@ -29,28 +24,36 @@ public class Alarming {
 		this.id = id;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getTypeLog() {
+		return typeLog;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setTypeLog(String typeLog) {
+		this.typeLog = typeLog;
 	}
 
-	public Date getDate() {
-		return date;
+	public int getCountLog() {
+		return countLog;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCountLog(int countLog) {
+		this.countLog = countLog;
 	}
 
-	public Agents getAgents() {
-		return agents;
+	public int getCountTime() {
+		return countTime;
 	}
 
-	public void setAgents(Agents agents) {
-		this.agents = agents;
+	public void setCountTime(int countTime) {
+		this.countTime = countTime;
+	}
+
+	public String getPrioritet() {
+		return prioritet;
+	}
+
+	public void setPrioritet(String prioritet) {
+		this.prioritet = prioritet;
 	}
 
 }
