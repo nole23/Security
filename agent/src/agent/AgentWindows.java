@@ -1,6 +1,5 @@
 package agent;
 
-import java.io.File;
 import java.util.Date;
 
 import org.json.simple.JSONObject;
@@ -51,6 +50,7 @@ public class AgentWindows extends Monitor {
 		});
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void run() {
 		boolean start = true;
@@ -86,9 +86,8 @@ public class AgentWindows extends Monitor {
 					HH = logDate.getHours();
 					min = logDate.getMinutes();
 					ss = logDate.getSeconds();
-					
 
-					if(dayToDay >= logToDay) {
+					if(dayToDay == logToDay) {
 						if((hoursToDay-1) <= logHoursDay) {
 							
 							
@@ -122,7 +121,7 @@ public class AgentWindows extends Monitor {
 								agent.setiD(ID);
 								agent.setRecordNumber(recordNumber);
 								agent.setLogType(logType);
-								agent.setYYYY(YYYY);
+								agent.setYYYY((YYYY+1900));
 								agent.setMM(MM);
 								agent.setDD(DD);
 								agent.setHH(HH);

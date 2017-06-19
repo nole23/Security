@@ -30,7 +30,7 @@ angular
 					app: function($q, $localStorage, $location) {
 						
 						if ($localStorage.currentUser != null) {
-							$location.path('/');
+							$location.path('#/');
 						};
 					}
 				}
@@ -50,24 +50,17 @@ angular
 			})
 			.when('/agent/:id', {
 				templateUrl: 'view/agentProfile.html',
-				controller: 'AgentProfileCtrl'
 				controller: 'UserCtrl',
-				resolve: {
-					app: function($q, $localStorage, $location) {
-						
-						if ($localStorage.currentUser == null) {
-							$location.path('/login');
-						};
-					}
-				}
-			}).when('/register/user', {
+				
+			})
+			.when('/register/user', {
 				templateUrl: 'view/registerUser.html',
 				controller: 'LoginCtrl',
 				resolve: {
 					app: function($q, $localStorage, $location) {
 						
-						if ($localStorage.currentUser == null && ($localStorage.currentUser.role != "ADMIN")) {
-							$location.path('/login');
+						if ($localStorage.currentUser == null && (!$localStorage.isAdmin)) {
+							$location.path('#/login');
 						};
 					}
 				}
