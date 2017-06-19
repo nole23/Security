@@ -32,18 +32,18 @@
 				<a class="navbar-brand" href="#">Admin Panel</a>
 			</div>
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
-				<ul id="active" class="nav navbar-nav side-nav">
+				<ul id="active" class="nav navbar-nav side-nav" ng-show ="isLoggedIn()">
 					<li class="selected"><a href="#"><i class="fa fa-bullseye"></i> Dashboard</a></li>
 					<li><a href="#"><i class="fa fa-tasks"></i> My Profile</a></li>
-					<li><a href="#"><i class="fa fa-plus"></i> New Operater</a></li>
 					<li><a href="#/add/agents"><i class="fa fa-plus"></i> New Agents</a></li>
+					<li ng-show ="isAdmin()"><a href="#/register/user"><i class="fa fa-plus"></i> New User</a></li>
 					<li><a href="#"><i class="fa fa-bell"></i> Add Alarms</a></li>
 					<li><a href="#"><i class="fa fa-list-ul"></i> Reports</a></li>
 					<li><a href="#/all/agents"><i class="fa fa-book"></i> All Agents</a></li>
 					<li><a href="#/all/users"><i class="fa fa-book"></i> All Users</a></li>
 					<li><a href="#"><i class="fa fa-calendar"></i> Calendar</a></li>
 				</ul>
-				<ul class="nav navbar-nav navbar-right navbar-user">
+				<ul class="nav navbar-nav navbar-right navbar-user" ng-show ="isLoggedIn()">
 					<li class="dropdown messages-dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> Alarm Notifitacion <span class="badge">2</span> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -63,7 +63,7 @@
 							<li><a href="#">Go to Inbox <span class="badge">1</span></a></li>
 						</ul>
 					</li>
-					<li class="dropdown user-dropdown" ng-show ="isLoggedIn()">
+					<li class="dropdown user-dropdown" >
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Steve Miller<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="#"><i class="fa fa-user"></i> Profile</a></li>

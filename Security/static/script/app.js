@@ -13,11 +13,27 @@ angular
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
 			.when('/', {
-				templateUrl: 'view/main.html'
+				templateUrl: 'view/main.html',
+				resolve: {
+					app: function($q, $localStorage, $location) {
+						
+						if ($localStorage.currentUser == null) {
+							$location.path('/login');
+						};
+					}
+				}
 			}).when('/login', {
 				templateUrl: 'view/login.html',
 				controller: 'LoginCtrl',
-		        controllerAs: 'LoginCtrl'
+		        controllerAs: 'LoginCtrl',
+		        resolve: {
+					app: function($q, $localStorage, $location) {
+						
+						if ($localStorage.currentUser != null) {
+							$location.path('/');
+						};
+					}
+				}
 			})
 			.when('/all/agents', {
 				templateUrl: 'view/listAgents.html',
@@ -35,6 +51,26 @@ angular
 			.when('/agent/:id', {
 				templateUrl: 'view/agentProfile.html',
 				controller: 'AgentProfileCtrl'
+				controller: 'UserCtrl',
+				resolve: {
+					app: function($q, $localStorage, $location) {
+						
+						if ($localStorage.currentUser == null) {
+							$location.path('/login');
+						};
+					}
+				}
+			}).when('/register/user', {
+				templateUrl: 'view/registerUser.html',
+				controller: 'LoginCtrl',
+				resolve: {
+					app: function($q, $localStorage, $location) {
+						
+						if ($localStorage.currentUser == null && ($localStorage.currentUser.role != "ADMIN")) {
+							$location.path('/login');
+						};
+					}
+				}
 			})
 			.otherwise({
                 redirectTo: '/'
@@ -75,6 +111,20 @@ angular
         $rootScope.isLoggedIn = function () {
             if (LoginResources.getCurrentUser()){
               return true;
+            }
+            else{
+              return false;
+            }
+        }
+        
+        
+        /*IS ADMIN*/
+        $rootScope.isAdmin = function () {
+            if (LoginResources.getCurrentUser()){
+            	if (LoginResources.getCurrentUser().rola == "ADMIN")
+            		return true;
+            	else
+            		return false;
             }
             else{
               return false;

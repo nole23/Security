@@ -25,4 +25,10 @@ angular.module('simeCenterApp')
 			LoginResources.logout();
 		}
 		
+		/*registration*/
+		$scope.registerUser = function(){
+			console.log($scope.user);
+			LoginResources.register($scope.user);
+		}
+		
 		}]);
