@@ -71,6 +71,18 @@ angular
 					}
 				}
 			})
+			.when('/serach/logs', {
+				templateUrl: 'view/searchLogs.html',
+				controller: 'LoginCtrl',
+				resolve: {
+					app: function($q, $localStorage, $location) {
+						
+						if ($localStorage.currentUser == null && (!$localStorage.isAdmin)) {
+							$location.path('#/login');
+						};
+					}
+				}
+			})
 			.otherwise({
                 redirectTo: '/'
             });

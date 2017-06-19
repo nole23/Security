@@ -6,6 +6,12 @@ angular.module('simeCenterApp')
 	    function($scope, $localStorage, $http, $window, $log, _, $rootScope, LoginResources) {
 			
 		$scope.user = {};
+		//$scope.log = {};
+		//$scope.log.fileDto = {};
+		/*$scope.log.fileDto.platform={};
+		$scope.log.fileDto.agentId={};
+		$scope.log.fileDto.logLevel={};
+		$scope.log.fileDto.date={};*/
 		
 		$scope.login = function() {
 			console.log("Loging");
@@ -27,8 +33,20 @@ angular.module('simeCenterApp')
 		
 		/*registration*/
 		$scope.registerUser = function(){
-			console.log($scope.user);
-			LoginResources.register($scope.user);
+			  if($scope.search.type == "agent"){
+				  console.log("radi");
+				  console.log($scope.search.value);
+			  }
+				  $scope.log.fileDto.agentId=$scope.search.value;
+				  
+				LoginResources.register($scope.user);
 		}
+		
+		
+		$scope.searchLogs = function(){
+			
+			console.log($scope.log);
+			//LoginResources.searchLogs($scope.log);
+	}
 		
 		}]);

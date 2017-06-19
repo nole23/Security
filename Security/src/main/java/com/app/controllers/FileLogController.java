@@ -2,10 +2,7 @@ package com.app.controllers;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.AlarmingDTO;
 import com.app.dto.FileLogDTO;
-import com.app.dto.ResponseMessageDTO;
-import com.app.model.Agents;
+import com.app.dto.SearchLogsDTO;
 import com.app.model.Alarming;
 import com.app.model.FileLog;
 import com.app.model.User;
@@ -42,8 +38,6 @@ public class FileLogController {
 
 	@Autowired
 	private AgetnsRepository agentsRepository;
-
-
 
 	/**
 	 * View all logs
@@ -89,4 +83,21 @@ public class FileLogController {
 		return new ResponseEntity<List<AlarmingDTO>>(alarmingDTO, HttpStatus.OK);
 	}
 
+	/***
+	 * Search the log files
+	 * 
+	 * @param principal
+	 * @return
+	 */
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public ResponseEntity<List<FileLogDTO>> search(@RequestBody SearchLogsDTO dto ,Principal principal) {
+		List<FileLogDTO> logs = new ArrayList<FileLogDTO>();
+		List<FileLog> ll = fileLogService.searchFor(dto);
+		for (FileLog l : ll) {
+			logs.add(new FileLogDTO(l));
+		}
+		System.out.println(dto.getFileDto().getPlatform());
+		
+		return new ResponseEntity<List<FileLogDTO>>(logs, HttpStatus.OK);
+	}
 }

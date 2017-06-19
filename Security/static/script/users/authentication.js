@@ -12,6 +12,7 @@
 		service.getCurrentUser = getCurrentUser;
 		service.logout = logout;
 		service.register = register;
+		service.searchLogs = searchLogs;
 		
 		return service;
 		
@@ -51,6 +52,8 @@
             $window.location = '#/login';
         }
 		
+		
+		
 		/*registration */
 		function register(user){
 			$http.post('https://localhost:8080/api/user/registration/operator', user)
@@ -71,5 +74,20 @@
 
 		    });
 		}
+		
+		function searchLogs(log) {
+            
+			$http.post('https://localhost:8080/api/log/search', log)
+			.success(function (response) {
+				 
+					
+			//take response
+			window.alert(response);
+					
+					
+				
+			});
+        }
+		
 	}
 })();
