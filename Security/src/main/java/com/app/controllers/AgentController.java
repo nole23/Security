@@ -325,7 +325,7 @@ public class AgentController {
 		AlarmReqvestDTO alarmReqvesteDTO = new AlarmReqvestDTO();
 		for(Alarming al: alarm) {
 			if(al.getSourceLog().equals(source))
-				if(al.getTypeLog().equals(logType))
+				if(al.getTypeLog().equals(logType)){
 					if(agentDTO.size() > al.getCountLog()){
 						alarmReqvesteDTO.setIdAgenta(id);
 						alarmReqvesteDTO.setIdAlarma(al.getId());
@@ -335,6 +335,7 @@ public class AgentController {
 						alarmController.saveAlarm(alarmReqvesteDTO);
 						break;
 					}
+				}
 							
 		}
 		

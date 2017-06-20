@@ -15,6 +15,21 @@
 					</div>
 				</div>
 				
+				<div class="bs-example" ng-show="errorType == 'Error'">
+					<div class="alert alert-dismissable alert-warning">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<h4>Error! A</h4>
+						<p>Upozorenje za Agent_1, uoceno je povecan broj logova u jednom satu.</p>
+					</div>
+				</div>
+				<div class="bs-example" ng-show="errorType == 'Information'">
+					<div class="alert alert-dismissable alert-warning">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<h4>Information! A</h4>
+						<p>Upozorenje za Agent_1, uoceno je povecan broj logova u jednom satu.</p>
+					</div>
+				</div>
+				
 				<div class="bs-example" ng-show="errorSys != null">
 				
 					<div class="">
@@ -27,7 +42,17 @@
 				</div>
 				
 				
+				
+				
 				<div class="bs-example" ng-show="Sys != null">
+				
+				    <div class="alert alert-dismissable alert-danger">
+			              <button type="button" class="close" data-dismiss="alert">&times;</button>
+			              <strong>Oh snap!</strong> Upozorenje za Agent_1, uoceno je povecan broj Systemskih logova u toku dana.
+		            </div>
+				</div>
+				
+				<div class="bs-example" ng-show="App != null">
 				
 				    <div class="alert alert-dismissable alert-danger">
 			              <button type="button" class="close" data-dismiss="alert">&times;</button>

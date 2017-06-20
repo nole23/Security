@@ -51,11 +51,19 @@ angular.module('simeCenterApp')
 
 		
 		//alarm 1 Odradjeno
-		AgentResource11.getLogBySystem(id, "System", "500", callBack);
+		AgentResource11.getLogBySystem(id, "Application", "100", callBack);
+		
+		AgentResource11.getLogBySystem(id, "System", "100", callBack1);
 		
 		function callBack(success) {
 			
 			$scope.Sys = success.type;
+			//AgentResource.getSaveAlarm(success);
+		}
+		
+		function callBack1(success) {
+			
+			$scope.App = success.type;
 			//AgentResource.getSaveAlarm(success);
 		}
 		
@@ -68,8 +76,9 @@ angular.module('simeCenterApp')
 		})
 		
 		//alarm 3 radi
-		AgentResource.getType(id, "Warning").then(function(item) {
+		AgentResource.getType(id, "Error").then(function(item) {
 			$scope.errorType = item.type;
+			console.log(item);
 		})
 
 		$scope.lista = [];

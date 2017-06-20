@@ -55,7 +55,7 @@ public class AgentWindows extends Monitor {
 	public void run() {
 		boolean start = true;
 
-		String sourceName = "System";
+		String sourceName = "Application";
 
 		int id = 0;
 		int idFirst = 0;
@@ -87,6 +87,7 @@ public class AgentWindows extends Monitor {
 					min = logDate.getMinutes();
 					ss = logDate.getSeconds();
 
+					System.out.println("dosao: " + hoursToDay + " otisao; " + logHoursDay);
 					if(dayToDay == logToDay) {
 						if((hoursToDay-1) <= logHoursDay) {
 							
@@ -112,7 +113,7 @@ public class AgentWindows extends Monitor {
 									+ " | sourceLog: " + sourceLog + " | coumputerName: " + computerName + " | messages: " + messages 
 									+ " | type: " + type;
 							
-
+							//System.out.println(sendLog);
 							idFirst = Integer.parseInt(recordNumber);
 							if(id < idFirst){
 								

@@ -6,5 +6,5 @@
 	"ID":"1",
 	"type":"windows",
 	"username":"agent_1",
-	"file_url":"data/syslog.tex"
+	"file_url":"data/syslog.txt"
 }
