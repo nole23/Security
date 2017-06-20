@@ -1,16 +1,29 @@
 <form class="navbar-search" ng-controller="LoginCtrl">
-	<input type="text" placeholder="Search logs" class="form-control" ng-model="search.value">
+	<input type="text" placeholder="Search logs messages" class="form-control" ng-model="log.fileDto.message">
 	<label class="checkbox-inline">
-      <input type="checkbox" value="expression" ng-model="log.isRegular">Regular Expression
+      <input type="checkbox" value="expression" ng-model="log.isRegular">Search messages by Regular Expression
     </label>
+    <div class="radio">
+	<label><input type="radio" name="serachType" ng-model="log.fileDto.platform" value="Windows">Windows</label> 
+	<label><input type="radio" name="serachType" ng-model="log.fileDto.platform" value="Linux">Linux</label>
+</div> 
+    <div class="radio">
+    <input type="text" name="serachType" ng-model="log.fileDto.source" placeholder="Search by source">
+    <input type="date" name="date" ng-model="log.fileDto.date" placeholder="Search by date">
+    </div>
+    
 	<button type="button" name="search" id="search"
 						ng-click="searchLogs()">Search</button>
+						
 </form>
 
-<div class="radio">
-	<label><input type="radio" name="serachType" ng-model="log.fileDto.platform" value="Windows">Windows</label> 
-	<label><input type="radio" name="serachType" ng-model="log.fileDto.platform" value="Linux">Linux</label> 
-	<label><input type="radio" name="serachType" ng-model="search.type" value="agent">By agent</label>
-	<label><input type="radio" name="serachType" ng-model="search.type" value="logLevel">By logLevel</label>	
-	<label><input type="radio" name="serachType" ng-model="search.type" value="Date">By Date</label>
-</div>
+
+	
+
+
+<table>
+<tr ng-repeat="returnedLog in returnedLogs">
+<td>{{returnedLog.message}}</td>
+</tr>
+
+</table>

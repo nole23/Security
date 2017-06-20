@@ -4,8 +4,8 @@ public class SearchLogsDTO {
 
 	private FileLogDTO fileDto;
 	private String expression;
-	private boolean isRegular = false;
-
+	private boolean isRegular;
+	
 	public SearchLogsDTO() {
 	}
 

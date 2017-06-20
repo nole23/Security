@@ -6,6 +6,7 @@ angular.module('simeCenterApp')
 	    function($scope, $localStorage, $http, $window, $log, _, $rootScope, LoginResources) {
 			
 		$scope.user = {};
+		$scope.returnedLogs = [];
 		
 		$scope.login = function() {
 			LoginResources.login($scope.user, callback);
@@ -26,11 +27,8 @@ angular.module('simeCenterApp')
 		
 		/*registration*/
 		$scope.registerUser = function(){
-			  if($scope.search.type == "agent"){
-				  console.log("radi");
-				  console.log($scope.search.value);
-			  }
-				  $scope.log.fileDto.agentId=$scope.search.value;
+			  
+				 
 				  
 				LoginResources.register($scope.user);
 		}
@@ -38,8 +36,10 @@ angular.module('simeCenterApp')
 		
 		$scope.searchLogs = function(){
 			
-			console.log($scope.log);
-			//LoginResources.searchLogs($scope.log);
+			LoginResources.searchLogs($scope.log,$scope.returnedLogs);
+			
 	}
+		function callBack(data){
+			$scope.returnedLogs = data;}
 		
 		}]);
