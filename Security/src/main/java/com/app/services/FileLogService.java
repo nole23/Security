@@ -44,10 +44,21 @@ public class FileLogService {
 
 		// its not search by regular expression
 		FileLogDTO fDto = dto.getFileDto();
-		logs = repository.searchFor(fDto.getMessage(), fDto.getSource(), fDto.getTime(), fDto.getServerTime(),
-				fDto.getDate(), fDto.getAgentId(), fDto.getCount(), fDto.getTagName(), fDto.getLogLevel(),
-				fDto.getPlatform());
-		// logs = repository.searchFor(fDto.getPlatform());
+		if (!(dto.isRegular())) {
+			System.out.println("Ne regularan");
+			logs = repository.searchFor(fDto.getMessage(), fDto.getSource(), fDto.getTime(), fDto.getServerTime(),
+					fDto.getDate(), fDto.getAgentId(), fDto.getCount(), fDto.getTagName(), fDto.getLogLevel(),
+					fDto.getPlatform());
+		}
+
+		else {
+			System.out.println(" regularan");
+			List<FileLog> tempLogs = repository.findAll();
+			for (FileLog l : tempLogs) {
+				if (l.getPlatform().matches(dto.getExpression()))
+					logs.add(l);
+			}
+		}
 
 		return logs;
 	}

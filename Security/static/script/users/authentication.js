@@ -14,6 +14,8 @@
 		service.register = register;
 		service.searchLogs = searchLogs;
 		
+		
+		
 		return service;
 		
 		function login(user, callBack) {
@@ -73,15 +75,16 @@
 		    });
 		}
 		
-		function searchLogs(log) {
+		function searchLogs(log,callback) {
             
 			$http.post('https://localhost:8080/api/log/search', log)
 			.success(function (response) {
 				 
-					
-			//take response
-			window.alert(response);
-					
+				//callBack(response);
+				console.log(response);
+			
+			
+			
 					
 				
 			});

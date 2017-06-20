@@ -96,7 +96,7 @@ public class FileLogController {
 		for (FileLog l : ll) {
 			logs.add(new FileLogDTO(l));
 		}
-		System.out.println(dto.getFileDto().getPlatform());
+		System.out.println(dto.isRegular());
 		
 		return new ResponseEntity<List<FileLogDTO>>(logs, HttpStatus.OK);
 	}
