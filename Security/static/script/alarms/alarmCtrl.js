@@ -10,8 +10,13 @@ angular.module('simeCenterApp')
 			AlarmResource.addAlarm($scope.alarm, callBack);
 		}
 		
+		$scope.messages = false;
+		
 		function callBack(success) {
-			console.log(success);
+			if(success.message == "success"){
+				window.location = '#/';
+				$scope.messages = true;
+			}
 		}
 	}])
 	

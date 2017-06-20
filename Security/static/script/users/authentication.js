@@ -64,8 +64,6 @@
 					
 					window.alert("User added");
 					
-					$localStorage.currentUser = currentUser;
-					$http.defaults.headers.common.Authorization = response.jwt;
 					
 					$window.location = "#/"
 				

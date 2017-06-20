@@ -88,8 +88,8 @@ angular
             });
 	}])
 	
-	.run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage','LoginResources', 
-			function(Restangular, $log, $rootScope, $http, $location, $localStorage, LoginResources) {
+	.run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage','LoginResources', 'AgentResource11', 
+			function(Restangular, $log, $rootScope, $http, $location, $localStorage, LoginResources, AgentResource11) {
         Restangular.setBaseUrl("api");
         Restangular.setErrorInterceptor(function(response) {
             if (response.status === 500) {
@@ -103,6 +103,9 @@ angular
         	LoginResources.logout();
         }
         
+        $rootScope.messagesss = function() {
+        	return AgentResource11.getMessages().messag;
+		}
         $rootScope.getCurrentUserRole = function () {
             if (!LoginResources.getCurrentUser()){
               return undefined;

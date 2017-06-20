@@ -12,6 +12,16 @@ angular.module('simeCenterApp')
 			LoginResources.login($scope.user, callback);
 		};
 		
+		$scope.logout = function () {
+			LoginResources.logout();
+		}
+		
+		/*registration*/
+		$scope.registerUser = function(){
+
+				LoginResources.register($scope.user);
+		}
+		
 		function callback(success) {
 			if(success == 'invalid'){
 				$scope.message = "invalid";
@@ -21,23 +31,17 @@ angular.module('simeCenterApp')
 			
 		}
 		
-		$scope.logout = function () {
-			LoginResources.logout();
-		}
 		
-		/*registration*/
-		$scope.registerUser = function(){
-			  
-				 
-				  
-				LoginResources.register($scope.user);
-		}
-		
-		
+
 		$scope.searchLogs = function(){
-			
-			LoginResources.searchLogs($scope.log,$scope.returnedLogs);
-			
+			if($scope.search.type == "agent"){
+				  console.log("radi");
+				  console.log($scope.search.value);
+			  }
+			$scope.log.fileDto.agentId=$scope.search.value;
+			console.log($scope.log);
+			//LoginResources.searchLogs($scope.log);
+
 	}
 		function callBack(data){
 			$scope.returnedLogs = data;}
