@@ -14,6 +14,8 @@ angular
 		$routeProvider
 			.when('/', {
 				templateUrl: 'view/main.html',
+				controller: 'SearchCtrl',
+				controllerAs: 'ispisi',
 				resolve: {
 					app: function($q, $localStorage, $location) {
 						

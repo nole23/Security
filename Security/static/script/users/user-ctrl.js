@@ -38,7 +38,8 @@ angular.module('simeCenterApp')
 			//	  console.log("radi");
 			//	  console.log($scope.search.value);
 			//  }
-			$scope.log.fileDto.agentId=$scope.search.value;
+			console.log($scope.log.fileDto.agentId)
+			console.log($scope.search.value)
 			console.log($scope.log);
 			//LoginResources.searchLogs($scope.log);
 

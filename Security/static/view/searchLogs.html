@@ -1,29 +1,31 @@
-<form class="navbar-search" ng-controller="LoginCtrl">
-	<input type="text" placeholder="Search logs messages" class="form-control" ng-model="log.fileDto.message">
-	<label class="checkbox-inline">
-      <input type="checkbox" value="expression" ng-model="log.isRegular">Search messages by Regular Expression
-    </label>
-    <div class="radio">
-	<label><input type="radio" name="serachType" ng-model="log.fileDto.platform" value="Windows">Windows</label> 
-	<label><input type="radio" name="serachType" ng-model="log.fileDto.platform" value="Linux">Linux</label>
-</div> 
-    <div class="radio">
-    <input type="text" name="serachType" ng-model="log.fileDto.source" placeholder="Search by source">
-    <input type="date" name="date" ng-model="log.fileDto.date" placeholder="Search by date">
-    </div>
-    
-	<button type="button" name="search" id="search"
-						ng-click="searchLogs()">Search</button>
-						
-</form>
-
-
 	
+<div ng-controller="SearchCtrl">
+	<form class="navbar-search" >
+		<input type="text" placeholder="Search" ng-change="search()" ng-model="keywords" class="form-control">
+	</form>
+	
+	
+	<table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+			<thead>
+			<tr>
+				<th st-sort="firstName">Record No</th>
+				<th st-sort="lastName">Log Type</th>
+				<th st-sort="birthDate">Source Log</th>
+				<th st-sort="balance">Commpyter</th>
+				<th st-sort="balance">Messages</th>
+				<th st-sort="balance">Type Sys</th>
+			</tr>
 
-
-<table>
-<tr ng-repeat="returnedLog in returnedLogs">
-<td>{{returnedLog.message}}</td>
-</tr>
-
-</table>
+			</thead>
+			<tbody>
+			<tr ng-repeat="row in liste">
+				<td>{{row.recordNumber}}</td>
+				<td>{{row.logType}}</td>
+				<td>{{row.sourceLog}}</td>
+				<td>{{row.computerName}}</td>
+				<td>{{row.messages}}</td>
+				<td>{{row.type}}</td>
+			</tr>
+			</tbody>
+		</table>
+</div>

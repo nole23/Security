@@ -41,7 +41,6 @@
 					<li><a href="#"><i class="fa fa-list-ul"></i> Reports</a></li>
 					<li><a href="#/all/agents"><i class="fa fa-book"></i> All Agents</a></li>
 					<li><a href="#/all/users"><i class="fa fa-book"></i> All Users</a></li>
-					<li><a href="#"><i class="fa fa-calendar"></i> Calendar</a></li>
 					<li><a href="#/serach/logs"><i class="fa fa-search"></i> Search logs</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right navbar-user" ng-show ="isLoggedIn()">
@@ -64,11 +63,7 @@
 						<li ng-show ="isLoggedIn()"><a href="" ng-click= "logout()"><i class="fa fa-power-off"></i> Log Out</a></li>
 					</li>
 					<li class="divider-vertical"></li>
-					<li>
-						<form class="navbar-search">
-							<input type="text" placeholder="Search" class="form-control">
-						</form>
-					</li>
+
 				</ul>
 			</div>
 		</nav>
@@ -107,6 +102,9 @@
 	<script src="script/users/userResources.js"></script>
 	<script src="script/alarms/alarmCtrl.js"></script>
 	<script src="script/alarms/alarmResource.js"></script>
+	<script src="script/search/search-ctrl.js"></script>
+	<script src="script/search/search-resource.js"></script>
+	
 
 </body>
 </html>

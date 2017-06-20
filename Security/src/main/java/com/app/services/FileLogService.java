@@ -39,6 +39,7 @@ public class FileLogService {
 		repository.delete(id);
 	}
 
+	
 	public List<FileLog> searchFor(SearchLogsDTO dto) {
 		List<FileLog> logs = new ArrayList<FileLog>();
 
