@@ -32,10 +32,10 @@ angular.module('simeCenterApp')
 		
 		
 		$scope.searchLogs = function(){
-			if($scope.search.type == "agent"){
-				  console.log("radi");
-				  console.log($scope.search.value);
-			  }
+			//if($scope.search.type == "agent"){
+			//	  console.log("radi");
+			//	  console.log($scope.search.value);
+			//  }
 			$scope.log.fileDto.agentId=$scope.search.value;
 			console.log($scope.log);
 			//LoginResources.searchLogs($scope.log);

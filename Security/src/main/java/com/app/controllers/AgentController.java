@@ -56,6 +56,15 @@ public class AgentController {
 	@Autowired
 	private AlarmingRespository alarmingRespository;
 	
+	@Autowired
+	AlarmController alarmController;
+	
+	
+	/**
+	 * Radi
+	 * @param principal
+	 * @return
+	 */
 	@RequestMapping(value="/all",method = RequestMethod.GET)
 	public ResponseEntity<List<UserDTO>> getAgent(Principal principal) {
 
@@ -72,6 +81,11 @@ public class AgentController {
 		return new ResponseEntity<>(userDTO, HttpStatus.OK);
 	}
 	
+	/**
+	 * Radi
+	 * @param loginDTO
+	 * @return
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> loginAgent(@RequestBody LoginDTO loginDTO) {
 		try {
@@ -151,116 +165,12 @@ public class AgentController {
 	
 
 	
-	/**
-	 * Ispis svih logova jednog agenta
-	 * @param agentId
-	 * @param principal
-	 * @return
-	 */
-	@RequestMapping(value="/all/{agentId}",method = RequestMethod.GET)
-	public ResponseEntity<List<AgentDTO>> getLogByAgent(@PathVariable Long agentId, Principal principal) {
-
-		User user = userRepository.findOne(agentId);
-		
-		
-		
-		List<Agents> agent = agentsRepository.findByUser(user);
-		
-		List<AgentDTO> agentDTO = new ArrayList<>();
-		for(Agents a: agent) {
-			
-			agentDTO.add(new AgentDTO(a));
-		}
-
-		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
-	}
 	
 
-
-	@SuppressWarnings("deprecation")
-	@RequestMapping(value="/all/sat/{agentId}",method = RequestMethod.GET)
-	public ResponseEntity<List<AgentDTO>> getLogByAgentSat(@PathVariable Long agentId, Principal principal) {
-
-		User user = userRepository.findOne(agentId);
-		
-		Date date = new Date();
-		int sad = date.getHours();
-		
-		//Ne radi jos uvek 
-		List<Agents> agent = agentsRepository.findByUser(user);
-		
-		List<AgentDTO> agentDTO = new ArrayList<>();
-		for(Agents a: agent) {
-			if((sad-1) <= a.getHh())
-				agentDTO.add(new AgentDTO(a));
-		}
-
-		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
-	}
-	
-	/**
-	 * Svaki minut
-	 * @param agentId
-	 * @param min
-	 * @param principal
-	 * @return
-	 */
-	@SuppressWarnings("deprecation")
-	@RequestMapping(value="/all/sat/{min}/{agentId}",method = RequestMethod.GET)
-	public ResponseEntity<List<AgentDTO>> getLogByAgentMin(@PathVariable Long agentId, @PathVariable int min, Principal principal) {
-
-		User user = userRepository.findOne(agentId);
-		
-		Date date = new Date();
-		int sad = date.getHours();
-		int minutSad = date.getMinutes();
-		
-		//Ne radi jos uvek 
-		List<Agents> agent = agentsRepository.findByUser(user);
-		
-		List<AgentDTO> agentDTO = new ArrayList<>();
-		for(Agents a: agent) {
-			if(sad == a.getHh())
-				if(minutSad <= a.getMin())
-					agentDTO.add(new AgentDTO(a));
-		}
-
-		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
-	}
-	
-	
-	@SuppressWarnings("deprecation")
-	@RequestMapping(value="/all/sec/{agentId}",method = RequestMethod.GET)
-	public ResponseEntity<List<AgentDTO>> getLogByAgentSekund(@PathVariable Long agentId, Principal principal) {
-
-		User user = userRepository.findOne(agentId);
-		
-		Date date = new Date();
-		int god = date.getYear()+1900;
-		int mes = date.getMonth();
-		int dan = date.getDate();
-		int sad = date.getHours();
-		int minutSad = date.getMinutes();
-		
-		//Ne radi jos uvek 
-		List<Agents> agent = agentsRepository.findByUser(user);
-		
-		List<AgentDTO> agentDTO = new ArrayList<>();
-		for(Agents a: agent) {
-			if(god == a.getYyyy())
-				if(mes == a.getMm())
-					if(dan == a.getDd())
-						if(sad == a.getHh())
-							if(minutSad == a.getMin())
-								agentDTO.add(new AgentDTO(a));
-		}
-
-		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
-	}
-	
 	
 	/**
 	 * Dnveni logovi
+	 * radi
 	 * @param agentId
 	 * @param principal
 	 * @return
@@ -275,8 +185,7 @@ public class AgentController {
 		int god = date.getYear()+1900;
 		int mes = date.getMonth();
 		int dan = date.getDate();
-		
-		//Ne radi jos uvek 
+
 		List<Agents> agent = agentsRepository.findByUser(user);
 		
 		List<AgentDTO> agentDTO = new ArrayList<>();
@@ -286,33 +195,57 @@ public class AgentController {
 					if(dan == a.getDd())
 						agentDTO.add(new AgentDTO(a));
 		}
-
+		
+		
+		
+		
 		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
 	}
 	
 	/**
-	 * Ispis svih logova po tipu
+	 * Kreiranje alarma po tipu
+	 * radi
 	 */
 	@SuppressWarnings("deprecation")
-	@RequestMapping(value="/all//type/{type}",method = RequestMethod.GET)
-	public ResponseEntity<List<AgentDTO>> getLogByAgent(@PathVariable String type, Principal principal) {
+	@RequestMapping(value="/all/type/{type}/{id}",method = RequestMethod.GET)
+	public ResponseEntity<AlarmReqvestDTO> getLogByAgent(@PathVariable String type,@PathVariable Long id, Principal principal) {
 
-		List<Agents> agent = agentsRepository.findByLogType(type);
+		User user = userRepository.findOne(id);
+		List<Agents> agent = agentsRepository.findByUser(user);
 		Date date = new Date();
 		
 		List<AgentDTO> agentDTO = new ArrayList<>();
 		for(Agents a: agent) {
 			if(a.getDd() == date.getDate())
-				agentDTO.add(new AgentDTO(a));
+				if(a.getLogType().equals(type))
+					agentDTO.add(new AgentDTO(a));
 		}
-
-		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
+		System.out.println(agentDTO);
+		AlarmReqvestDTO alarmReqvesteDTO = new AlarmReqvestDTO();
+		List<Alarming> alarm = alarmingRespository.findByTypeLog(type);
+		for(Alarming al: alarm) {
+			if(agentDTO.size() >= al.getCountLog()) {
+				int vreme = (al.getCountTime()/60);
+				if(date.getMinutes()-vreme < date.getMinutes()) {
+					alarmReqvesteDTO.setIdAgenta(id);
+					alarmReqvesteDTO.setIdAlarma(al.getId());
+					alarmReqvesteDTO.setAgentSize(agentDTO.size());
+					alarmReqvesteDTO.setType(al.getTypeLog());
+					alarmController.saveAlarm(alarmReqvesteDTO);
+					break;
+				}
+			}
+		}
+		
+		
+		return new ResponseEntity<>(alarmReqvesteDTO, HttpStatus.OK);
 	}
+	
 	
 
 	/**
 	 * Alarm koji u toku dana ispise sve sistemske logove i proveri da li su dobri
-	 * 
+	 * Radi
 	 * @param id		//Id agenta kog proveravamo
 	 * @param source 	//tip loga koji obradjujemo na primer System or Application logivi
 	 * @param time  	//svi logovi koji su manji od jednog dana izrazeni u sekundama
@@ -322,6 +255,7 @@ public class AgentController {
 	@RequestMapping(value="day/log/{id}/{source}/{time}",method = RequestMethod.GET)
 	public ResponseEntity<AlarmReqvestDTO> getLogBySystem(@PathVariable Long id, @PathVariable String source, @PathVariable int time) {
 
+		System.out.println("Dosao ovde");
 		User user = userRepository.findOne(id);
 		List<Agents> agent = agentsRepository.findByUser(user);
 		
@@ -332,26 +266,28 @@ public class AgentController {
 		List<AgentDTO> agentDTO = new ArrayList<>();
 		for(Agents a: agent) {
 			if(a.getSourceLog().equals(source))
-				if(a.getDd() == date.getDate())
-					agentDTO.add(new AgentDTO(a));
+				if(a.getYyyy() == date.getYear()+1900)
+					if(a.getDd() == date.getDate())
+						agentDTO.add(new AgentDTO(a));
 		}
-		
+
 		
 		AlarmReqvestDTO alarmReqvesteDTO = new AlarmReqvestDTO();
 		for(Alarming al: alarm) {
-			if(al.getCountTime() <= time){
-				if(agentDTO.size() >= al.getCountLog() || (agentDTO.size()-1) <= al.getCountLog()) {
-					System.out.println("upao u zamku " +al.getPrioritet());
+			if(al.getCountTime() >= time){
+				if(agentDTO.size() >= al.getCountLog()) {
+					System.out.println("upao u zamku " +agentDTO.size());
 					alarmReqvesteDTO.setIdAgenta(id);
 					alarmReqvesteDTO.setIdAlarma(al.getId());
 					alarmReqvesteDTO.setAgentSize(agentDTO.size());
 					alarmReqvesteDTO.setType(al.getTypeLog());
+					alarmController.saveAlarm(alarmReqvesteDTO);
 					break;
 				}
 			}
 				
 		}
-		//RunController.Timer();
+		
 
 		return new ResponseEntity<>(alarmReqvesteDTO, HttpStatus.OK);
 	}
@@ -359,15 +295,15 @@ public class AgentController {
 	
 	/**
 	 * Okida se alarm ukoliko se u na primer 10 sekundi desi odredjen broj ERROR logova
-	 * 
+	 * radi
 	 * @param id
 	 * @param source
 	 * @param time
 	 * @return
 	 */
 	@SuppressWarnings("deprecation")
-	@RequestMapping(value="sec/log/{id}/{source}/{time}",method = RequestMethod.GET)
-	public ResponseEntity<AlarmReqvestDTO> getLogByERROR(@PathVariable Long id, @PathVariable String source, @PathVariable int time) {
+	@RequestMapping(value="sec/log/{id}/{source}/{time}/{logType}",method = RequestMethod.GET)
+	public ResponseEntity<AlarmReqvestDTO> getLogByERROR(@PathVariable Long id, @PathVariable String source, @PathVariable String logType,@PathVariable int time) {
 
 		User user = userRepository.findOne(id);
 		List<Agents> agent = agentsRepository.findByUser(user);
@@ -378,7 +314,7 @@ public class AgentController {
 		
 		List<AgentDTO> agentDTO = new ArrayList<>();
 		for(Agents a: agent) {
-			if(a.getLogType().equals("Error"))
+			if(a.getLogType().equals(logType))
 				if(a.getDd() == date.getDate())
 					if(a.getHh() == date.getHours())
 						if(a.getMin() == date.getMinutes())
@@ -389,19 +325,25 @@ public class AgentController {
 		AlarmReqvestDTO alarmReqvesteDTO = new AlarmReqvestDTO();
 		for(Alarming al: alarm) {
 			if(al.getSourceLog().equals(source))
-				if(al.getTypeLog().equals("ERROR"))
-					if(al.getCountTime() <= time)
-						if(agentDTO.size() > al.getCountLog()){
-							alarmReqvesteDTO.setIdAgenta(id);
-							alarmReqvesteDTO.setIdAlarma(al.getId());
-							alarmReqvesteDTO.setAgentSize(agentDTO.size());
-							alarmReqvesteDTO.setType(al.getTypeLog());
-							break;
-						}
+				if(al.getTypeLog().equals(logType))
+					if(agentDTO.size() > al.getCountLog()){
+						alarmReqvesteDTO.setIdAgenta(id);
+						alarmReqvesteDTO.setIdAlarma(al.getId());
+						alarmReqvesteDTO.setAgentSize(agentDTO.size());
+						alarmReqvesteDTO.setType(al.getTypeLog());
+						alarmReqvesteDTO.setCountTime(al.getCountTime());
+						alarmController.saveAlarm(alarmReqvesteDTO);
+						break;
+					}
 							
 		}
 		
-
+		
+		
 		return new ResponseEntity<>(alarmReqvesteDTO, HttpStatus.OK);
 	}
+	
+	
+	
+	
 }

@@ -9,6 +9,15 @@ angular.module('simeCenterApp')
 		var logovi = [];
 		var alarm = [];
 		
+		//Ostaje
+		retVal.getType = function(id, type) {
+			return Restangular.one("agent/all/type/"+type+"/"+id).get().then(function(entries) {
+				linkovi = entries;
+				return linkovi;
+			})
+		}
+		
+		//Ostaje
 		retVal.getAgent = function() {
 			return Restangular.all("agent/all").getList().then(function(entries) {
 				agenti = entries;
@@ -16,6 +25,7 @@ angular.module('simeCenterApp')
 			})
 		}
 		
+		//Ostaje
 		retVal.getLogBySystem = function(id, source, time) {
 			return Restangular.one("agent/day/log/"+id+"/" + source +"/" + time).get().then(function(entries) {
 				logovi = entries;
@@ -25,10 +35,20 @@ angular.module('simeCenterApp')
 			})
 		}
 		
-		
-		retVal.getAllAgent = function(type) {
+		//Ostaje
+		retVal.getERRORSystem = function(id, type) {
 			
-			return Restangular.all("agent/all/type/"+type).getList().then(function(entries) {
+			return Restangular.one("agent/sec/log/"+id+"/System/100/Error").get().then(function(entries) {
+				logovi = entries;
+				return logovi;
+			})
+		}
+		
+		//Ostaje
+		retVal.getERRORApplication = function(id, type, source, time) {
+			
+			return Restangular.one("agent/sec/log/"+id+"/Application/"+time+"/"+type).get().then(function(entries) {
+	
 				logovi = entries;
 				return logovi;
 			})
@@ -43,29 +63,17 @@ angular.module('simeCenterApp')
 			})
 		}
 		
-		retVal.getAlarmType = function(id) {
-			var link = 'alarm/all/'+id;
-			return Restangular.one(link).get().then(function(entries) {
-				alarm = entries;
-				return alarm;
-			})
-		}
-		
-		retVal.getAgentHH = function(id) {
-			var link = 'agent/all/sat/'+id;
-			return Restangular.all(link).getList().then(function(entries) {
-				logovi = entries;
+		//Ostaje
+		retVal.getAgentAll = function(id) {
+			var link = 'agent/all/day/'+id;
+			return Restangular.all(link).getList().then(function(data) {
+				logovi = data;
 				return logovi;
 			})
 		}
 		
-		retVal.getAgentMIN = function(id) {
-			var link = 'agent/all/sec/'+id;
-			return Restangular.all(link).getList().then(function(entries) {
-				logovi = entries;
-				return logovi;
-			})
-		}
+
+		
 		
 		return retVal;
 	}])

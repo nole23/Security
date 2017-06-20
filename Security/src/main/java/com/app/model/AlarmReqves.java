@@ -1,27 +1,29 @@
-package com.app.dto;
+package com.app.model;
 
-public class AlarmReqvestDTO {
+import java.util.Date;
 
-	private int id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+public class AlarmReqves {
+
+	@Id
+	@GeneratedValue
+	private Long id;
 	private Long idAgenta;
 	private Long idAlarma;
 	private int agentSize;
 	private String type;
 	private int countTime;
+	private Date date;
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -49,12 +51,28 @@ public class AlarmReqvestDTO {
 		this.agentSize = agentSize;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public int getCountTime() {
 		return countTime;
 	}
 
 	public void setCountTime(int countTime) {
 		this.countTime = countTime;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }

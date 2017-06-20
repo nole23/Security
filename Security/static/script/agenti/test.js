@@ -15,7 +15,7 @@
 			
         	$http.get('api/agent/day/log/'+id+'/' + source +'/' + time).success(function (data, status, headers, config) {
 				
-        		console.log(data);
+   
         		var mess = {
         				messag: data.idAgenta
         		}

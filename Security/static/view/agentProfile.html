@@ -1,47 +1,75 @@
 <div class="row">
 	<div class="col-lg-12">
-		<h1>Agent_1 <small>Statistics and more</small></h1>
+		<h1>Agent_1 <small>Statistics and more {{errorSys}}</small></h1>
 		
 
 		
 		<div class="row">
 			<div class="col-lg-12">
 				
-				<div class="bs-example" ng-show="agentCtrl.oglasiAlarm">
+				<div class="bs-example" ng-show="errorType == 'Warning'">
 					<div class="alert alert-dismissable alert-warning">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						<h4>Warning!</h4>
+						<h4>Warning! A</h4>
 						<p>Upozorenje za Agent_1, uoceno je povecan broj logova u jednom satu.</p>
 					</div>
 				</div>
 				
-				<div class="bs-example" ng-show="agentCtrl.oglasiAlarmW">
-					<div class="alert alert-dismissable alert-danger">
-						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						<strong>Alarm!</strong> Neocekivani logovi!.
-					</div>
-				</div>
+				<div class="bs-example" ng-show="errorSys != null">
 				
-				<div class="bs-example" ng-show="dayLog.idAlarma != null">
-					<div class="alert alert-dismissable alert-warning">
-						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						<h4>Warning!</h4>
-						<p>Upozorenje za Agent_1, uoceno je povecan broj Systemskih logova u toku dana.</p>
-					</div>
+					<div class="">
+			            <div class="alert alert-dismissable alert-danger">
+			              <button type="button" class="close" data-dismiss="alert">&times;</button>
+			              <strong>Oh snap!</strong> Upozorenje za Agenta, uoceno je povecan broj sistemskih logova.
+			            </div>
+			          </div>
+					
 				</div>
 				
 				
-				<div class="bs-example" ng-show="agentCtrl.log">
-					<div class="alert alert-dismissable alert-danger">
-						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						<strong>Alarm!</strong> Desila se {{agentCtrl.log}} {{agentCtrl.type}} na datom agentu u periodu od jednog dana!.
-					</div>
+				<div class="bs-example" ng-show="Sys != null">
+				
+				    <div class="alert alert-dismissable alert-danger">
+			              <button type="button" class="close" data-dismiss="alert">&times;</button>
+			              <strong>Oh snap!</strong> Upozorenje za Agent_1, uoceno je povecan broj Systemskih logova u toku dana.
+		            </div>
 				</div>
+
 				
 				
 			</div>
 		</div>
-	
+		
+		
+	<div ng-controller="AgentProfileCtrl">
+
+
+
+		<table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+			<thead>
+			<tr>
+				<th st-sort="firstName">first name</th>
+				<th st-sort="lastName">last name</th>
+				<th st-sort="birthDate">birth date</th>
+				<th st-sort="balance">balance</th>
+				<th st-sort="balance">balance</th>
+				<th st-sort="balance">balance</th>
+			</tr>
+
+			</thead>
+			<tbody>
+			<tr ng-repeat="row in lista">
+				<td>{{row.logType}}</td>
+				<td>{{row.recordNumber}}</td>
+				<td>{{row.sourceLog}}</td>
+				<td>{{row.type}}</td>
+				<td>{{row.dd}} {{row.mm}} {{row.yyyy}} {{row.hh}}:{{row.min}}:{{row.ss}}</td>
+				<td>{{row.messages}}</td>
+			</tr>
+			</tbody>
+		</table>
+
+	</div>
 	
 	
 	</div>

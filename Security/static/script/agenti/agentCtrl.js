@@ -34,21 +34,9 @@ angular.module('simeCenterApp')
 		
 		
 	}])
-	.controller('AgentsDayLogCtrl', ['$scope', '$uibModal', '$window', '$routeParams', '$log', '_', 'AgentResource',
-		function($scope, $uibModal, $window, $routeParams, $log, _, AgentResource) {
-		
-		
-		
-		
-		
-		
-	}])
 	.controller('AgentProfileCtrl', ['$scope', '$uibModal', '$window', '$routeParams', '$rootScope', '$localStorage', '$log', '_', 'AgentResource11', 'AgentResource',
 		function($scope, $uibModal, $window, $routeParams, $rootScope, $localStorage, $log, _, AgentResource11, AgentResource) {
-		
-		
-		
-		console.log("dosao");
+
 		$scope.agent = [];
 		$scope.dayLog = [];
 		$scope.error = [];
@@ -56,52 +44,41 @@ angular.module('simeCenterApp')
 		var id = $routeParams.id;
 		$scope.oglasiAlarm = false;
 		$scope.oglasiAlarmW = false;
-		
+		$scope.errorSys = {};
+		$scope.Sys = {};
 		var vm = this;
 		var date = new Date();
+
 		
-		
-		AgentResource.getAllAgent("ERROR").then(function(item) {
-			$scope.error = item;
-			console.log(item);
-			AgentResource.getAlarmType("ERROR").then(function(alarma) {
-				
-				for(var i=0; i<alarma.length; i++) {
-					if(item.length > alarma[i].countLog){
-						vm.log = alarma.length;
-						vm.alarm = alarma[i].countTime;
-						vm.type = "ERROR";
-					}
-				}
-			})
-			
-		})
-			
-		
+		//alarm 1 Odradjeno
 		AgentResource11.getLogBySystem(id, "System", "500", callBack);
 		
 		function callBack(success) {
-			console.log("upao");
+			
+			$scope.Sys = success.type;
+			//AgentResource.getSaveAlarm(success);
 		}
 		
 		
-		AgentResource.getAlarmType("ALL").then(function(alarm) {
-			console.log(alarm);
-			if(alarm != null){
-				AgentResource.getAgentHH(id).then(function(item) {
-					if(item != null){
-						var count = item.length;
-
-						if(count < alarm.countLog) {
-							//$scope.oglasiAlarm = true;
-							
-							vm.oglasiAlarm = true;
-						}
-					}
-				})
-			}
+		//alarm 2 odradjeno
+		AgentResource.getERRORSystem(id).then(function(item) {
+			$scope.errorSys = item.idAgenta;
 			
+			//AgentResource.getSaveAlarm(item);
 		})
+		
+		//alarm 3 radi
+		AgentResource.getType(id, "Warning").then(function(item) {
+			$scope.errorType = item.type;
+		})
+
+		$scope.lista = [];
+		
+		AgentResource.getAgentAll(id).then(function(item) {
+			$scope.lista = item;
+		})
+		
+		
 		
 		
 		

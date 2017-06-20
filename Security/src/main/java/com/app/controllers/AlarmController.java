@@ -2,6 +2,7 @@ package com.app.controllers;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.app.dto.AlarmReqvestDTO;
 import com.app.dto.AlarmingDTO;
 import com.app.dto.MesagesDTO;
-import com.app.dto.UserDTO;
+import com.app.model.AlarmReqves;
 import com.app.model.Alarming;
+import com.app.repository.AlarmReqvestRepository;
 import com.app.repository.AlarmingRespository;
 
 @Controller
@@ -26,7 +29,8 @@ public class AlarmController {
 	@Autowired
 	private AlarmingRespository alarmingRepository;
 	
-	
+	@Autowired 
+	private AlarmReqvestRepository alarmReqvestRepository;
 
 	
 	/**
@@ -54,6 +58,8 @@ public class AlarmController {
 	public ResponseEntity<MesagesDTO> addAlar(@RequestBody AlarmingDTO alarmDTO) {
 
 		MesagesDTO message = new MesagesDTO();
+		
+
 		Alarming alarm = new Alarming();
 		
 		alarm.setCountLog(alarmDTO.getCountLog());
@@ -62,6 +68,27 @@ public class AlarmController {
 		alarm.setTypeLog(alarmDTO.getTypeLog());
 		
 		alarmingRepository.save(alarm);
+		
+		message.setMessage("success");
+		return new ResponseEntity<MesagesDTO>(message, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value="/save/alarm",method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public ResponseEntity<MesagesDTO> saveAlarm(@RequestBody AlarmReqvestDTO alarmReqvesDTO) {
+
+		Date date = new Date();
+		MesagesDTO message = new MesagesDTO();
+		AlarmReqves alarmReqves = new AlarmReqves();
+		
+		alarmReqves.setAgentSize(alarmReqvesDTO.getAgentSize());
+		alarmReqves.setCountTime(alarmReqvesDTO.getCountTime());
+		alarmReqves.setIdAgenta(alarmReqvesDTO.getIdAgenta());
+		alarmReqves.setIdAlarma(alarmReqvesDTO.getIdAlarma());
+		alarmReqves.setAgentSize(alarmReqvesDTO.getAgentSize());
+		alarmReqves.setDate(date);
+		
+		alarmReqvestRepository.save(alarmReqves);
 		
 		message.setMessage("success");
 		return new ResponseEntity<MesagesDTO>(message, HttpStatus.OK);
