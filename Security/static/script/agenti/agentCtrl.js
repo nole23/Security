@@ -34,13 +34,24 @@ angular.module('simeCenterApp')
 		
 		
 	}])
-	.controller('AgentProfileCtrl', ['$scope', '$uibModal', '$window', '$routeParams', '$rootScope', '$log', '_', 'AgentResource',
-		function($scope, $uibModal, $window, $routeParams, $rootScope, $log, _, AgentResource) {
+	.controller('AgentsDayLogCtrl', ['$scope', '$uibModal', '$window', '$routeParams', '$log', '_', 'AgentResource',
+		function($scope, $uibModal, $window, $routeParams, $log, _, AgentResource) {
+		
+		
+		
+		
+		
+		
+	}])
+	.controller('AgentProfileCtrl', ['$scope', '$uibModal', '$window', '$routeParams', '$rootScope', '$localStorage', '$log', '_', 'AgentResource11', 'AgentResource',
+		function($scope, $uibModal, $window, $routeParams, $rootScope, $localStorage, $log, _, AgentResource11, AgentResource) {
 		
 		
 		
 		console.log("dosao");
 		$scope.agent = [];
+		$scope.dayLog = [];
+		$scope.error = [];
 		
 		var id = $routeParams.id;
 		$scope.oglasiAlarm = false;
@@ -48,12 +59,11 @@ angular.module('simeCenterApp')
 		
 		var vm = this;
 		var date = new Date();
-		//Eror na dnevnom nivou
-		//
-			//var counter = 0;
-			//if(alarma != null){
+		
 		
 		AgentResource.getAllAgent("ERROR").then(function(item) {
+			$scope.error = item;
+			console.log(item);
 			AgentResource.getAlarmType("ERROR").then(function(alarma) {
 				
 				for(var i=0; i<alarma.length; i++) {
@@ -66,10 +76,17 @@ angular.module('simeCenterApp')
 			})
 			
 		})
-			//}
-		//})
+			
+		
+		AgentResource11.getLogBySystem(id, "System", "500", callBack);
+		
+		function callBack(success) {
+			console.log("upao");
+		}
+		
 		
 		AgentResource.getAlarmType("ALL").then(function(alarm) {
+			console.log(alarm);
 			if(alarm != null){
 				AgentResource.getAgentHH(id).then(function(item) {
 					if(item != null){
@@ -85,5 +102,7 @@ angular.module('simeCenterApp')
 			}
 			
 		})
+		
+		
 		
 	}])

@@ -12,4 +12,6 @@ public interface AlarmingRespository extends JpaRepository<Alarming, Long> {
 
 	List<Alarming> findByCountTime(int countTime);
 
+	List<Alarming> findBySourceLog(String sourceLog);
+
 }

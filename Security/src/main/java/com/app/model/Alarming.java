@@ -14,6 +14,7 @@ public class Alarming {
 	private int countLog; // Broj ponavljanja "10"
 	private int countTime; // Broj vreme koje se gleda za ponavljanje u
 							// sekundama "60"
+	private String sourceLog;
 	private String prioritet;// Stepen upozorenje "LOW" "MEDIUM" "HEIGHT"
 
 	public Long getId() {
@@ -54,6 +55,14 @@ public class Alarming {
 
 	public void setPrioritet(String prioritet) {
 		this.prioritet = prioritet;
+	}
+
+	public String getSourceLog() {
+		return sourceLog;
+	}
+
+	public void setSourceLog(String sourceLog) {
+		this.sourceLog = sourceLog;
 	}
 
 }

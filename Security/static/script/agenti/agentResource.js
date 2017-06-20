@@ -16,6 +16,16 @@ angular.module('simeCenterApp')
 			})
 		}
 		
+		retVal.getLogBySystem = function(id, source, time) {
+			return Restangular.one("agent/day/log/"+id+"/" + source +"/" + time).get().then(function(entries) {
+				logovi = entries;
+				
+				return logovi;
+				
+			})
+		}
+		
+		
 		retVal.getAllAgent = function(type) {
 			
 			return Restangular.all("agent/all/type/"+type).getList().then(function(entries) {

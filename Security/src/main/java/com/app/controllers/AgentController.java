@@ -23,11 +23,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.AgentDTO;
+import com.app.dto.AlarmReqvestDTO;
 import com.app.dto.LoginDTO;
 import com.app.dto.UserDTO;
 import com.app.model.Agents;
+import com.app.model.Alarming;
 import com.app.model.User;
 import com.app.repository.AgetnsRepository;
+import com.app.repository.AlarmingRespository;
 import com.app.repository.UserRepository;
 import com.app.security.TokenUtils;
 
@@ -50,6 +53,8 @@ public class AgentController {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	@Autowired
+	private AlarmingRespository alarmingRespository;
 	
 	@RequestMapping(value="/all",method = RequestMethod.GET)
 	public ResponseEntity<List<UserDTO>> getAgent(Principal principal) {
@@ -302,5 +307,101 @@ public class AgentController {
 		}
 
 		return new ResponseEntity<>(agentDTO, HttpStatus.OK);
+	}
+	
+
+	/**
+	 * Alarm koji u toku dana ispise sve sistemske logove i proveri da li su dobri
+	 * 
+	 * @param id		//Id agenta kog proveravamo
+	 * @param source 	//tip loga koji obradjujemo na primer System or Application logivi
+	 * @param time  	//svi logovi koji su manji od jednog dana izrazeni u sekundama
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value="day/log/{id}/{source}/{time}",method = RequestMethod.GET)
+	public ResponseEntity<AlarmReqvestDTO> getLogBySystem(@PathVariable Long id, @PathVariable String source, @PathVariable int time) {
+
+		User user = userRepository.findOne(id);
+		List<Agents> agent = agentsRepository.findByUser(user);
+		
+		List<Alarming> alarm = alarmingRespository.findBySourceLog(source);
+		
+		Date date = new Date();
+		
+		List<AgentDTO> agentDTO = new ArrayList<>();
+		for(Agents a: agent) {
+			if(a.getSourceLog().equals(source))
+				if(a.getDd() == date.getDate())
+					agentDTO.add(new AgentDTO(a));
+		}
+		
+		
+		AlarmReqvestDTO alarmReqvesteDTO = new AlarmReqvestDTO();
+		for(Alarming al: alarm) {
+			if(al.getCountTime() <= time){
+				if(agentDTO.size() >= al.getCountLog() || (agentDTO.size()-1) <= al.getCountLog()) {
+					System.out.println("upao u zamku " +al.getPrioritet());
+					alarmReqvesteDTO.setIdAgenta(id);
+					alarmReqvesteDTO.setIdAlarma(al.getId());
+					alarmReqvesteDTO.setAgentSize(agentDTO.size());
+					alarmReqvesteDTO.setType(al.getTypeLog());
+					break;
+				}
+			}
+				
+		}
+		//RunController.Timer();
+
+		return new ResponseEntity<>(alarmReqvesteDTO, HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * Okida se alarm ukoliko se u na primer 10 sekundi desi odredjen broj ERROR logova
+	 * 
+	 * @param id
+	 * @param source
+	 * @param time
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value="sec/log/{id}/{source}/{time}",method = RequestMethod.GET)
+	public ResponseEntity<AlarmReqvestDTO> getLogByERROR(@PathVariable Long id, @PathVariable String source, @PathVariable int time) {
+
+		User user = userRepository.findOne(id);
+		List<Agents> agent = agentsRepository.findByUser(user);
+		
+		List<Alarming> alarm = alarmingRespository.findBySourceLog(source);
+		
+		Date date = new Date();
+		
+		List<AgentDTO> agentDTO = new ArrayList<>();
+		for(Agents a: agent) {
+			if(a.getLogType().equals("Error"))
+				if(a.getDd() == date.getDate())
+					if(a.getHh() == date.getHours())
+						if(a.getMin() == date.getMinutes())
+							if(a.getSs() <= date.getSeconds())
+								agentDTO.add(new AgentDTO(a));
+		}
+		
+		AlarmReqvestDTO alarmReqvesteDTO = new AlarmReqvestDTO();
+		for(Alarming al: alarm) {
+			if(al.getSourceLog().equals(source))
+				if(al.getTypeLog().equals("ERROR"))
+					if(al.getCountTime() <= time)
+						if(agentDTO.size() > al.getCountLog()){
+							alarmReqvesteDTO.setIdAgenta(id);
+							alarmReqvesteDTO.setIdAlarma(al.getId());
+							alarmReqvesteDTO.setAgentSize(agentDTO.size());
+							alarmReqvesteDTO.setType(al.getTypeLog());
+							break;
+						}
+							
+		}
+		
+
+		return new ResponseEntity<>(alarmReqvesteDTO, HttpStatus.OK);
 	}
 }
