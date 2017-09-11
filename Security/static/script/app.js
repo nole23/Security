@@ -44,6 +44,8 @@ angular
             views: {
                 'content': {
                     templateUrl: 'view/active.html',
+                    controller: 'AgentActiveCtrl',
+                    controllerAs: 'vm'
                 }
             },
 
@@ -53,6 +55,8 @@ angular
             views: {
                 'content': {
                     templateUrl: 'view/agentAdd.html',
+                    controller: 'AgentCtrl',
+                    controllerAs: 'vm'
                 }
             },
 
@@ -62,6 +66,8 @@ angular
             views: {
                 'content': {
                     templateUrl: 'view/adminAdd.html',
+                    controller: 'AdminCtrl',
+                    controllerAs: 'vm'
                 }
             },
 

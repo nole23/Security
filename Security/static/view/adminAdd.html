@@ -1,51 +1,66 @@
 
 <div id="page-inner">
-  <div class="row">
-    <div class="col-md-12">
-      <h2>Dodavanje Admina</h2>
-      <h5>Novica Nikolić - prijavljeni ste kao admin</h5>
-    </div>
-  </div>
-  <!-- /. ROW  -->
-  <hr>
-  <div class="row">
-    <div class="col-md-12">
-      <!-- Form Elements -->
-      <div class="panel panel-default">
-        <div class="panel-heading"> Unesite sve podatke</div>
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-md-12">
-              <h3>Admin</h3>
-              <form role="form">
-                <div class="form-group"> <label>Ime</label>
-                  <input class="form-control"> </div>
-                <div class="form-group"><b>Prezime</b>
-                  <br>
-                  <input class="form-control"> </div>
-                <div class="form-group"><b>Email</b>
-                  <br>
-                  <input class="form-control"> </div>
-                <div class="form-group"><b>Korisnicko ime</b>
-                  <br>
-                  <input class="form-control"> </div>
-                <div class="form-group"><b>Šifra</b>
-                  <br>
-                  <input class="form-control"> </div>
-                <div class="form-group"><b>Uloga</b>
-                  <br>
-                  <input class="form-control"> </div>
-                <button type="submit" class="btn btn-default">Odustati</button>
-                <button type="reset" class="btn btn-primary">Sačuvati</button>
-              </form>
-              <br> </div>
-          </div>
-        </div>
-      </div>
-      <!-- End Form Elements -->
-    </div>
-  </div>
-  <!-- /. ROW  -->
-  <!-- /. ROW  -->
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Dodavanje Admina</h2>
+			<h5>{{getUser().fName}} {{getUser().lName}} - prijavljeni ste
+				kao admin</h5>
+		</div>
+	</div>
+	<!-- /. ROW  -->
+	<hr>
+	<div class="row">
+		<div class="col-md-12">
+			<!-- Form Elements -->
+			<div class="panel panel-default">
+				<div class="panel-heading">Unesite sve podatke</div>
+				<div data-ng-show="vm.error" style="width: 100%; height: 50px; background-color: #ff1a1a; color: white; text-align: center; font-size: 24px">
+					Podatke koje ste uneli ili su neispravni ili vec postoji u bazi
+				</div>
+				<div data-ng-show="vm.saveAs" style="width: 100%; height: 50px; background-color: green; color: white; text-align: center; font-size: 24px">
+					Uspjesno ste dodali novog Operatora
+				</div>
+				<div class="panel-body">
+				
+					<div class="row">
+						
+						<div class="col-md-12">
+							<h3>Admin</h3>
+							<form role="form">
+								<div class="form-group">
+									<label>Ime</label> <input class="form-control"
+										data-ng-model="vm.user.userProfile.firstName">
+								</div>
+								<div class="form-group">
+									<b>Prezime</b> <br> <input class="form-control"
+										data-ng-model="vm.user.userProfile.lastName">
+								</div>
+								<div class="form-group">
+									<b>Email</b> <br> <input class="form-control"
+										data-ng-model="vm.user.userProfile.email">
+								</div>
+								<div class="form-group">
+									<b>Korisnicko ime</b> <br> <input class="form-control"
+										data-ng-model="vm.user.username">
+								</div>
+								<div class="form-group">
+									<b>Sifra</b> <br> <input type="password"
+										class="form-control" data-ng-model="vm.user.password">
+								</div>
+
+								<button type="submit" class="btn btn-default">Odustati</button>
+								<button type="reset" class="btn btn-primary"
+									data-ng-click="vm.save()">Sacuvati</button>
+							</form>
+							<br>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Form Elements -->
+		</div>
+	</div>
+	<!-- /. ROW  -->
+	<!-- /. ROW  -->
 </div>
 <!-- /. PAGE INNER  -->

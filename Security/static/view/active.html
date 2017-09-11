@@ -1,3 +1,35 @@
-<div>
-	ne radi
+<div id="page-inner">
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Pocetna</h2>
+			<h5>{{getUser().fName}} {{getUser().lName}} - prijavljen kao administrator</h5>
+		</div>
+	</div>
+	<!-- /. ROW  -->
+	<hr>
+	<div class="row">
+	
+	
+		<div data-ng-repeat="a in vm.agent">
+			<div class="col-md-3">
+				<div class="panel panel-back noti-box">
+					<span class="icon-box bg-color-green set-icon"> <i
+						class="fa fa-desktop"></i>
+	
+					</span>
+					<div class="text-box">
+						<p class="main-text">Agent1</p>
+						<br>
+						<br>
+						<br> <span class="text-muted">MAC: 88:99:AA:FF:98</span><br>
+						<span class="text-muted">STATUS: ACTIVE</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- /. ROW  -->
+	<hr>
+
 </div>
