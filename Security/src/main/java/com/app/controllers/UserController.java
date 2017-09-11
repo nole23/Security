@@ -42,8 +42,8 @@ import com.app.repository.UserRepository;
 import com.app.repository.UserRoleRepository;
 import com.app.security.TokenUtils;
 import com.app.util.HendlerLogs;
-import com.app.services.MyMailSenderService;
 import com.app.security.XssAttacks;
+import com.app.services.MyMailSenderService;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -74,7 +74,7 @@ public class UserController {
 	UserProfileRepository userProfileRepository;
 	
 	@Autowired
-	private MyMailSenderService mailSender;
+	public MyMailSenderService mailSender;
 
 	/**
 	 * Komentare komentare komentare
@@ -88,10 +88,10 @@ public class UserController {
 		System.out.println("1");
 		try{
 			User user = userResponse.findByUsername(loginDTO.getUsername());
-			
+			System.out.println(user.getUsername());
 			ListActivateUser listActivate = listActivatUserRepository.findByUser(user);
-			System.out.println("1 "+listActivate.getPrivateKey());
-			if(listActivate.getPrivateKey().equals("")) {
+			
+			if(listActivate == null) {
 				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
 				Authentication authentication = authenticationManager.authenticate(token);
 				
@@ -125,11 +125,12 @@ public class UserController {
 				
 				//TODO Email korisniku
 				System.out.println("1 + 1");
-				System.out.println(user.getUserProfile().getEmail());
-				mailSender.sendMail(user.getUserProfile().getEmail(), "Login Attack", "Neko je pokusao da se ulogije");
+				mailSender.sendMail(user.getUserProfile().getEmail(), "Login Attack", "Neko je pokusao da se ulogije na vas profil sa IP: 123.465.789");
 				
 				//trebao bi da javi na email da je neko pokusao da se prijavi dodatno
 				//Treba ovo ispraviti da dodaje jos
+				
+				System.out.println("proslao mejl");
 				HendlerLogs.saveLog("multipate_attempt", loginDTO.getUsername(), null);
 				
 				return new ResponseEntity<>(model, HttpStatus.OK);
@@ -224,6 +225,8 @@ public class UserController {
 				userProfileRepository.save(userProfile);
 				userResponse.save(user);
 				userRoleRepository.save(userRole);
+				
+				mailSender.sendMail(user.getUserProfile().getEmail(), "Registration notification", "Your are sucessful registered by admin " + prem.getUserProfile().getFirstName() + ". Registration date: "+new Date().toString());
 				
 				model.put("save", true);
 			} catch (Exception e) {

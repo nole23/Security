@@ -135,8 +135,8 @@ angular
 
 	}])
 	
-	.run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage', 
-		function(Restangular, $log, $rootScope, $http, $location, $localStorage) {
+	.run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage', 'LoginService',
+		function(Restangular, $log, $rootScope, $http, $location, $localStorage, LoginService) {
 		Restangular.setBaseUrl("api");
         Restangular.setErrorInterceptor(function(response) {
             if (response.status === 500) {
