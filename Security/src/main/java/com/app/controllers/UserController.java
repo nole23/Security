@@ -43,6 +43,7 @@ import com.app.repository.UserRoleRepository;
 import com.app.security.TokenUtils;
 import com.app.util.HendlerLogs;
 import com.app.services.MyMailSenderService;
+import com.app.security.XssAttacks;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -253,6 +254,10 @@ public class UserController {
 		
 		User user = userResponse.findByUsername(principal.getName());
 		if(user.getUserRole().getRole().getName().equals("ADMIN") || user.getUserRole().getRole().getName().equals("OPERATOR")){
+			if(XssAttacks.isHtml(userDTO.getPassword())){
+				model.put("error", "XSS ATTACK");
+				return new ResponseEntity<>(model, HttpStatus.OK);
+			}
 			
 			user.setPassword(encoder.encode(userDTO.getPassword()));
 			
@@ -262,6 +267,25 @@ public class UserController {
 		return new ResponseEntity<>(model, HttpStatus.OK);
     }
 
-	
+	//@PreAuthorize("hasAuthority('ROLE_USER')")
+		@RequestMapping(value = "/testiranje", method = RequestMethod.POST, consumes = "application/json")
+	    public ResponseEntity<Map<String, Object>> provera(@Valid @RequestBody LoginDTO loginDTO) {
+			Map<String, Object> model = new HashMap<>();
+			
+			String username = loginDTO.getUsername();
+			
+			if(XssAttacks.isHtml(loginDTO.getUsername())){
+				System.out.println("XSS DETEKTOVAN");
+				model.put("error", "XSS ATTACK");
+		        
+			} else {
+				User user = userResponse.findByUsername(username);
+				System.out.println(userResponse.findByUsername(username));
+				model.put("result", user.getUsername());
+		        
+			}
+			
+			return new ResponseEntity<>(model, HttpStatus.OK);
+	    }
 	
 }
