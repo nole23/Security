@@ -41,6 +41,8 @@ import com.app.repository.UserProfileRepository;
 import com.app.repository.UserRepository;
 import com.app.repository.UserRoleRepository;
 import com.app.security.TokenUtils;
+import com.app.util.HendlerLogs;
+import com.app.services.MyMailSenderService;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -69,6 +71,9 @@ public class UserController {
 	
 	@Autowired
 	UserProfileRepository userProfileRepository;
+	
+	@Autowired
+	private MyMailSenderService mailSender;
 
 	/**
 	 * Komentare komentare komentare
@@ -120,12 +125,11 @@ public class UserController {
 				//TODO Email korisniku
 				System.out.println("1 + 1");
 				System.out.println(user.getUserProfile().getEmail());
-				
+				mailSender.sendMail(user.getUserProfile().getEmail(), "Login Attack", "Neko je pokusao da se ulogije");
 				
 				//trebao bi da javi na email da je neko pokusao da se prijavi dodatno
 				//Treba ovo ispraviti da dodaje jos
-				
-				
+				HendlerLogs.saveLog("multipate_attempt", loginDTO.getUsername(), null);
 				
 				return new ResponseEntity<>(model, HttpStatus.OK);
 			}
@@ -224,7 +228,7 @@ public class UserController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("duplikat " + e);
-				
+				HendlerLogs.saveLog("duplicate_key", principle.getName(), userDTO.getUsername() + " | " + userDTO.getUserProfile().getEmail());
 				model.put("save", false);
 				model.put("error", "duplicate_attribu");
 			}
