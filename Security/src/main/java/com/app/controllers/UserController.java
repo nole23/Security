@@ -3,6 +3,7 @@ package com.app.controllers;
 import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -173,9 +174,9 @@ public class UserController {
 		Map<String, Object> model = new HashMap<>();
 		
 		User prem = userResponse.findByUsername(principle.getName());
-		if(prem.getUserRole().getRole().getName().equals("ADMIN")){
+		System.out.println(userDTO.getUsername());
+		if(!prem.getUserRole().getRole().getName().equals("ADMIN")){
 			model.put("error", false);
-			
 			return new ResponseEntity<>(model, HttpStatus.OK);
 		}
 		
@@ -185,17 +186,22 @@ public class UserController {
 		UserRole userRole = new UserRole();
 		
 		if(type.equals("AGENT")){
+			System.out.println("usao ovde kako treba");
 			try{
+				System.out.println("usao ovde kako treba");
+				UserProfile userProfile = userProfileRepository.findOne(Long.parseLong("1"));
+
 				user.setPassword(encoder.encode(userDTO.getPassword()));
 				user.setUsername(userDTO.getUsername());
-				
+				user.setUserProfile(userProfile);
+
 				role = roleRepository.findByName("AGENT");
-				
+
 				userRole.setUser(user);
 				userRole.setRole(role);
-				
+
 				userResponse.save(user);
-				
+				userRoleRepository.save(userRole);
 				model.put("save", true);
 			} catch (Exception e){
 				
@@ -269,26 +275,37 @@ public class UserController {
 		}
 		return new ResponseEntity<>(model, HttpStatus.OK);
     }
+	
+	@RequestMapping(value = "/active/agent", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> activeAgent() {
+		Map<String, Object> model = new HashMap<>();
+		
+		List<ListActivateUser> listActiveUser = listActivatUserRepository.findAll();
+		System.out.println(listActiveUser.get(0).getUser().getUsername());
+		model.put("list", listActiveUser);
+		
+		return new ResponseEntity<>(model, HttpStatus.OK);
+    }
+	
 
-	//@PreAuthorize("hasAuthority('ROLE_USER')")
-		@RequestMapping(value = "/testiranje", method = RequestMethod.POST, consumes = "application/json")
-	    public ResponseEntity<Map<String, Object>> provera(@Valid @RequestBody LoginDTO loginDTO) {
-			Map<String, Object> model = new HashMap<>();
-			
-			String username = loginDTO.getUsername();
-			
-			if(XssAttacks.isHtml(loginDTO.getUsername())){
-				System.out.println("XSS DETEKTOVAN");
-				model.put("error", "XSS ATTACK");
-		        
-			} else {
-				User user = userResponse.findByUsername(username);
-				System.out.println(userResponse.findByUsername(username));
-				model.put("result", user.getUsername());
-		        
-			}
-			
-			return new ResponseEntity<>(model, HttpStatus.OK);
-	    }
+	@RequestMapping(value = "/testiranje", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity<Map<String, Object>> provera(@Valid @RequestBody LoginDTO loginDTO) {
+		Map<String, Object> model = new HashMap<>();
+		
+		String username = loginDTO.getUsername();
+		
+		if(XssAttacks.isHtml(loginDTO.getUsername())){
+			System.out.println("XSS DETEKTOVAN");
+			model.put("error", "XSS ATTACK");
+	        
+		} else {
+			User user = userResponse.findByUsername(username);
+			System.out.println(userResponse.findByUsername(username));
+			model.put("result", user.getUsername());
+	        
+		}
+		
+		return new ResponseEntity<>(model, HttpStatus.OK);
+    }
 	
 }

@@ -8,7 +8,9 @@
 		return {
 			login: login,
 			getCurrentUser: getCurrentUser,
-			logout:logout
+			logout:logout,
+			saveAdmin:saveAdmin,
+			saveAgent:saveAgent
 		};
 		
 		function login(loginDTO, callback){
@@ -56,6 +58,25 @@
 		        }
 		    });
 		    
+		}
+		
+		function saveAdmin(userDTO, callback) {
+			
+			$http.defaults.headers.common.Authorization = $localStorage.currentUser.token;
+			$http.post('/api/user/registration/OPERATOR', userDTO)
+				.success(function (response) {
+					console.log(response);
+					callback(response);
+				})
+		}
+		
+		function saveAgent(userDTO, callback) {
+			$http.defaults.headers.common.Authorization = $localStorage.currentUser.token;
+			$http.post('/api/user/registration/AGENT', userDTO)
+				.success(function (response) {
+					console.log(response);
+					callback(response);
+				})
 		}
 		
 	}
