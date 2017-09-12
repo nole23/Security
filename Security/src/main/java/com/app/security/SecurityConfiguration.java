@@ -80,6 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.csrfTokenRepository(csrfTokenRepository())
 		        .ignoringAntMatchers("/api/user/**")
 		        .ignoringAntMatchers("/api/agent/**")
+		        .ignoringAntMatchers("/api/alarm/**")
 		    .and()
 				.logout()
 				.clearAuthentication(true)
