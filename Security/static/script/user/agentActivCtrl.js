@@ -9,6 +9,8 @@
 		
 		vm.agent = [];
 		
+		vm.date = new Date();
+		
 		LoginService.activAgent(function(successful) {
 			vm.agnet = successful.data.list;
 			console.log(vm.agnet);

@@ -86,6 +86,8 @@ angular
             views: {
                 'content': {
                     templateUrl: 'view/chart.html',
+                    controller: 'LogCtrl',
+                    controllerAs: 'vm'
                 }
             },
 

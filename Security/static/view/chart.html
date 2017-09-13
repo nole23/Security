@@ -1,66 +1,61 @@
+<div id="page-inner">
 
-            <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                     <h2> Charts</h2>   
-                        <h5>Welcome Jhon Deo , Love to see you back. </h5>
-                       
-                    </div>
-                </div>
-                 <!-- /. ROW  -->
-                 <hr />
-             
-                <div class="row"> 
-                    
-                      
-                               <div class="col-md-6 col-sm-12 col-xs-12">                     
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Bar Chart Example
-                        </div>
-                        <div class="panel-body">
-                            <div id=""></div>
-                        </div>
-                    </div>            
-                </div>
-                      <div class="col-md-6 col-sm-12 col-xs-12">                     
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Area Chart Example
-                        </div>
-                        <div class="panel-body">
-                            <div id=""></div>
-                        </div>
-                    </div>            
-                </div> 
-                
-           </div>
-                 <!-- /. ROW  -->
-                <div class="row">                     
-                      
-                               <div class="col-md-6 col-sm-12 col-xs-12">                     
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Donut Chart Example
-                        </div>
-                        <div class="panel-body">
-                            <div id=""></div>
-                        </div>
-                    </div>            
-                </div>
-                      <div class="col-md-6 col-sm-12 col-xs-12">                     
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Line Chart Example
-                        </div>
-                        <div class="panel-body">
-                            <div id=""></div>
-                        </div>
-                    </div>            
-                </div> 
-                
-           </div>
-                 <!-- /. ROW  -->
-    </div>
-             <!-- /. PAGE INNER  -->
-        
+	<!-- /. ROW  -->
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<form class="navbar-search">
+						<input type="text" placeholder="Search" class="form-control">
+						<select class="form-control" data-ng-model="vm.agent" style="width: 20%; float: left;">
+							<option value="null">Izabrati agenta</option>
+							<option value="1">Agent1</option>
+							<option value="2">Agent2</option>
+							<option value="3">Agent3</option>
+						</select>
+						<select class="form-control" data-ng-model="vm.log" style="width: 20%">
+							<option value="">Tip loga</option>
+							<option value="1">HEIGHT</option>
+							<option value="2">WARE</option>
+							<option value="3">LOGIN</option>
+						</select>
+						
+						<button type="submit" class="btn btn-default" ng-click="vm.search()">Pretrazi</button>
+					</form>
+				</div>
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Host</th>
+									<th>Platforma</th>
+									<th>Platforma</th>
+									<th>Vreme napada</th>
+								</tr>
+							</thead>
+							
+							<tbody data-ng-show="vm.message1" data-ng-repeat="l in vm.log">
+
+								<tr data-ng-repeat="ll in l">
+									
+										<td>1</td>
+										<td>{{ll.host}}</td>
+										<td>{{ll.info.platform}}</td>
+										<td>{{ll.info.message}}</td>
+										<td>{{ll.info.platform}}</td>
+									
+								</tr>
+
+							</tbody>
+							
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /. ROW  -->
+
+</div>
