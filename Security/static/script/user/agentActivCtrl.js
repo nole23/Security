@@ -9,14 +9,9 @@
 		
 		vm.agent = [];
 		
-		LoginService.activAgent(vm.user, function(successful) {
-			if(!successful.save){
-				console.log(successful);
-				vm.error = true;
-			} else {
-				vm.saveAs = true;
-				console.log(successful);
-			}
+		LoginService.activAgent(function(successful) {
+			vm.agnet = successful.data.list;
+			console.log(vm.agnet);
 		});
 
 		

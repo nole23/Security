@@ -1,6 +1,7 @@
 package com.app.controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.ListActivateUserDTO;
 import com.app.dto.LoginDTO;
 import com.app.dto.UserDTO;
 import com.app.model.ListActivateUser;
@@ -277,12 +279,22 @@ public class UserController {
     }
 	
 	@RequestMapping(value = "/active/agent", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> activeAgent() {
+    public ResponseEntity<Map<String, Object>> activeAgent(Principal principal) {
 		Map<String, Object> model = new HashMap<>();
+		try {
+			List<ListActivateUser> listActiveUser = listActivatUserRepository.findAll();
+			List<ListActivateUserDTO> listActivate = new ArrayList<>();
+			
+			for(ListActivateUser l: listActiveUser) {
+				listActivate.add(new ListActivateUserDTO(l));
+			}
+			model.put("list", listActivate);
+			
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
 		
-		List<ListActivateUser> listActiveUser = listActivatUserRepository.findAll();
-		System.out.println(listActiveUser.get(0).getUser().getUsername());
-		model.put("list", listActiveUser);
 		
 		return new ResponseEntity<>(model, HttpStatus.OK);
     }

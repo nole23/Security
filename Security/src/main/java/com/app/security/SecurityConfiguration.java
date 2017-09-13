@@ -3,6 +3,7 @@ package com.app.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,10 +23,10 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Order(1)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -75,20 +76,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	          .x509()
 	            .subjectPrincipalRegex("CN=(.*?)(?:,|$)")
 	            .userDetailsService(userDetailsService())
-			.and()
-				.csrf()
-				.csrfTokenRepository(csrfTokenRepository())
-		        .ignoringAntMatchers("/api/user/**")
-		        .ignoringAntMatchers("/api/agent/**")
-		        .ignoringAntMatchers("/api/alarm/**")
 		    .and()
 				.logout()
 				.clearAuthentication(true)
-				.invalidateHttpSession(true);
+				.invalidateHttpSession(true)
+			.and()
+			  .csrf()
+			  	.csrfTokenRepository(csrfTokenRepository())
+		        .ignoringAntMatchers("/api/user/**")
+		        .ignoringAntMatchers("/api/agent/login")
+		        .ignoringAntMatchers("/api/alarm/**");
 		
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(),
 				UsernamePasswordAuthenticationFilter.class);
-		//httpSecurity.addFilterAfter(new CsrfHeaderFilter(), SessionManagementFilter.class);
+		//httpSecurity.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
 	}
 	
 	@Override

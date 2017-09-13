@@ -10,7 +10,8 @@
 			getCurrentUser: getCurrentUser,
 			logout:logout,
 			saveAdmin:saveAdmin,
-			saveAgent:saveAgent
+			saveAgent:saveAgent,
+			activAgent:activAgent
 		};
 		
 		function login(loginDTO, callback){
@@ -77,6 +78,14 @@
 					console.log(response);
 					callback(response);
 				})
+		}
+		
+		function activAgent(callback) {
+			$http.defaults.headers.common.Authorization = $localStorage.currentUser.token;
+			$http.get('/api/user/active/agent')
+		    .then(function(response) {
+		        callback(response);
+		    });
 		}
 		
 	}

@@ -10,19 +10,22 @@
 	<div class="row">
 	
 	
-		<div data-ng-repeat="a in vm.agent">
-			<div class="col-md-3">
-				<div class="panel panel-back noti-box">
-					<span class="icon-box bg-color-green set-icon"> <i
-						class="fa fa-desktop"></i>
-	
-					</span>
-					<div class="text-box">
-						<p class="main-text">Agent1</p>
-						<br>
-						<br>
-						<br> <span class="text-muted">MAC: 88:99:AA:FF:98</span><br>
-						<span class="text-muted">STATUS: ACTIVE</span>
+		<div data-ng-repeat="a in vm.agnet">
+			<div data-ng-if="a.userDTO.userProfile == null">
+				<div class="col-md-3">
+					<div class="panel panel-back noti-box">
+						<span class="icon-box bg-color-green set-icon"> <i
+							class="fa fa-desktop"></i>
+		
+						</span>
+						<div class="text-box">
+							<p class="main-text">{{a.userDTO.username}}</p>
+							<br>
+							<br>
+							<br> <span class="text-muted">MAC: 88:99:AA:FF:98</span><br>
+							<span class="text-muted">STATUS: {{a.statusLogin}}</span><br>
+							<span class="text-muted">Date log: {{a.dateLogin | date : format : timezone}} {{a.dateLogin | date:'h:mma'}}</span>
+						</div>
 					</div>
 				</div>
 			</div>

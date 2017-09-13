@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,7 +58,7 @@ public class AgentController {
 	 * Logovanje agenata
 	 */
 	@RequestMapping(value="/login", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Map<String, Object>> loginKorisnik(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<Map<String, Object>> loginKorisnik(@RequestBody LoginDTO loginDTO,CsrfToken token1) {
 		Map<String, Object> model = new HashMap<>();
 		try{
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
@@ -66,8 +68,8 @@ public class AgentController {
 			UserDetails details = userDetailsService.loadUserByUsername(loginDTO.getUsername());
 
 			//System.out.println(token1.getToken() + " ! " + token1.getHeaderName());
-	        //model.put("csrf", token1);
-			
+	        //
+			model.put("csrf", token1);
 	        model.put("username", loginDTO.getUsername());
 	        model.put("jwt", tokenUtils.generateToken(details));
 	        model.put("role", "agent");
@@ -81,17 +83,20 @@ public class AgentController {
 	/**
 	 * cuvanje pristiglih logova i provera da je aget
 	 */
-	@RequestMapping(value = "/logs", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<String> registration(@RequestBody AgentLogs agentLogs, 
-			final HttpEntity<String> httpEntity, Principal principal) {
+	@RequestMapping(value = "/logs/{csrf}", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<Map<String, Object>> registration(@RequestBody AgentLogs agentLogs, 
+			final HttpEntity<String> httpEntity, Principal principal, CsrfToken token1, @PathVariable String csrf) {
 		
+		Map<String, Object> model = new HashMap<>();
 		User user = userRepository.findByUsername(principal.getName());
+		
 		System.out.println(user.getId());
 		
+		if(user.getUserProfile() != null){
+			model.put("error", true);
+			return new ResponseEntity<>(model, HttpStatus.OK);
+		}
 
-		//TODO Ovde treba uraditi CSR filter
-		//AgentRequeste = csrfUtil.parserRequest(httpEntity.getBody(), user.getId().toString());
-		
 		
 		AgentLogs agent = agentService.findByAgent(user.getId());
 		
@@ -120,7 +125,7 @@ public class AgentController {
 		
 		//TODO Kad sve ovo prodje poslati log na proveru
 		
-		return new ResponseEntity<>("Sacuvano",HttpStatus.OK);
+		return new ResponseEntity<>(model, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/all/logs", method = RequestMethod.GET)
