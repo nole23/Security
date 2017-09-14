@@ -8,28 +8,41 @@
 		var vm = this;
 		
 		vm.log = [];
+		vm.admin = [];
+		vm.startData = {};
+		vm.endData = {};
+		vm.agent = {};
+		vm.tip = {};
+		vm.searchDTO = {};
 		
 		
+		
+		LogService.findAllAgent(function(successful) {
+			vm.admin = successful;
+		})
 
 		vm.search = function() {
 			
-			if(vm.agent=="null"){
-				console.log("radi")
-				LogService.findAll(vm.agent, function(resource) {
-					vm.message1 = true;
-					vm.log = resource;
-					console.log(vm.log);
-					
-				})
-			} else {
-				console.log("radi")
-				LogService.findAll(vm.agent, function(resource) {
-					vm.message2 = true;
-					vm.log = resource;
-					console.log(vm.log);
-					
-				})
+			if(vm.agent != null ) {
+				console.log(vm.agent);
+				vm.searchDTO = {
+						"vrst":"agent",
+						"agentId":vm.agent
+				}
+				
+			} else if(vm.startData != "") {
+				vm.searchDTO = {
+						"vrst":"vreme_agent",
+						"agentId":vm.agent,
+						"startData":vm.startData,
+						"endData":vm.endData
+				}
 			}
+			
+			LogService.findAll(vm.searchDTO, function(successful) {
+				vm.log = successful;
+				vm.message1 = true;
+			})
 			
 		}
 		

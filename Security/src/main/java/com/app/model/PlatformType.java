@@ -5,5 +5,6 @@ public enum PlatformType {
 	WINDOWS,
 	LINUX,
 	SERVER,
-	FIREWAL
+	FIREWAL,
+	NULL
 }

@@ -84,9 +84,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			  .csrf()
 			  	.csrfTokenRepository(csrfTokenRepository())
 		        .ignoringAntMatchers("/api/user/**")
-		        .ignoringAntMatchers("/api/agent/login")
+		        .ignoringAntMatchers("/api/agent/**")
 		        .ignoringAntMatchers("/api/alarm/**")
-		        .ignoringAntMatchers("/api/log/**");;
+		        .ignoringAntMatchers("/api/log/**");
 		
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(),
 				UsernamePasswordAuthenticationFilter.class);

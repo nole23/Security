@@ -2,11 +2,12 @@ package com.app.controllers;
 
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,10 +24,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.LoginDTO;
+import com.app.dto.UserDTO;
 import com.app.model.AgentLogs;
-import com.app.model.ErrorLog;
+import com.app.model.ListActivateUser;
 import com.app.model.User;
 import com.app.repository.AgentLogsRepository;
+import com.app.repository.ListActivatUserRepository;
 import com.app.repository.UserRepository;
 import com.app.security.TokenUtils;
 import com.app.services.AgentLogService;
@@ -53,6 +56,9 @@ public class AgentController {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	ListActivatUserRepository listActivatUserRepository;
 	
 	/**
 	 * Logovanje agenata
@@ -84,58 +90,51 @@ public class AgentController {
 	 * cuvanje pristiglih logova i provera da je aget
 	 */
 	@RequestMapping(value = "/logs/{csrf}", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Map<String, Object>> registration(@RequestBody AgentLogs agentLogs, 
-			final HttpEntity<String> httpEntity, Principal principal, CsrfToken token1, @PathVariable String csrf) {
+	public ResponseEntity<Map<String, Object>> registration(@RequestBody AgentLogs agentLogs, Principal principal, CsrfToken token1, @PathVariable String csrf) {
 		
 		Map<String, Object> model = new HashMap<>();
 		User user = userRepository.findByUsername(principal.getName());
+		ListActivateUser list = listActivatUserRepository.findByUser(user);
 		
 		System.out.println(user.getId());
 		
-		if(user.getUserProfile() != null){
+		if(list.getPrivateKey().equals(csrf)){
 			model.put("error", true);
 			return new ResponseEntity<>(model, HttpStatus.OK);
 		}
-
 		
-		AgentLogs agent = agentService.findByAgent(user.getId());
+		AgentLogs agentLogs1 = new AgentLogs();
+		agentLogs1 = agentLogs;
+		agentService.save(agentLogs1);
 		
-		if(agent != null){
-			
-			System.out.println("Agent postoji samo se dodaje element");
-			
-			ErrorLog error = new ErrorLog();
-			error.setLogLevel(agentLogs.getInfo().getError().get(0).getLogLevel());
-			error.setError(agentLogs.getInfo().getError().get(0).getError());
-			error.setTime(agentLogs.getInfo().getError().get(0).getTime());
-			error.setType(agentLogs.getInfo().getError().get(0).getType());
-			
-			agent.getInfo().getError().add(error);
-			agentRepository.save(agent);
-			System.out.println("sacuvali smo novi element errorLoga");
-					
-				
-		} else {
-			System.out.println("agent ne postoji1");
-			AgentLogs agentLogs1 = new AgentLogs();
-			agentLogs1 = agentLogs;
-			
-			agentService.save(agentLogs1);
-		}
 		
 		//TODO Kad sve ovo prodje poslati log na proveru
 		
+		
+		
+		//TODO Sacuvati novi token radi provere da neko nije uhakovao nesto
+		list.setPrivateKey(token1.getToken());
+		listActivatUserRepository.save(list);
+		
+		model.put("csrf", token1);
 		return new ResponseEntity<>(model, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/all/logs", method = RequestMethod.GET)
-	public ResponseEntity<String> allLog() {
+	@RequestMapping(value = "/all/agent", method = RequestMethod.GET)
+	public ResponseEntity<List<UserDTO>> allLog() {
 		
 		//BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-		System.out.println("Nesto radi");
+		List<User> user = userRepository.findAll();
+		List<UserDTO> userDTO = new ArrayList<>();
 		
-		return new ResponseEntity<>("Sacuvano",HttpStatus.OK);
+		for(User u: user){
+			if(u.getUserRole().getRole().getName().equals("AGENT")){
+				userDTO.add(new UserDTO(u));
+			}
+		}
+		
+		return new ResponseEntity<>(userDTO,HttpStatus.OK);
 	}
 }
 

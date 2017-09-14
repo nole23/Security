@@ -24,7 +24,7 @@ public class AgentLogService {
 	}
 
 	public AgentLogs findByAgent(Long id) {
-		AgentLogs agent = agentRepository.findByAgent(id);
+		AgentLogs agent = agentRepository.findByAgentEquals(id);
 		return agent;
 	}
 }

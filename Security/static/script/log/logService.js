@@ -6,11 +6,12 @@
 	
 	function LogService($http, $window, $state, $localStorage, $rootScope) {
 		return {
-			findAll: findAll
+			findAll: findAll,
+			findAllAgent:findAllAgent
 		};
 		
-		function findAll(parameter, callback){
-			$http.get('/api/log/all/'+parameter)
+		function findAll(searchDTO, callback){
+			$http.post('/api/log/all', searchDTO)
 				.success(function (response) {
 					//console.log(response)
 					console.log(response);
@@ -18,6 +19,12 @@
 				})
 		}
 		
+		function findAllAgent(callback) {
+			$http.get('/api/agent/all/agent')
+				.success(function(response) {
+					callback(response);
+				})
+		}
 		
 		
 	}
