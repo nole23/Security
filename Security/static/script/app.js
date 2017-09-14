@@ -5,7 +5,8 @@ angular
             'ngCookies',
             'ngStorage',
             'restangular',
-            'ui.router'
+            'ui.router',
+            
 	])
 	.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', function ($routeProvider, $stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.otherwise("/login");

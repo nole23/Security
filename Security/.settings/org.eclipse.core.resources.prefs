@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/test/java=UTF-8
+encoding//static/view/addAlarm.html=UTF-8
 encoding//static/view/adminAdd.html=UTF-8
 encoding//static/view/agentAdd.html=UTF-8
 encoding//static/view/home.html=UTF-8

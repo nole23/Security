@@ -8,7 +8,8 @@ public class SearchDTO {
 	private String type;
 	private Date startData;
 	private Date endData;
-	private String vrst;
+	private String platforma;
+	private String regular;
 
 	public String getAgentId() {
 		return agentId;
@@ -42,12 +43,20 @@ public class SearchDTO {
 		this.endData = endData;
 	}
 
-	public String getVrst() {
-		return vrst;
+	public String getPlatforma() {
+		return platforma;
 	}
 
-	public void setVrst(String vrst) {
-		this.vrst = vrst;
+	public void setPlatforma(String platforma) {
+		this.platforma = platforma;
+	}
+
+	public String getRegular() {
+		return regular;
+	}
+
+	public void setRegular(String regular) {
+		this.regular = regular;
 	}
 
 }

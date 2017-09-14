@@ -7,14 +7,13 @@
 	function LogService($http, $window, $state, $localStorage, $rootScope) {
 		return {
 			findAll: findAll,
-			findAllAgent:findAllAgent
+			findAllAgent:findAllAgent,
+			findAllEnum:findAllEnum
 		};
 		
 		function findAll(searchDTO, callback){
 			$http.post('/api/log/all', searchDTO)
 				.success(function (response) {
-					//console.log(response)
-					console.log(response);
 					callback(response);
 				})
 		}
@@ -26,6 +25,12 @@
 				})
 		}
 		
+		function findAllEnum(callback) {
+			$http.get('/api/log/all/enum')
+				.success(function(response) {
+					callback(response);
+				})
+		}
 		
 	}
 	

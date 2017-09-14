@@ -6,19 +6,47 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<form class="navbar-search">
-						<input type="text" placeholder="Search for regular" class="form-control">
-						<select class="form-control" data-ng-model="vm.agent" style="width: 20%; float: left;">
-							<option value="">Izabrati agenta</option>
-							<option ng-repeat="a in vm.admin" value="{{ a.id }}">{{a.username}}</option>
-						</select>
-						<select class="form-control" data-ng-model="vm.tip" style="width: 20%">
-							<option value="">Tip loga</option>
-							<option value="">NE RADI OVO JOS</option>
-						</select>
-						<input type="date" ng-model="vm.startData" placeholder="Od datuma">
-						<input type="date" ng-model="vm.endData" placeholder="Do datuma">
+						<div>
+							<input type="text" ng-model="vm.regular" placeholder="Search for regular" class="form-control">
+							
+							
+							<button ng-if="!vm.show" class="btn btn-default" ng-click="vm.view()">dodatna pretraga</button>
+							<button ng-if="vm.show" class="btn btn-default" ng-click="vm.hiden()">sakri pretraga</button>
+							
+							<div style="margin-top: 5%" ng-show="vm.show">
+								<div style="width: 30%; margin-left: 2%; float: left;">
+									Agent
+									<select class="form-control" data-ng-model="vm.agent" >
+										<option data-ng-repeat="a in vm.admin" value="{{ a.id }}">{{a.username}}</option>
+									</select>
+								</div>
+								<div style="width: 30%; margin-left: 2%; float: left;">
+									Log level
+									<select class="form-control" data-ng-model="vm.tip" >
+										<option data-ng-repeat="v in vm.enume.levelLog" value="{{v}}">{{v}}</option>
+									</select>
+								</div>
+								
+								<div style="width: 30%; margin-left: 2%; float: left;">
+									Platforma
+									<select class="form-control" data-ng-model="vm.platforma" >
+										<option data-ng-repeat="p in vm.enume.platform" value="{{p}}">{{p}}</option>
+									</select>
+								</div>
+								
+								<div style="float: left; margin: 2% 0 0 10%">
+									Datum loga od
+									<input type="date" ng-model="vm.startData" placeholder="Od datuma">
+								</div >
+									<div style="float: left; margin: 2% 0 0 10%">
+									Datum loga do
+								<input type="date" ng-model="vm.endData" placeholder="Do datuma">
+								</div>
+							</div>
+						</div>
+						<button style=" margin: 5% 0 0 90%; " type="submit" class="btn btn-default" ng-click="vm.search()">Pretrazi</button>
 						
-						<button type="submit" class="btn btn-default" ng-click="vm.search()">Pretrazi</button>
+						
 					</form>
 				</div>
 				<div class="panel-body">
@@ -29,25 +57,27 @@
 									<th>#</th>
 									<th>Host</th>
 									<th>Platforma</th>
-									<th>Platforma</th>
+									<th>Vrsta napada</th>
 									<th>Vreme napada</th>
+									<th>#</th>
 								</tr>
 							</thead>
-							
+
 							<tbody data-ng-show="vm.message1" data-ng-repeat="l in vm.log">
 
-								<tr >
-									
-										<td>1</td>
-										<td>{{l.host}}</td>
-										<td>{{l.platform}}</td>
-										<td>{{l.message}}</td>
-										<td>{{l.platform}}</td>
-									
+								<tr>
+
+									<td>1</td>
+									<td>{{l.hots}}</td>
+									<td>{{l.platform}}</td>
+									<td>{{l.type}}</td>
+									<td>{{l.date | date:'h:mma'}}</td>
+									<td> <button class="btn btn-default" ng-click="vm.azuriranje()">Vise</button></td>
+
 								</tr>
 
 							</tbody>
-							
+
 						</table>
 					</div>
 				</div>
