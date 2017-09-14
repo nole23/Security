@@ -1,0 +1,14 @@
+Jul 17 22:04:25 router  dnsprobe[276]: dns query failed
+Jul 17 22:04:29 router last message repeated 2 times
+Jul 17 22:04:29 router  dnsprobe[276]: Primary DNS server Is Down... Switching To Secondary DNS server
+Jul 17 22:05:08 router  dnsprobe[276]: Switching Back To Primary DNS server
+
+Jul 17 22:05:08 router  dnsprobe[276]: Switching Back To Primary DNS server
+
+
+Jul 17 22:05:08 router  dnsprobe[276]: new data log
+
+Jul 17 22:05:08 router  dnsprobe[276]: new data 4
+Jul 17 22:05:08 router  dnsprobe[276]: new data log 5
+Jul 17 22:05:08 router  dnsprobe[276]: new data log 12
+Jul 17 22:05:08 router  dnsprobe[276]: new data log 36

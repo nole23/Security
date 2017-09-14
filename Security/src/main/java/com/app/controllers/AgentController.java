@@ -3,6 +3,7 @@ package com.app.controllers;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import com.app.dto.LoginDTO;
 import com.app.dto.UserDTO;
 import com.app.model.AgentLogs;
 import com.app.model.ListActivateUser;
+import com.app.model.StausLogin;
 import com.app.model.User;
 import com.app.repository.AgentLogsRepository;
 import com.app.repository.ListActivatUserRepository;
@@ -59,6 +61,9 @@ public class AgentController {
 	
 	@Autowired
 	ListActivatUserRepository listActivatUserRepository;
+
+	@Autowired
+	UserRepository userResponse;
 	
 	/**
 	 * Logovanje agenata
@@ -67,6 +72,7 @@ public class AgentController {
 	public ResponseEntity<Map<String, Object>> loginKorisnik(@RequestBody LoginDTO loginDTO,CsrfToken token1) {
 		Map<String, Object> model = new HashMap<>();
 		try{
+			User user = userResponse.findByUsername(loginDTO.getUsername());
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
 			Authentication authentication = authenticationManager.authenticate(token);
 			
@@ -75,7 +81,18 @@ public class AgentController {
 
 			//System.out.println(token1.getToken() + " ! " + token1.getHeaderName());
 	        //
-			model.put("csrf", token1);
+			
+			Date date = new Date();
+			
+			ListActivateUser listActivateUser = new ListActivateUser();
+			listActivateUser.setPrivateKey(token1.getToken());
+			listActivateUser.setDateLogin(date);
+			listActivateUser.setUser(user);
+			listActivateUser.setStatusLogin(StausLogin.ACTIVE);
+			listActivatUserRepository.save(listActivateUser);
+			
+			
+			model.put("csrf", token1.getToken());
 	        model.put("username", loginDTO.getUsername());
 	        model.put("jwt", tokenUtils.generateToken(details));
 	        model.put("role", "agent");
@@ -95,18 +112,19 @@ public class AgentController {
 		Map<String, Object> model = new HashMap<>();
 		User user = userRepository.findByUsername(principal.getName());
 		ListActivateUser list = listActivatUserRepository.findByUser(user);
-		
-		System.out.println(user.getId());
-		
-		if(list.getPrivateKey().equals(csrf)){
-			model.put("error", true);
-			return new ResponseEntity<>(model, HttpStatus.OK);
-		}
-		
+		System.out.println("1");
+		System.out.println(agentLogs.getErrorLog().getLogLevel());
+		System.out.println("2");
+//		if(list.getPrivateKey().equals(csrf)){
+//			model.put("error", true);
+//			System.out.println("3");
+//			return new ResponseEntity<>(model, HttpStatus.OK);
+//		}
+		System.out.println("4");
 		AgentLogs agentLogs1 = new AgentLogs();
 		agentLogs1 = agentLogs;
 		agentService.save(agentLogs1);
-		
+		System.out.println("5");
 		
 		//TODO Kad sve ovo prodje poslati log na proveru
 		
@@ -115,6 +133,7 @@ public class AgentController {
 		//TODO Sacuvati novi token radi provere da neko nije uhakovao nesto
 		list.setPrivateKey(token1.getToken());
 		listActivatUserRepository.save(list);
+		
 		
 		model.put("csrf", token1);
 		return new ResponseEntity<>(model, HttpStatus.OK);
