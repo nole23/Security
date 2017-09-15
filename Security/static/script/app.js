@@ -78,6 +78,8 @@ angular
             views: {
                 'content': {
                     templateUrl: 'view/addAlarm.html',
+                    controller: 'AlarmCtrl',
+                    controllerAs: 'vm'
                 }
             },
 
@@ -94,10 +96,13 @@ angular
 
         })
         .state('alarms', {
-            url: '/alarm',
+            url: '/alarms',
             views: {
                 'content': {
-                    templateUrl: 'view/alarm.html',
+                    templateUrl: 'view/viewAlarm.html',
+                    controller: 'ViewAlarmCtrl',
+                    controllerAs: 'vm'
+                    
                 }
             },
 

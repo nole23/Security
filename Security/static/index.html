@@ -32,12 +32,8 @@
 	  	{{getUser().date | date : format : timezone}} {{getUser().date | date:'h:mma'}} &nbsp;
 	    <a href="" ng-click="loginCtrl.logout(getUser().username)" class="btn btn-danger square-btn-adjust">Odjavite se</a>
 	</div>
-	<div style="color: white;padding: 10px 50px 0px 50px;float: right;font-size: 12px;" ng-controller="LoginCtrl as loginCtrl"> 
-		<a class="btn btn-danger square-btn-adjust" style="background-color: white;color: black;" href="" ><i class="fa fa-envelope-o fa-2x" ></i>&nbsp;<span class="badge" style="background-color: blue; color: white;" >1</span> </a>
+	<div ng-show="nesto" style="color: white;padding: 10px 50px 0px 50px;float: right;font-size: 12px;" ng-controller="LoginCtrl as loginCtrl"> 
 	  	<a class="btn btn-danger square-btn-adjust" style="background-color: white;color: #DB0630;" href="" ><i class="fa fa-bell-o fa-2x"></i>&nbsp; <span class="badge" style="background-color: #DB0630; color: white;" >1</span></a>
-	  	<a class="btn btn-danger square-btn-adjust" style="background-color: white;color: #B94A00;" href="" ><i class="fa fa-bell-o fa-2x"></i>&nbsp; <span class="badge" style="background-color: #B94A00; color: white;" >1</span></a>
-	  	<a class="btn btn-danger square-btn-adjust" style="background-color: white;color: #00CE6F;" href="" ><i class="fa fa-bell-o fa-2x"></i>&nbsp; <span class="badge" style="background-color: #00CE6F; color: white;" >1</span></a>
-	  	<a class="btn btn-danger square-btn-adjust" style="background-color: white;color: #A95DF0;" href="" ><i class="fa fa-bell-o fa-2x"></i>&nbsp; <span class="badge" style="background-color: #A95DF0; color: white;" >1</span></a>
 	</div>
 </nav>
 <!-- /. NAV TOP  -->
@@ -68,14 +64,7 @@
       <li>
         <a ng-class="{'active-menu':active == 7}" href="#/alarms" ng-click="setActive(7)"><i class="fa fa-bell-o fa-3x"></i>&nbsp;Alarmi</a>
       </li>
-      <li>
-        <a ng-class="{'active-menu':active == 8}" href="#/messages" ng-click="setActive(8)"><i class="fa fa-envelope-o fa-3x"></i> Poruke</a>
-      </li>
-      <li>
-        <a ng-class="{'active-menu':active == 9}" href="#/view/alarm" ng-click="setActive(9)"><i class="fa fa-rocket fa-3x"></i>&nbsp;Provereni alarmi</a>
-      </li>
-      <li>
-        <a ng-class="{'active-menu':active == 10}" href="#/all/alarm" ng-click="setActive(10)"><i class="fa fa-bars fa-3x"></i>&nbsp;Baza svih alarma</a>
+      
       </li>
       
     </ul>
@@ -130,5 +119,7 @@
 	<script src="script/log/logCtrl.js"></script>
 	<script src="script/log/logService.js"></script>
 	<script src="script/log/modalLog.js"></script>
-	
+	<script src="script/alarm/alarmCtrl.js"></script>
+	<script src="script/alarm/alarmService.js"></script>
+	<script src="script/alarm/viewAlarmCtrl.js"></script>
 </html>

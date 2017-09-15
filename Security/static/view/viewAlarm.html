@@ -1,0 +1,47 @@
+<div id="page-inner">
+
+	<!-- /. ROW  -->
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					
+				</div>
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Agent</th>
+									<th>Time</th>
+									<th>count of time</th>
+									<th>level log</th>
+									<th>#</th>
+								</tr>
+							</thead>
+
+							<tbody  data-ng-repeat="a in vm.alamr" ng-if="a.resolver==false">
+
+								<tr>
+
+									<td>1</td>
+									<td>{{a.userDTO.username}}</td>
+									<td>{{a.time | date:'h:mma'}}</td>
+									<td>{{a.count}}</td>
+									<td>{{a.alarmDefDTO.levelLog}}</td>
+									<td> <button class="btn btn-default" ng-click="vm.vide(a.id)">Video</button></td>
+
+								</tr>
+
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /. ROW  -->
+
+</div>
