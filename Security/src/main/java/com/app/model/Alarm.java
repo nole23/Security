@@ -4,40 +4,29 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Alarm {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Long id; // id
+	private Date time; // vreme okidanja alarma
+	private int count; // broj podesavanja
 
-	@NotNull
-	private String message;
-	@NotNull
-	private Boolean resolved = false;
-	@NotNull
-	private Date resolvedAt;
-	@NotNull
-	private String resolvedBy;
-
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private AlarmLevel alarmLevel;
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	private User user;
+	private boolean resolver = false;
+	private String userResolver;
+	private Date firstAlarm;
+	private Date lastAlarm;
 
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
 	private AlarmDef alarmDef;
-
-	public Alarm() {
-		// TODO Auto-generated constructor stub
-	}
 
 	public Long getId() {
 		return id;
@@ -47,44 +36,60 @@ public class Alarm {
 		this.id = id;
 	}
 
-	public String getMessage() {
-		return message;
+	public Date getTime() {
+		return time;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setTime(Date time) {
+		this.time = time;
 	}
 
-	public Boolean getResolved() {
-		return resolved;
+	public int getCount() {
+		return count;
 	}
 
-	public void setResolved(Boolean resolved) {
-		this.resolved = resolved;
+	public void setCount(int count) {
+		this.count = count;
 	}
 
-	public Date getResolvedAt() {
-		return resolvedAt;
+	public User getUser() {
+		return user;
 	}
 
-	public void setResolvedAt(Date resolvedAt) {
-		this.resolvedAt = resolvedAt;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getResolvedBy() {
-		return resolvedBy;
+	public boolean isResolver() {
+		return resolver;
 	}
 
-	public void setResolvedBy(String resolvedBy) {
-		this.resolvedBy = resolvedBy;
+	public void setResolver(boolean resolver) {
+		this.resolver = resolver;
 	}
 
-	public AlarmLevel getAlarmLevel() {
-		return alarmLevel;
+	public String getUserResolver() {
+		return userResolver;
 	}
 
-	public void setAlarmLevel(AlarmLevel alarmLevel) {
-		this.alarmLevel = alarmLevel;
+	public void setUserResolver(String userResolver) {
+		this.userResolver = userResolver;
+	}
+
+	public Date getFirstAlarm() {
+		return firstAlarm;
+	}
+
+	public void setFirstAlarm(Date firstAlarm) {
+		this.firstAlarm = firstAlarm;
+	}
+
+	public Date getLastAlarm() {
+		return lastAlarm;
+	}
+
+	public void setLastAlarm(Date lastAlarm) {
+		this.lastAlarm = lastAlarm;
 	}
 
 	public AlarmDef getAlarmDef() {

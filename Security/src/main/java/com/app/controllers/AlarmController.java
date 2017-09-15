@@ -1,7 +1,9 @@
 package com.app.controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.AlarmDTO;
+import com.app.model.Alarm;
 import com.app.model.AlarmDef;
 import com.app.model.User;
 import com.app.repository.AlarmDefRepository;
@@ -45,4 +49,16 @@ public class AlarmController {
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public ResponseEntity<List<AlarmDTO>> allAlarm() {
+
+		List<Alarm> alarm = alarmRepository.findAll();
+		List<AlarmDTO> alarmDTO = new ArrayList<>();
+		for(Alarm a: alarm){
+			alarmDTO.add(new AlarmDTO(a));
+		}
+
+		return new ResponseEntity<>(alarmDTO, HttpStatus.OK);
+	}
+	
 }

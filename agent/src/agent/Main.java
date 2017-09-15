@@ -63,6 +63,8 @@ public class Main {
 			
 			//OVDE IDE FIREVAL
 			System.out.println("Ovde ide firewal");
+			Thread th = new Thread(new Firewall(config));
+			th.start();
 		}
 	}
 

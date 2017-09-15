@@ -2,6 +2,8 @@ package com.app.controllers;
 
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dto.LoginDTO;
 import com.app.dto.UserDTO;
 import com.app.model.AgentLogs;
+import com.app.model.LevelLog;
 import com.app.model.ListActivateUser;
 import com.app.model.StausLogin;
 import com.app.model.User;
@@ -35,6 +38,7 @@ import com.app.repository.ListActivatUserRepository;
 import com.app.repository.UserRepository;
 import com.app.security.TokenUtils;
 import com.app.services.AgentLogService;
+import com.app.util.Ruls;
 
 
 @RestController
@@ -64,6 +68,12 @@ public class AgentController {
 
 	@Autowired
 	UserRepository userResponse;
+	
+	@Autowired
+	Ruls ruls;
+
+	@Autowired
+	AgentLogsRepository agentLogsRepository;
 	
 	/**
 	 * Logovanje agenata
@@ -105,26 +115,28 @@ public class AgentController {
 
 	/**
 	 * cuvanje pristiglih logova i provera da je aget
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "/logs/{csrf}", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Map<String, Object>> registration(@RequestBody AgentLogs agentLogs, Principal principal, CsrfToken token1, @PathVariable String csrf) {
+	public ResponseEntity<Map<String, Object>> registration(@RequestBody AgentLogs agentLogs, Principal principal, CsrfToken token1, @PathVariable String csrf) throws ParseException {
 		
 		Map<String, Object> model = new HashMap<>();
 		User user = userRepository.findByUsername(principal.getName());
 		ListActivateUser list = listActivatUserRepository.findByUser(user);
-		System.out.println("1");
-		System.out.println(agentLogs.getErrorLog().getLogLevel());
-		System.out.println("2");
+		//System.out.println("1");
+		//System.out.println(agentLogs.getErrorLog().getLogLevel());
+		//System.out.println("2");
 //		if(list.getPrivateKey().equals(csrf)){
 //			model.put("error", true);
 //			System.out.println("3");
 //			return new ResponseEntity<>(model, HttpStatus.OK);
 //		}
-		System.out.println("4");
+		//System.out.println("4");
+		//System.out.println(agentLogs.getTime().getTime()-7199978 + " | " +new Date().getTime());
 		AgentLogs agentLogs1 = new AgentLogs();
 		agentLogs1 = agentLogs;
 		agentService.save(agentLogs1);
-		System.out.println("5");
+		//System.out.println("5");
 		
 		//TODO Kad sve ovo prodje poslati log na proveru
 		
@@ -134,11 +146,16 @@ public class AgentController {
 		list.setPrivateKey(token1.getToken());
 		listActivatUserRepository.save(list);
 		
+		//Provera pravila
 		
+		ruls.check(user);
+		//System.out.println(nn);
 		model.put("csrf", token1);
 		return new ResponseEntity<>(model, HttpStatus.OK);
 	}
 	
+
+
 	@RequestMapping(value = "/all/agent", method = RequestMethod.GET)
 	public ResponseEntity<List<UserDTO>> allLog() {
 		
@@ -154,6 +171,12 @@ public class AgentController {
 		}
 		
 		return new ResponseEntity<>(userDTO,HttpStatus.OK);
+	}
+	
+	
+	private void chech(User user) {
+		// TODO Auto-generated method stub
+		System.out.println("Upao " + user.getUsername());
 	}
 }
 

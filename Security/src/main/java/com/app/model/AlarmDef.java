@@ -1,16 +1,16 @@
 package com.app.model;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class AlarmDef {
@@ -18,94 +18,65 @@ public class AlarmDef {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@Enumerated(EnumType.STRING)
+	private LevelLog levelLog; // vrsta alarma
+	private int minCount; // minimalan broj za okidanje
+	private int maxCount; // maksimalan broj za okidanje
+	
+	@Enumerated(EnumType.STRING)
+	private AlarmLevel alarmLevel; // level alarma HIGH...
+	private int timeAlarm; // u datom vremenskom intervalu
 
-	@NotNull
-	private String name;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	private Set<Alarm> alarm = new HashSet<Alarm>();
 
-	@NotNull
-	private String description;
-
-	@NotNull
-	private int counter = 0;
-
-	@NotNull
-	private String message;
-
-	@NotNull
-	private Date firstoccurence;
-
-	@NotNull
-	private Date lastoccurence;
-
-	@OneToMany(mappedBy = "alarmDef", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	private Set<Alarm> alarms = new HashSet<Alarm>();
-
-	public AlarmDef() {
-		// TODO Auto-generated constructor stub
+	public LevelLog getLevelLog() {
+		return levelLog;
 	}
 
-	public Long getId() {
-		return id;
+	public void setLevelLog(LevelLog levelLog) {
+		this.levelLog = levelLog;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public int getMinCount() {
+		return minCount;
 	}
 
-	public String getName() {
-		return name;
+	public void setMinCount(int minCount) {
+		this.minCount = minCount;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public int getMaxCount() {
+		return maxCount;
 	}
 
-	public String getDescription() {
-		return description;
+	public void setMaxCount(int maxCount) {
+		this.maxCount = maxCount;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public AlarmLevel getAlarmLevel() {
+		return alarmLevel;
 	}
 
-	public int getCounter() {
-		return counter;
+	public void setAlarmLevel(AlarmLevel alarmLevel) {
+		this.alarmLevel = alarmLevel;
 	}
 
-	public void setCounter(int counter) {
-		this.counter = counter;
+	public int getTimeAlarm() {
+		return timeAlarm;
 	}
 
-	public String getMessage() {
-		return message;
+	public void setTimeAlarm(int timeAlarm) {
+		this.timeAlarm = timeAlarm;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public Set<Alarm> getAlarm() {
+		return alarm;
 	}
 
-	public Date getFirstoccurence() {
-		return firstoccurence;
-	}
-
-	public void setFirstoccurence(Date firstoccurence) {
-		this.firstoccurence = firstoccurence;
-	}
-
-	public Date getLastoccurence() {
-		return lastoccurence;
-	}
-
-	public void setLastoccurence(Date lastoccurence) {
-		this.lastoccurence = lastoccurence;
-	}
-
-	public Set<Alarm> getAlarms() {
-		return alarms;
-	}
-
-	public void setAlarms(Set<Alarm> alarms) {
-		this.alarms = alarms;
+	public void setAlarm(Set<Alarm> alarm) {
+		this.alarm = alarm;
 	}
 
 }

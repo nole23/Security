@@ -41,9 +41,12 @@ public class User {
 
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private UserRole userRole;
-	
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Set<ListActivateUser> listActivateUser = new HashSet<ListActivateUser>();
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	private Set<Alarm> alarm = new HashSet<Alarm>();
 
 	public Long getId() {
 		return id;
@@ -92,4 +95,13 @@ public class User {
 	public void setListActivateUser(Set<ListActivateUser> listActivateUser) {
 		this.listActivateUser = listActivateUser;
 	}
+
+	public Set<Alarm> getAlarm() {
+		return alarm;
+	}
+
+	public void setAlarm(Set<Alarm> alarm) {
+		this.alarm = alarm;
+	}
+
 }
